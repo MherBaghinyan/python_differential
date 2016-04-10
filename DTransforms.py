@@ -15,7 +15,9 @@ def differential_transform(_matrix, level):
     z_matrix = [[0] * _length for x in range(_length)]
     for i in range(0, _length):
         for j in range(0, _length):
-            z_matrix[i][j] = int(diff(_matrix[i][j], t, level).evalf(subs={t: level}))
+            express = diff(_matrix[i][j], t, level)
+            exprWithValue = express.evalf(subs={t: level})
+            z_matrix[i][j] = int(exprWithValue)
             print(z_matrix[i][j])
     return z_matrix
 
@@ -25,16 +27,24 @@ def differential_vector(_vector, level):
     _length = len(_vector)
     z_vector = np.empty([_length])
     for i in range(0, _length):
-            z_vector[i] = int(diff(_vector[i], t, level).evalf(subs={t: level}))
-            print(z_vector[i])
+        express = diff(_vector[i], t, level).evalf(subs={t: level})
+        z_vector[i] = int(express)
+        print(z_vector[i])
     return z_vector
 
+def last_part(matrix, vector, k):
+    result = []
+    for p in range(0, k):
+        result[p] = differential_transform(matrix, p) * np.linalg.inv(differential_transform(matrix, p - k)) * differential_vector(vector, p - k)
+    return sum(result)
+
 def calculateTransform(start, end):
+    x = []
     for k in range(start, end):
-        a0 = differential_transform(A_matrix, 1)
+        a0 = differential_transform(A_matrix, 0)
         a_inverse = np.linalg.inv(a0)
         print(a_inverse)
-        (t ** k) * a_inverse * (differential_vector(C_vector, k) * differential_transform(A_matrix, k))
+        (t ** k) * a_inverse * (differential_vector(C_vector, k) - last_part(A_matrix, C_vector, k))
 
 calculateTransform(0, 3)
 
