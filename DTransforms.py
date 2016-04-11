@@ -3,8 +3,7 @@ import numpy as np
 
 t = Symbol('t')
 A_matrix = [[t ** 2, -t + 1, 1], [t + 2, t, t ** 2], [0, 1, t]]
-E_matrix = [[1, 1, 1], [1, 1, 1], [1, 1, 1]]
-E1_matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+E_matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
 C_vector = [-2*(t ** 2), t*(t ** 3 + t ** 2 + 2), t*(t ** 2 + t - 1)]
 
 print(A_matrix)
@@ -39,6 +38,17 @@ def inverse_matrix(matrix):
 def transform_and_inverse(matrix, level):
     "transforms given matrix and returns it's inverse"
     return inverse_matrix(differential_transform(matrix, level))
+
+def x_image_transform(matrix, vector, k):
+    "returns X image vector"
+    _length = len(matrix)
+    matrix_image = [[0] * _length for x in range(_length)]
+    for i in range(0, _length):
+        for j in range(0, i):
+            matrix_image[i][j] = transform_and_inverse(matrix, 0)
+    return matrix_image
+
+
 
 
 def last_part(matrix, vector, k):
