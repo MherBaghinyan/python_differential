@@ -32,21 +32,33 @@ def differential_vector(_vector, level):
         print(z_vector[i])
     return z_vector
 
+def inverse_matrix(matrix):
+    "returns inverse of a given matrix"
+    return np.linalg.inv(matrix)
+
+def transform_and_inverse(matrix, level):
+    "transforms given matrix and returns it's inverse"
+    return inverse_matrix(differential_transform(matrix, level))
+
+
 def last_part(matrix, vector, k):
-    result = []
-    for p in range(0, k):
-        result[p] = differential_transform(matrix, p) * np.linalg.inv(differential_transform(matrix, p - k)) * differential_vector(vector, p - k)
-    return sum(result)
+    _length = len(matrix)
+    result = [[0] * _length for x in range(_length)]
+    for p in range(1, k):
+        if k > 1:
+            result += (differential_transform(matrix, p) * transform_and_inverse(matrix, p - k) * differential_vector(vector, p - k))
+    return result
+
 
 def calculateTransform(start, end):
     x = []
     for k in range(start, end):
-        a0 = differential_transform(A_matrix, 0)
-        a_inverse = np.linalg.inv(a0)
+        a_inverse = transform_and_inverse(A_matrix, 0)
         print(a_inverse)
-        (t ** k) * a_inverse * (differential_vector(C_vector, k) - last_part(A_matrix, C_vector, k))
+        last_p = last_part(A_matrix, C_vector, k)
+        return (t ** k) * a_inverse * (differential_vector(C_vector, k) - last_p)
 
-calculateTransform(0, 3)
+print(calculateTransform(0, 3))
 
 # print(np.dot(A_matrix, A_matrix))
 # np.linalg.inv(np.matrix(differential_transform(A_matrix, 0)))

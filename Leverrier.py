@@ -1,34 +1,26 @@
-matrix = [[1 for x in range(5)] for x in range(5)]
+from sympy import *
+import numpy as np
 
-matrix[0][0] = 2
-matrix[1][1] = -1
+t = Symbol('t')
+matrix = [[1, 2*t, 1/t],[-t, 2, 0],[t, t-1, t*(t -1)]]
 
 print(matrix)
 
-def sp(matrix):
-    "calculates matrix trail"
-    sum =0
+def differential(matrix, level):
+    "returns a differential of given matrix"
+    t = Symbol('t')
     for i in range(0, len(matrix)):
-        sum += matrix[i][i]
-    print(sum)
+        for j in range(0, len(matrix)):
+            print(diff(matrix[i][j], t, level))
+    print(diff(sin(t), t))
 
-def multiply(matrix1, matrix2):
-    "multiplies given 2 matrixes"
-    row = len(matrix1)
-    column = len(matrix1[0])
-    result = [[0 for x in range(row)] for x in range(column)]
-    for i in range(0, row):
-        for j in range(0, column):
-            for k in range(0, column):
-                result[i][k] += matrix1[i][k] + matrix2[k][j]
-    return result
 
-def add_image(img1, img2, k):
-    "multiplies 2 given images"
-    row = len(img1)
-    column = len(img2[0])
-    result = [[0 for x in range(row)] for x in range(column)]
-    # for i in range(0, k):
-    # result += multiply(img1, img2)
+x = Symbol('x')
+y = Symbol('y')
 
-sp(matrix)
+print(x + x + x)
+
+
+differential(matrix, 1)
+
+print(np.dot(matrix, matrix))
