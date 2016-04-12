@@ -17,7 +17,6 @@ def differential_transform(_matrix, level):
             express = diff(_matrix[i][j], t, level)
             exprWithValue = express.evalf(subs={t: level})
             z_matrix[i][j] = int(exprWithValue)
-            print(z_matrix[i][j])
     return z_matrix
 
 
@@ -28,7 +27,6 @@ def differential_vector(_vector, level):
     for i in range(0, _length):
         express = diff(_vector[i], t, level).evalf(subs={t: level})
         z_vector[i] = int(express)
-        print(z_vector[i])
     return z_vector
 
 def inverse_matrix(matrix):
@@ -49,8 +47,6 @@ def x_image_transform(matrix, vector, k):
     return matrix_image
 
 
-
-
 def last_part(matrix, vector, k):
     _length = len(matrix)
     result = [[0] * _length for x in range(_length)]
@@ -61,12 +57,14 @@ def last_part(matrix, vector, k):
 
 
 def calculateTransform(start, end):
-    x = []
+    x_item = [0 for x in range(len(C_vector))]
     for k in range(start, end):
         a_inverse = transform_and_inverse(A_matrix, 0)
         print(a_inverse)
         last_p = last_part(A_matrix, C_vector, k)
-        return (t ** k) * a_inverse * (differential_vector(C_vector, k) - last_p)
+        step = a_inverse * (differential_vector(C_vector, k) - last_p)
+        x_item[k] = np.multiply(step, (t ** k))
+    return x_item
 
 print(calculateTransform(0, 3))
 
