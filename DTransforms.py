@@ -46,7 +46,6 @@ def a_image_transform(matrix, k):
             matrix_image[i][j] = transform_and_inverse(matrix, 0) * a_addition(matrix, k)
     return matrix_image
 
-
 def a_addition(matrix, k):
     _length = len(matrix)
     result = [[0] * _length for x in range(_length)]
@@ -63,9 +62,8 @@ def last_part(matrix, vector, k):
     result = [[0] * _length for x in range(_length)]
     for p in range(1, k):
         if k > 1:
-            result += (differential_transform(matrix, p) * x_image_transform(matrix, vector, p - k))
+            result += (differential_transform(matrix, p) * x_image_transform(matrix, vector, k - p))
     return result
-
 
 def calculateTransform(start, end):
     x_item = [0 for x in range(len(C_vector))]
