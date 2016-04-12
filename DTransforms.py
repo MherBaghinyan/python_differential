@@ -37,22 +37,33 @@ def transform_and_inverse(matrix, level):
     "transforms given matrix and returns it's inverse"
     return inverse_matrix(differential_transform(matrix, level))
 
-def x_image_transform(matrix, vector, k):
+def a_image_transform(matrix, k):
     "returns X image vector"
     _length = len(matrix)
     matrix_image = [[0] * _length for x in range(_length)]
     for i in range(0, _length):
         for j in range(0, i):
-            matrix_image[i][j] = transform_and_inverse(matrix, 0)
+            matrix_image[i][j] = transform_and_inverse(matrix, 0) * a_addition(matrix, k)
     return matrix_image
 
+
+def a_addition(matrix, k):
+    _length = len(matrix)
+    result = [[0] * _length for x in range(_length)]
+    for p in range(1, k):
+        if k > 1:
+            result += differential_transform(matrix, p) * a_addition(matrix, k - p)
+    return result
+
+def x_image_transform(matrix, vector, index):
+    return a_addition(matrix, index) * differential_vector(vector, index)
 
 def last_part(matrix, vector, k):
     _length = len(matrix)
     result = [[0] * _length for x in range(_length)]
     for p in range(1, k):
         if k > 1:
-            result += (differential_transform(matrix, p) * transform_and_inverse(matrix, p - k) * differential_vector(vector, p - k))
+            result += (differential_transform(matrix, p) * x_image_transform(matrix, vector, p - k))
     return result
 
 
