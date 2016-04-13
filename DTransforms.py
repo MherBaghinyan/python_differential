@@ -71,7 +71,6 @@ def calculateTransform(start, end):
     for k in range(start, end):
         last_p = last_part(A_matrix, C_vector, k)
         step = a_inverse * (differential_vector(C_vector, k) - last_p)
-        print(step)
         x_item[k] = step * (t ** k)
         print(x_item[k])
     return x_item
