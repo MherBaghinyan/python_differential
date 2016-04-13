@@ -69,10 +69,11 @@ def calculateTransform(start, end):
     x_item = [0 for x in range(len(C_vector))]
     a_inverse = transform_and_inverse(A_matrix, 0)
     for k in range(start, end):
-        print(a_inverse)
         last_p = last_part(A_matrix, C_vector, k)
         step = a_inverse * (differential_vector(C_vector, k) - last_p)
-        x_item[k] = np.multiply(step, (t ** k))
+        print(step)
+        x_item[k] = step * (t ** k)
+        print(x_item[k])
     return x_item
 
 print(calculateTransform(0, 3))
