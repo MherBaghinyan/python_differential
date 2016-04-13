@@ -50,7 +50,7 @@ def a_addition(matrix, k):
     _length = len(matrix)
     result = [[0] * _length for x in range(_length)]
     for p in range(1, k):
-        if k > 1:
+        if k > 0:
             result += differential_transform(matrix, p) * a_addition(matrix, k - p)
     return result
 
@@ -61,7 +61,7 @@ def last_part(matrix, vector, k):
     _length = len(matrix)
     result = [[0] * _length for x in range(_length)]
     for p in range(1, k):
-        if k > 1:
+        if k > 0:
             result += (differential_transform(matrix, p) * x_image_transform(matrix, vector, k - p))
     return result
 
