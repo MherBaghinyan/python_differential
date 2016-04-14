@@ -77,5 +77,6 @@ def calculateTransform(start, end):
 
 print(calculateTransform(0, 3))
 
+
 # print(np.dot(A_matrix, A_matrix))
 # np.linalg.inv(np.matrix(differential_transform(A_matrix, 0)))
