@@ -2,9 +2,9 @@ from sympy import *
 import numpy as np
 
 t = Symbol('t')
-matrix = [[1, 2*t, 1/t], [-t, 2, 0], [t, t - 1, t*(t - 1)]]
+S_matrix = [[1, 2*t, 1/t], [-t, 2, 0], [t, t - 1, t*(t - 1)]]
 
-print(matrix)
+print(S_matrix)
 
 def differential(matrix, level):
     "returns a differential of given matrix"
@@ -15,12 +15,19 @@ def differential(matrix, level):
     print(diff(sin(t), t))
 
 
-x = Symbol('x')
-y = Symbol('y')
+def p_items(matrix, index):
+    count = len(S_matrix)
+    for k in range(0, index):
+        (1 / k) * (differential(S_matrix, k))
 
-print(x + x + x)
 
 
-differential(matrix, 1)
+def calculateLeverrier(start, end):
+    count = len(S_matrix)
+    p_item = [0 for x in range(len(S_matrix))]
+    for n in range(start, end):
+        p_items(S_matrix, n)
+        print(p_item[n])
+    return p_item
 
-print(np.dot(matrix, matrix))
+print(calculateLeverrier(1, len(S_matrix)))
