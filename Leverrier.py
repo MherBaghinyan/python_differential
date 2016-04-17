@@ -14,7 +14,7 @@ def differential_transform(_matrix, level):
         for j in range(0, _length):
             express = diff(_matrix[i][j], t, level)
             exprWithValue = express.evalf(subs={t: 0})
-            z_matrix[i][j] = int(exprWithValue)
+            z_matrix[i][j] = int(exprWithValue / factorial(level))
     return z_matrix
 
 def multiply_image_matrix(matrix, k):
@@ -34,6 +34,7 @@ def get_s_number(n_value, k_value):
     sum = 0
     for n in range(0, _length):
         sum += matrix[n][n]
+    print("s_ =", sum)
     return sum
 
 def get_p_image(n_value, k_value):
@@ -47,16 +48,18 @@ def p_items(matrix, n, k_value):
     count = len(S_matrix)
     item = 0
     for k in range(1, k_value):
+        print("p(k) = ", get_p_image(n, k))
         item += (t ** k / factorial(k)) * get_p_image(n, k)
+        print("n = ", item)
     return item
 
 def calculate_Leverrier(n_value, k_value):
     count = len(S_matrix)
     p_item = [0 for x in range(count)]
-    for n in range(1, n_value):
-        p_item[n] = p_items(S_matrix, n, k_value)
-        print(p_item[n])
+    for n in range(1, n_value ):
+        p_item[n - 1] = p_items(S_matrix, n, k_value)
+        print(p_item[n - 1])
     return p_item
 
-print(calculate_Leverrier(2, 3))
+print(calculate_Leverrier(3, 3))
 
