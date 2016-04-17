@@ -13,7 +13,7 @@ def differential_transform(_matrix, level):
     for i in range(0, _length):
         for j in range(0, _length):
             express = diff(_matrix[i][j], t, level)
-            exprWithValue = express.evalf(subs={t: level})
+            exprWithValue = express.evalf(subs={t: 0})
             z_matrix[i][j] = int(exprWithValue)
     return z_matrix
 

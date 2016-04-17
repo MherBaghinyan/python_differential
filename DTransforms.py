@@ -25,7 +25,7 @@ def differential_vector(_vector, level):
     _length = len(_vector)
     z_vector = np.empty([_length])
     for i in range(0, _length):
-        express = diff(_vector[i], t, level).evalf(subs={t: level})
+        express = diff(_vector[i], t, level).evalf(subs={t: 0})
         z_vector[i] = int(express)
     return z_vector
 
