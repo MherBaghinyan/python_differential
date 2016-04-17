@@ -25,28 +25,38 @@ def multiply_image_matrix(matrix, k):
         print(z_matrix)
     return z_matrix
 
-def p_items(matrix, index):
-    count = len(S_matrix)
-    for k in range(0, index):
-        (1 / k) * (differential_transform(S_matrix, k))
-
-def get_s_number(matrix):
+def get_s_number(n_value, k_value):
+    if n_value > 1 :
+        matrix = multiply_image_matrix(S_matrix, k_value)
+    else:
+         matrix = differential_transform(S_matrix, k_value)
     _length = len(matrix)
     sum = 0
     for n in range(0, _length):
         sum += matrix[n][n]
     return sum
 
+def get_p_image(n_value, k_value):
+    item = 1 / n_value * get_s_number(n_value, k_value)
+    for l in range(1, k_value):
+            for i in range(1, n_value - 1):
+                item = - (1 / n_value) * get_s_number(n_value - i, l) * get_p_image(i, k_value - l)
+    return item
 
-
-def calculateLeverrier(start, end):
+def p_items(matrix, n, k_value):
     count = len(S_matrix)
-    p_item = [0 for x in range(len(S_matrix))]
-    for n in range(start, end):
-        p_items(S_matrix, n)
+    item = 0
+    for k in range(1, k_value):
+        item += (t ** k / factorial(k)) * get_p_image(n, k)
+    return item
+
+def calculate_Leverrier(n_value, k_value):
+    count = len(S_matrix)
+    p_item = [0 for x in range(count)]
+    for n in range(1, n_value):
+        p_item[n] = p_items(S_matrix, n, k_value)
         print(p_item[n])
     return p_item
 
-print(multiply_image_matrix(S_matrix, 1))
+print(calculate_Leverrier(2, 3))
 
-# print(calculateLeverrier(1, len(S_matrix)))
