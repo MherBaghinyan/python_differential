@@ -6,6 +6,12 @@ S_matrix = [[1 + t, 1 - t], [-t, t ** 2]]
 
 print(S_matrix)
 
+def get_max_k(matrix):
+    level = 0
+    while np.count_nonzero(differential_transform(matrix, level)) > 0:
+        level += 1
+    return level
+
 def differential_transform(_matrix, level):
     "returns a differential of given matrix"
     _length = len(_matrix)
@@ -40,7 +46,7 @@ def get_s_number(n_value, k_value):
 def get_p_image(n_value, k_value):
     item = 1 / n_value * get_s_number(n_value, k_value)
     for l in range(1, k_value + 1):
-            for i in range(1, n_value - 1 + 1):
+            for i in range(1, n_value - l + 1):
                 item = - (1 / n_value) * get_s_number(n_value - i, l) * get_p_image(i, k_value - l)
     return item
 
@@ -60,5 +66,5 @@ def calculate_Leverrier(n_value, k_value):
         print(p_item[n - 1])
     return p_item
 
-print(calculate_Leverrier(2, 3))
-
+k_max = get_max_k(S_matrix) + 1
+print(calculate_Leverrier(2, k_max))
