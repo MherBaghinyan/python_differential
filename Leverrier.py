@@ -20,7 +20,7 @@ def differential_transform(_matrix, level):
 def multiply_image_matrix(matrix, k):
     _length = len(matrix)
     z_matrix = [[0] * _length for x in range(_length)]
-    for l in range(0, k):
+    for l in range(0, k + 1):
         z_matrix += np.dot(differential_transform(matrix, l), differential_transform(matrix, k - l))
         print(z_matrix)
     return z_matrix
@@ -39,15 +39,14 @@ def get_s_number(n_value, k_value):
 
 def get_p_image(n_value, k_value):
     item = 1 / n_value * get_s_number(n_value, k_value)
-    for l in range(1, k_value):
-            for i in range(1, n_value - 1):
+    for l in range(1, k_value + 1):
+            for i in range(1, n_value - 1 + 1):
                 item = - (1 / n_value) * get_s_number(n_value - i, l) * get_p_image(i, k_value - l)
     return item
 
-def p_items(matrix, n, k_value):
-    count = len(S_matrix)
+def p_items( n, k_value):
     item = 0
-    for k in range(1, k_value):
+    for k in range(1, k_value + 1):
         print("p(k) = ", get_p_image(n, k))
         item += (t ** k / factorial(k)) * get_p_image(n, k)
         print("n = ", item)
@@ -56,10 +55,10 @@ def p_items(matrix, n, k_value):
 def calculate_Leverrier(n_value, k_value):
     count = len(S_matrix)
     p_item = [0 for x in range(count)]
-    for n in range(1, n_value):
-        p_item[n - 1] = p_items(S_matrix, n, k_value)
+    for n in range(1, n_value + 1):
+        p_item[n - 1] = p_items(n, k_value)
         print(p_item[n - 1])
     return p_item
 
-print(calculate_Leverrier(3, 3))
+print(calculate_Leverrier(2, 3))
 
