@@ -20,7 +20,7 @@ def differential_transform(_matrix, level):
 def multiply_image_matrix(matrix, k):
     _length = len(matrix)
     z_matrix = [[0] * _length for x in range(_length)]
-    for l in range(0, _length):
+    for l in range(0, k):
         z_matrix += np.dot(differential_transform(matrix, l), differential_transform(matrix, k - l))
         print(z_matrix)
     return z_matrix
@@ -56,7 +56,7 @@ def p_items(matrix, n, k_value):
 def calculate_Leverrier(n_value, k_value):
     count = len(S_matrix)
     p_item = [0 for x in range(count)]
-    for n in range(1, n_value ):
+    for n in range(1, n_value):
         p_item[n - 1] = p_items(S_matrix, n, k_value)
         print(p_item[n - 1])
     return p_item
