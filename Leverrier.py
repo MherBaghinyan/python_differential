@@ -31,7 +31,7 @@ def multiply_image_matrix(matrix, k):
     return z_matrix
 
 def get_s_number(n_value, k_value):
-    if n_value > 1 :
+    if n_value > 1:
         matrix = multiply_image_matrix(S_matrix, k_value)
     else:
          matrix = differential_transform(S_matrix, k_value)
@@ -42,13 +42,14 @@ def get_s_number(n_value, k_value):
     return sum
 
 def get_p_image(n_value, k_value):
-    item = 1 / n_value * get_s_number(n_value, k_value)
-    if k_value == 0:
-        return item
+    item = get_s_number(n_value, k_value)
+    if k_value == 0 and n_value == 1:
+        print("n = ", n_value, "k = ", k_value, "p = ", item)
+        return (1 / n_value) * item
     addition = 0
     for l in range(1, k_value + 1):
-            for i in range(l, n_value - l + 1):
-                addition += get_s_number(n_value - i, l) * get_p_image(i, k_value - l)
+        for i in range(1, n_value - l + 1):
+            addition += get_s_number(n_value - i, l) * get_p_image(i, k_value - l)
     result = (1 / n_value) * (item - addition)
     print("n = ", n_value, "k = ", k_value, "p = ", result)
     return result
