@@ -55,16 +55,15 @@ def get_p_image(n_value, k_value):
 
 def p_items( n, k_value):
     item = 0
-    for k in range(1, k_value + 1):
+    for k in range(0, k_value + 1):
         item += (t ** k / factorial(k)) * get_p_image(n, k)
     return item
 
 def calculate_Leverrier(n_value, k_value):
-    count = len(S_matrix)
-    p_item = [0 for x in range(count)]
+    p_item = [0 for x in range(n_value)]
     for n in range(1, n_value + 1):
         p_item[n - 1] = p_items(n, k_value)
     return p_item
 
 k_max = get_max_k(S_matrix)
-print(calculate_Leverrier(2, k_max))
+print(calculate_Leverrier(len(S_matrix), k_max))
