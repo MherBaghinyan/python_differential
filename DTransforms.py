@@ -1,5 +1,4 @@
-from sympy import *
-import numpy as np
+from TransformationUtils import *
 
 t = Symbol('t')
 A_matrix = [[t ** 2, -t + 1, 1], [t + 2, t, t ** 2], [0, 1, t]]
@@ -7,18 +6,6 @@ E_matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
 C_vector = [-2*(t ** 2), t*(t ** 3 + t ** 2 + 2), t*(t ** 2 + t - 1)]
 
 print(A_matrix)
-
-def differential_transform(_matrix, level):
-    "returns a differential of given matrix"
-    _length = len(_matrix)
-    z_matrix = [[0] * _length for x in range(_length)]
-    for i in range(0, _length):
-        for j in range(0, _length):
-            express = diff(_matrix[i][j], t, level)
-            exprWithValue = express.evalf(subs={t: level})
-            z_matrix[i][j] = int(exprWithValue)
-    return z_matrix
-
 
 def differential_vector(_vector, level):
     "returns a differential of given vector"
@@ -75,7 +62,8 @@ def calculateTransform(start, end):
         print(x_item[k])
     return x_item
 
-print(calculateTransform(0, 3))
+k_max = get_max_k(A_matrix)
+print(calculateTransform(0, k_max))
 
 
 # print(np.dot(A_matrix, A_matrix))

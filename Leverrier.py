@@ -1,27 +1,13 @@
-from sympy import *
-import numpy as np
+from TransformationUtils import *
 
 t = Symbol('t')
-S_matrix = [[1 + t, 1 - t], [-t, t ** 2]]
+S_matrix = [[cos(t) + t,     t + 5,     4*t**2 - 3*t,   0,              1],
+            [t + 2,         1,          3*t + 5,        sin(t),         0],
+            [t**3,          1,          t**2 + 1,        cos(t + 1),    0],
+            [exp(t),        sin(2 * t), 0,              1,              t],
+            [1,             0,          0,              0,              t]]
 
 print(S_matrix)
-
-def get_max_k(matrix):
-    level = 0
-    while np.count_nonzero(differential_transform(matrix, level)) > 0:
-        level += 1
-    return level
-
-def differential_transform(_matrix, level):
-    "returns a differential of given matrix"
-    _length = len(_matrix)
-    z_matrix = [[0] * _length for x in range(_length)]
-    for i in range(0, _length):
-        for j in range(0, _length):
-            express = diff(_matrix[i][j], t, level)
-            exprWithValue = express.evalf(subs={t: 0})
-            z_matrix[i][j] = int(exprWithValue / factorial(level))
-    return z_matrix
 
 def multiply_image_matrix(matrix, k):
     _length = len(matrix)
@@ -43,9 +29,6 @@ def get_s_number(n_value, k_value):
 
 def get_p_image(n_value, k_value):
     item = get_s_number(n_value, k_value)
-    if n_value == 1:
-        print("n = ", n_value, "k = ", k_value, "p = ", item)
-        return (1 / n_value) * item
     addition = 0
     for l in range(1, k_value + 1):
         for i in range(1, n_value - l + 1):
