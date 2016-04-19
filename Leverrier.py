@@ -1,6 +1,9 @@
 from TransformationUtils import *
 
 t = Symbol('t')
+
+# S_matrix = [[1 + t, 1 - t], [-t, t ** 2]]
+
 S_matrix = [[cos(t) + t,     t + 5,     4*t**2 - 3*t,   0,              1],
             [t + 2,         1,          3*t + 5,        sin(t),         0],
             [t**3,          1,          t**2 + 1,        cos(t + 1),    0],
