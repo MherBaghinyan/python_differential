@@ -7,23 +7,6 @@ C_vector = [-2*(t ** 2), t*(t ** 3 + t ** 2 + 2), t*(t ** 2 + t - 1)]
 
 print(A_matrix)
 
-def differential_vector(_vector, level):
-    "returns a differential of given vector"
-    _length = len(_vector)
-    z_vector = np.empty([_length])
-    for i in range(0, _length):
-        express = diff(_vector[i], t, level).evalf(subs={t: 0})
-        z_vector[i] = int(express)
-    return z_vector
-
-def inverse_matrix(matrix):
-    "returns inverse of a given matrix"
-    return np.linalg.inv(matrix)
-
-def transform_and_inverse(matrix, level):
-    "transforms given matrix and returns it's inverse"
-    return inverse_matrix(differential_transform(matrix, level))
-
 def a_image_transform(matrix, k):
     "returns X image vector"
     _length = len(matrix)

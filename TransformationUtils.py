@@ -19,3 +19,20 @@ def differential_transform(_matrix, level):
             exprWithValue = express.evalf(subs={t: 0})
             z_matrix[i][j] = int(exprWithValue / factorial(level))
     return z_matrix
+
+def differential_vector(_vector, level):
+    "returns a differential of given vector"
+    _length = len(_vector)
+    z_vector = np.empty([_length])
+    for i in range(0, _length):
+        express = diff(_vector[i], t, level).evalf(subs={t: 0})
+        z_vector[i] = int(express / factorial(level))
+    return z_vector
+
+def inverse_matrix(matrix):
+    "returns inverse of a given matrix"
+    return np.linalg.inv(matrix)
+
+def transform_and_inverse(matrix, level):
+    "transforms given matrix and returns it's inverse"
+    return inverse_matrix(differential_transform(matrix, level))
