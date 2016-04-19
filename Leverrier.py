@@ -43,7 +43,7 @@ def get_s_number(n_value, k_value):
 
 def get_p_image(n_value, k_value):
     item = get_s_number(n_value, k_value)
-    if k_value == 0 and n_value == 1:
+    if n_value == 1:
         print("n = ", n_value, "k = ", k_value, "p = ", item)
         return (1 / n_value) * item
     addition = 0
