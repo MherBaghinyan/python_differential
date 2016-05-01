@@ -1,86 +1,111 @@
-from __future__ import division
-from numpy import *
+def printTableu(tableu):
+ print('----------------------')
+ for row in tableu:
+  print (row)
+ print('----------------------')
+ return
 
-class Tableau:
 
-    def __init__(self, obj):
-        self.obj = [1] + obj
-        self.rows = []
-        self.cons = []
+def pivotOn(tableu, row, col):
+ j = 0
+ pivot = tableu[row][col]
+ for x in tableu[row]:
+  tableu[row][j] = tableu[row][j] / pivot
+  j += 1
+ i = 0
+ for xi in tableu:
+  if i != row:
+   ratio = xi[col]
+   j = 0
+   for xij in xi:
+    xij -= ratio * tableu[row][j]
+    tableu[i][j] = xij
+    j += 1
+  i += 1
+ return tableu
 
-    def add_constraint(self, expression, value):
-        self.rows.append([0] + expression)
-        self.cons.append(value)
 
-    def _pivot_column(self):
-        low = 0
-        idx = 0
-        for i in range(1, len(self.obj)-1):
-            if self.obj[i] < low:
-                low = self.obj[i]
-                idx = i
-        if idx == 0: return -1
-        return idx
+# assuming tablue in standard form with basis formed in last m columns
+def simplex(tableu):
 
-    def _pivot_row(self, col):
-        rhs = [self.rows[i][-1] for i in range(len(self.rows))]
-        lhs = [self.rows[i][col] for i in range(len(self.rows))]
-        ratio = []
-        for i in range(len(rhs)):
-            if lhs[i] == 0:
-                ratio.append(99999999 * abs(max(rhs)))
-                continue
-            ratio.append(rhs[i]/lhs[i])
-        return argmin(ratio)
+ THETA_INFINITE = -1
+ opt   = False
+ unbounded  = False
+ n = len(tableu[0])
+ m = len(tableu) - 1
 
-    def display(self):
-        print('\n', matrix([self.obj] + self.rows))
+ while ((not opt) and (not unbounded)):
+  min = 0.0
+  pivotCol = j = 0
+  while(j < (n-m)):
+   cj = tableu[0][j]
+   # we will simply choose the most negative column
+    #which is called: "the nonbasic gradient method"
+    #other methods as "all-variable method" could be used
+    #but the nonbacis gradient method is simpler
+    #and all-variable method has only been shown to be superior for some
+     #extensive experiments by Kuhn and Quandt, the random tests used
+     #by Kuhn and Quandt might not really represent "typical" LP's for
+     #certain users.
+   if (cj < min) and (j > 0):
+    min = cj
+    pivotCol = j
+   j += 1
+  if min == 0.0:
+   #we cannot profitably bring a column into the basis
+   #which means that we've found an optimal solution
+   opt = True
+   continue
+  pivotRow = i = 0
+  minTheta = THETA_INFINITE
+  for xi in tableu:
+   # Bland's anticycling algorithm  is theoretically a better option than
+    #this implementation because it is guaranteed finite while this policy can produce cycling.
+    #Kotiath and Steinberg (1978) reported that cylcing does occur in practice
+    #contradicting previous reports. For simplicity, I don't use Bland's algorithm here
+    #so I just choose smallest xij for pivot row
+   if (i > 0):
+    xij = xi[pivotCol]
+    if xij > 0:
+     theta = (xi[0] / xij)
+     if (theta < minTheta) or (minTheta == THETA_INFINITE):
+      minTheta = theta
+      pivotRow = i
+   i += 1
+  if minTheta == THETA_INFINITE:
+   #bringing pivotCol into the basis
+   #we can move through that vector indefinetly without
+   #becoming unfesible so the polytope is not bounded in all directions
+   unbounded = True
+   continue
 
-    def _pivot(self, row, col):
-        e = self.rows[row][col]
-        self.rows[row] /= e
-        for r in range(len(self.rows)):
-            if r == row: continue
-            self.rows[r] = self.rows[r] - self.rows[r][col]*self.rows[row]
-        self.obj = self.obj - self.obj[col]*self.rows[row]
+  #now we pivot on pivotRow and pivotCol
+  tableu = pivotOn(tableu, pivotRow, pivotCol)
+ print ('opt = {}'.format(opt))
+ print ('unbounded = {}'.format(unbounded))
+ print ('Final Tableu')
+ printTableu(tableu)
+ return tableu
 
-    def _check(self):
-        if min(self.obj[1:-1]) >= 0: return 1
-        return 0
 
-    def solve(self):
+z  = [ 0.0 , -1.0 , -1.0 ,-1.0 , 0.0,  0.0,  0.0]
+x1 = [1.0 ,  3.0 ,  4.0 , 8.0 ,  1.0,  0.0,  0.0]
+x2 = [1.0 , 4.0 , 5.0 , 6.0 ,   0.0,  1.0,  0.0]
+x3 = [1.0 ,  7.0 ,  3.0 , 2.0 ,  0.0,  0.0,  1.0]
 
-        # build full tableau
-        for i in range(len(self.rows)):
-            self.obj += [0]
-            ident = [0 for r in range(len(self.rows))]
-            ident[i] = 1
-            self.rows[i] += ident + [self.cons[i]]
-            self.rows[i] = array(self.rows[i], dtype=float)
-        self.obj = array(self.obj + [0], dtype=float)
+tableu = []
+tableu.append(z)
+tableu.append(x1)
+tableu.append(x2)
+tableu.append(x3)
 
-        # solve
-        self.display()
-        while not self._check():
-            c = self._pivot_column()
-            r = self._pivot_row(c)
-            self._pivot(r,c)
-            print('\npivot column: %s\npivot row: %s'%(c+1,r+2))
-            self.display()
+tableu = simplex(tableu)
 
-if __name__ == '__main__':
+V = 1 / tableu[0][0]
+print("V = ", V)
 
-    """
-    max z = 2x + 3y + 2z
-    st
-    2x + y + z <= 4
-    x + 2y + z <= 7
-    z          <= 5
-    x,y,z >= 0
-    """
-
-    t = Tableau([-2,-3,-2])
-    t.add_constraint([2, 1, 1], 4)
-    t.add_constraint([1, 2, 1], 7)
-    t.add_constraint([0, 0, 1], 5)
-    t.solve()
+length = len(tableu)
+strategies = [0 for x in range(length)]
+for n in range(1, length):
+    strategies[n -1] = tableu[n][0] * V
+print(strategies)
