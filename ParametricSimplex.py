@@ -1,3 +1,5 @@
+from TransformationUtils import *
+
 def printTableu(tableu):
  print('----------------------')
  for row in tableu:
@@ -10,7 +12,7 @@ def pivotOn(tableu, row, col):
  j = 0
  pivot = tableu[row][col]
  for x in tableu[row]:
-  tableu[row][j] = tableu[row][j] / pivot
+  tableu[row][j] = divide_image_values(tableu[row][j], pivot, 2)
   j += 1
  i = 0
  for xi in tableu:
@@ -18,7 +20,7 @@ def pivotOn(tableu, row, col):
    ratio = xi[col]
    j = 0
    for xij in xi:
-    xij -= ratio * tableu[row][j]
+    xij -= multiply_image_values(ratio, tableu[row][j], 2)
     tableu[i][j] = xij
     j += 1
   i += 1
@@ -38,7 +40,7 @@ def simplex(tableu):
   min = 0.0
   pivotCol = j = 0
   while(j < (n-m)):
-   cj = tableu[0][j]
+   cj = item_transform(tableu[0][j], 2)
    # we will simply choose the most negative column
     #which is called: "the nonbasic gradient method"
     #other methods as "all-variable method" could be used
@@ -66,8 +68,8 @@ def simplex(tableu):
     #so I just choose smallest xij for pivot row
    if (i > 0):
     xij = xi[pivotCol]
-    if xij > 0:
-     theta = (xi[0] / xij)
+    if item_transform(xij, 2) > 0:
+     theta = divide_image_values(xi[0], xij, 2)
      if (theta < minTheta) or (minTheta == THETA_INFINITE):
       minTheta = theta
       pivotRow = i
@@ -87,25 +89,26 @@ def simplex(tableu):
  printTableu(tableu)
  return tableu
 
+t = Symbol("t")
 
 z  = [ 0.0 , -1.0 , -1.0 ,-1.0 , 0.0,  0.0,  0.0]
-x1 = [1.0 ,  3.0 ,  4.0 , 8.0 ,  1.0,  0.0,  0.0]
+x1 = [1.0 ,  3.0*t**2 ,  4.0*t , 8.0 ,  1.0,  0.0,  0.0]
 x2 = [1.0 , 4.0 , 5.0 , 6.0 ,   0.0,  1.0,  0.0]
-x3 = [1.0 ,  7.0 ,  3.0 , 2.0 ,  0.0,  0.0,  1.0]
+x3 = [1.0 ,  7.0*t ,  3.0 , 2.0*sin(t) ,  0.0,  0.0,  1.0]
 
-tableu = []
-tableu.append(z)
-tableu.append(x1)
-tableu.append(x2)
-tableu.append(x3)
+tableau = []
+tableau.append(z)
+tableau.append(x1)
+tableau.append(x2)
+tableau.append(x3)
 
-tableu = simplex(tableu)
+tableau = simplex(tableau)
 
-V = 1 / tableu[0][0]
+V = 1 / item_transform(tableau[0][0], 2)
 print("V = ", V)
 
-length = len(tableu)
+length = len(tableau)
 strategies = [0 for x in range(length)]
 for n in range(1, length):
-    strategies[n -1] = tableu[n][0] * V
+    strategies[n - 1] = tableau[n][0] * V
 print(strategies)
