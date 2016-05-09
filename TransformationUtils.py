@@ -48,8 +48,12 @@ def transform_and_inverse(matrix, level):
     "transforms given matrix and returns it's inverse"
     return inverse_matrix(differential_transform(matrix, level))
 
-def divide_image_values(value1, value2, k_value):
+def multiply_image_values(value1, value2, k_value):
     value = 0
     for l in range(0, k_value + 1):
-        value += item_transform(value1, 1) * item_transform(value2, 1)
-    return (item_transform(value1, 1) - value) / item_transform(value2, 0)
+        value += item_transform(value1, k_value - l) * item_transform(value2, k_value)
+    return value
+
+def divide_image_values(value1, value2, k_value):
+    mul = multiply_image_values(value1, value2, k_value)
+    return (item_transform(value1, k_value) - mul) / item_transform(value2, 0)

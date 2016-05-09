@@ -19,7 +19,7 @@ def multiply_image_matrix(matrix, k):
         z_matrix += np.dot(differential_transform(matrix, l), differential_transform(matrix, k - l))
     return z_matrix
 
-def multiply_image_values(n_value, i, k_value):
+def multiply_p_values(n_value, i, k_value):
     value = 0
     for l in range(0, k_value + 1):
         value += get_s_number(n_value - i, l) * get_p_image(i, k_value - l)
@@ -40,7 +40,7 @@ def get_p_image(n_value, k_value):
     item = get_s_number(n_value, k_value)
     addition = 0
     for i in range(1, n_value - 1 + 1):
-            addition += multiply_image_values(n_value, i, k_value)
+            addition += multiply_p_values(n_value, i, k_value)
     result = (1 / n_value) * (item - addition)
     print("n = ", n_value, "k = ", k_value, "p = ", result)
     return result
