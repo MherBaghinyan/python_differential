@@ -19,6 +19,8 @@ def differential(matrix, level):
     return z_matrix
 
 def item_transform(item, level):
+    if level == 0:
+        return item.evalf(subs={t: 0})
     derivative = diff(item, t, level)
     expr_with_value = derivative.evalf(subs={t: 0})
     return int(expr_with_value / factorial(level))
