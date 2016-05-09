@@ -18,6 +18,10 @@ def differential(matrix, level):
             z_matrix[i][j] = diff(matrix[i][j], t, level)
     return z_matrix
 
+def item_transform(item, level):
+    derivative = diff(item, t, level)
+    expr_with_value = derivative.evalf(subs={t: 0})
+    return int(expr_with_value / factorial(level))
 
 def differential_transform(_matrix, level):
     "returns a differential of given matrix"
@@ -25,9 +29,7 @@ def differential_transform(_matrix, level):
     z_matrix = [[0] * _length for x in range(_length)]
     for i in range(0, _length):
         for j in range(0, _length):
-            express = diff(_matrix[i][j], t, level)
-            exprWithValue = express.evalf(subs={t: 0})
-            z_matrix[i][j] = int(exprWithValue / factorial(level))
+            z_matrix[i][j] = item_transform(_matrix[i][j], level)
     return z_matrix
 
 def differential_vector(_vector, level):
@@ -35,8 +37,7 @@ def differential_vector(_vector, level):
     _length = len(_vector)
     z_vector = np.empty([_length])
     for i in range(0, _length):
-        express = diff(_vector[i], t, level).evalf(subs={t: 0})
-        z_vector[i] = int(express / factorial(level))
+        z_vector[i] = item_transform(_vector[i], level)
     return z_vector
 
 def inverse_matrix(matrix):
@@ -46,3 +47,9 @@ def inverse_matrix(matrix):
 def transform_and_inverse(matrix, level):
     "transforms given matrix and returns it's inverse"
     return inverse_matrix(differential_transform(matrix, level))
+
+def divide_image_values(value1, value2, k_value):
+    value = 0
+    for l in range(0, k_value + 1):
+        value += item_transform(value1, 1) * item_transform(value2, 1)
+    return (item_transform(value1, 1) - value) / item_transform(value2, 0)
