@@ -1,4 +1,7 @@
-from TransformationUtils import *
+from sympy import *
+import numpy as np
+
+t = Symbol('t')
 
 def printTableu(tableu):
  print('----------------------')
@@ -8,11 +11,11 @@ def printTableu(tableu):
  return
 
 
-def pivotOn(tableu, row, col):
+def pivotOn(z, x_b, tableu, row, col):
  j = 0
  pivot = tableu[row][col]
  for x in tableu[row]:
-  tableu[row][j] = divide_image_values(tableu[row][j], pivot, 2)
+  tableu[row][j] = tableu[row][j] / pivot
   j += 1
  i = 0
  for xi in tableu:
@@ -20,27 +23,61 @@ def pivotOn(tableu, row, col):
    ratio = xi[col]
    j = 0
    for xij in xi:
-    xij -= multiply_image_values(ratio, tableu[row][j], 2)
+    xij -= ratio * tableu[row][j]
     tableu[i][j] = xij
     j += 1
   i += 1
  return tableu
 
+def pivotX_b_On(z, x_b, tableu, row, col):
+ j = 0
+ pivot = tableu[row][col]
+ x_b[j] = x_b[0] / pivot
+ for x in tableu[row]:
+  tableu[row][j] = tableu[row][j] / pivot
+  j += 1
+ i = 0
+ for xi in tableu:
+  if i != row:
+   ratio = xi[col]
+   j = 0
+   x_b[i] -= ratio * x_b[i]
+   for xij in xi:
+    xij -= ratio * tableu[row][j]
+    tableu[i][j] = xij
+    j += 1
+  i += 1
+ return x_b
+
+def pivot_z_On(z, tableu, row, col):
+ j = 0
+ pivot = tableu[row][col]
+ for x in tableu[row]:
+  tableu[row][j] = tableu[row][j] / pivot
+  j += 1
+ ratio = z[col]
+ j = 0
+ for zj in z:
+  z[j] -= ratio * tableu[row][j]
+  j += 1
+ return z
+
 
 # assuming tablue in standard form with basis formed in last m columns
-def simplex(tableu):
+def simplex(z, x_b, tableu):
 
  THETA_INFINITE = -1
- opt   = False
- unbounded  = False
- n = len(tableu[0])
- m = len(tableu) - 1
+ opt = False
+ unbounded = False
+ n = len(z)
+ m = len(tableu)
+ iteration = 0
 
  while ((not opt) and (not unbounded)):
   min = 0.0
   pivotCol = j = 0
   while(j < (n-m)):
-   cj = item_transform(tableu[0][j], 2)
+   cj = z[j]
    # we will simply choose the most negative column
     #which is called: "the nonbasic gradient method"
     #other methods as "all-variable method" could be used
@@ -51,7 +88,7 @@ def simplex(tableu):
      #certain users.
    if (cj < min) and (j > 0):
     min = cj
-    pivotCol = j
+    pivotCol = j - 1
    j += 1
   if min == 0.0:
    #we cannot profitably bring a column into the basis
@@ -60,6 +97,7 @@ def simplex(tableu):
    continue
   pivotRow = i = 0
   minTheta = THETA_INFINITE
+  b_i = 0
   for xi in tableu:
    # Bland's anticycling algorithm  is theoretically a better option than
     #this implementation because it is guaranteed finite while this policy can produce cycling.
@@ -68,8 +106,9 @@ def simplex(tableu):
     #so I just choose smallest xij for pivot row
    if (i > 0):
     xij = xi[pivotCol]
-    if item_transform(xij, 2) > 0:
-     theta = divide_image_values(xi[0], xij, 2)
+    if xij > 0:
+     theta = (x_b[b_i] / xij)
+     b_i += 1
      if (theta < minTheta) or (minTheta == THETA_INFINITE):
       minTheta = theta
       pivotRow = i
@@ -82,33 +121,44 @@ def simplex(tableu):
    continue
 
   #now we pivot on pivotRow and pivotCol
-  tableu = pivotOn(tableu, pivotRow, pivotCol)
+  newTableu = pivotOn(z, x_b, tableu, pivotRow, pivotCol)
+  newX_b = pivotX_b_On(z, x_b, tableu, pivotRow, pivotCol)
+  new_z = pivot_z_On(z, tableu, pivotRow, pivotCol)
+
+  tableu = newTableu
+  x_b = newX_b
+  z = new_z
+
+
  print ('opt = {}'.format(opt))
  print ('unbounded = {}'.format(unbounded))
  print ('Final Tableu')
  printTableu(tableu)
+ print(x_b)
+ print(z)
+ iteration += 1
  return tableu
 
 t = Symbol("t")
 
-z  = [ 0.0 , -1.0 *t , -1.0 ,-1.0 * t**2, 0.0,  0.0,  0.0]
-x1 = [1.0 ,  3.0*t**2 ,  4.0*t , 8.0*t**2 ,  1.0,  0.0,  0.0]
-x2 = [1.0 , 4.0 , 5.0 , 6.0*t**2 ,   0.0,  1.0,  0.0]
-x3 = [1.0 ,  7.0*t ,  3.0 , 2.0*sin(t) ,  0.0,  0.0,  1.0]
+z = [0.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0]
+x_b = [1.0, 1.0, 1.0]
+x1 = [3.0 ,  4.0 , 8.0 ,  1.0,  0.0,  0.0]
+x2 = [4.0 , 5.0 , 6.0 ,   0.0,  1.0,  0.0]
+x3 = [7.0 ,  3.0 , 2.0 ,  0.0,  0.0,  1.0]
 
-tableau = []
-tableau.append(z)
-tableau.append(x1)
-tableau.append(x2)
-tableau.append(x3)
+tableu = []
+tableu.append(x1)
+tableu.append(x2)
+tableu.append(x3)
 
-tableau = simplex(tableau)
+tableu = simplex(z, x_b, tableu)
 
-V = 1 / item_transform(tableau[0][0], 2)
+V = 1 / tableu[0][0]
 print("V = ", V)
 
-length = len(tableau)
+length = len(tableu)
 strategies = [0 for x in range(length)]
 for n in range(1, length):
-    strategies[n - 1] = tableau[n][0] * V
+    strategies[n - 1] = tableu[n][0] * V
 print(strategies)
