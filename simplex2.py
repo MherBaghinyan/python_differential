@@ -1,4 +1,5 @@
-from TransformationUtils import *
+from sympy import *
+import numpy as np
 
 t = Symbol('t')
 
@@ -44,8 +45,6 @@ def simplex(z, x_b, tableu):
  n = len(z)
  m = len(tableu)
  iteration = 0
-
- tableu = set_matrix_parameter(tableu)
 
  while ((not opt) and (not unbounded)):
   min = 0.0
@@ -110,9 +109,9 @@ t = Symbol("t")
 
 z = [0.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0]
 x_b = [1.0, 1.0, 1.0]
-x1 = [3.0 * t, 4.0 * t ** 2, 8.0 * t,  1.0,  0.0,  0.0]
-x2 = [4.0 * t ** 2, 5.0 * t, 6.0 * t ** 2,   0.0,  1.0,  0.0]
-x3 = [7.0 * t, 3.0 * t ** 2, 2.0 * t,  0.0,  0.0,  1.0]
+x1 = [3.0 ,  4.0 , 8.0 ,  1.0,  0.0,  0.0]
+x2 = [4.0 , 5.0 , 6.0 ,   0.0,  1.0,  0.0]
+x3 = [7.0 ,  3.0 , 2.0 ,  0.0,  0.0,  1.0]
 
 tableu = []
 tableu.append(x1)
