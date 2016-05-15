@@ -13,55 +13,28 @@ def printTableu(tableu):
 
 def pivotOn(z, x_b, tableu, row, col):
  j = 0
- pivot = tableu[row][col]
+ pivot = tableu[row][col - 1]
+ x_b[row] = x_b[row] / pivot
+ z_ratio = z[col]
+ z[0] -= z_ratio * x_b[row]
  for x in tableu[row]:
   tableu[row][j] = tableu[row][j] / pivot
   j += 1
+ for z_j in range(0, len(z) - 1):
+  z[z_j + 1] -= z_ratio * tableu[row][z_j]
+
  i = 0
  for xi in tableu:
   if i != row:
-   ratio = xi[col]
+   ratio = xi[col - 1]
    j = 0
+   x_b[i] -= ratio * x_b[row]
    for xij in xi:
     xij -= ratio * tableu[row][j]
     tableu[i][j] = xij
     j += 1
   i += 1
  return tableu
-
-def pivotX_b_On(z, x_b, tableu, row, col):
- j = 0
- pivot = tableu[row][col]
- x_b[j] = x_b[0] / pivot
- for x in tableu[row]:
-  tableu[row][j] = tableu[row][j] / pivot
-  j += 1
- i = 0
- for xi in tableu:
-  if i != row:
-   ratio = xi[col]
-   j = 0
-   x_b[i] -= ratio * x_b[i]
-   for xij in xi:
-    xij -= ratio * tableu[row][j]
-    tableu[i][j] = xij
-    j += 1
-  i += 1
- return x_b
-
-def pivot_z_On(z, tableu, row, col):
- j = 0
- pivot = tableu[row][col]
- for x in tableu[row]:
-  tableu[row][j] = tableu[row][j] / pivot
-  j += 1
- ratio = z[col]
- j = 0
- for zj in z:
-  z[j] -= ratio * tableu[row][j]
-  j += 1
- return z
-
 
 # assuming tablue in standard form with basis formed in last m columns
 def simplex(z, x_b, tableu):
@@ -88,7 +61,7 @@ def simplex(z, x_b, tableu):
      #certain users.
    if (cj < min) and (j > 0):
     min = cj
-    pivotCol = j - 1
+    pivotCol = j
    j += 1
   if min == 0.0:
    #we cannot profitably bring a column into the basis
@@ -105,7 +78,7 @@ def simplex(z, x_b, tableu):
     #contradicting previous reports. For simplicity, I don't use Bland's algorithm here
     #so I just choose smallest xij for pivot row
    if (i > 0):
-    xij = xi[pivotCol]
+    xij = xi[pivotCol - 1]
     if xij > 0:
      theta = (x_b[b_i] / xij)
      b_i += 1
@@ -121,14 +94,7 @@ def simplex(z, x_b, tableu):
    continue
 
   #now we pivot on pivotRow and pivotCol
-  newTableu = pivotOn(z, x_b, tableu, pivotRow, pivotCol)
-  newX_b = pivotX_b_On(z, x_b, tableu, pivotRow, pivotCol)
-  new_z = pivot_z_On(z, tableu, pivotRow, pivotCol)
-
-  tableu = newTableu
-  x_b = newX_b
-  z = new_z
-
+  pivotOn(z, x_b, tableu, pivotRow, pivotCol)
 
  print ('opt = {}'.format(opt))
  print ('unbounded = {}'.format(unbounded))
