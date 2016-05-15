@@ -120,7 +120,7 @@ tableu.append(x3)
 
 tableu = simplex(z, x_b, tableu)
 
-V = 1 / tableu[0][0]
+V = 1 / z[0]
 print("V = ", V)
 
 length = len(tableu)
