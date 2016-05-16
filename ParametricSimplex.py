@@ -13,23 +13,23 @@ def printTableu(tableu):
 def pivotOn(z, x_b, tableu, row, col):
  j = 0
  pivot = tableu[row][col - 1]
- x_b[row] = x_b[row] / pivot
+ x_b[row] = divide_image_values(x_b[row], pivot, 2)
  z_ratio = z[col]
- z[0] -= z_ratio * x_b[row]
+ z[0] -= multiply_image_values(z_ratio, x_b[row], 2)
  for x in tableu[row]:
-  tableu[row][j] = tableu[row][j] / pivot
+  tableu[row][j] = divide_image_values(tableu[row][j], pivot, 2)
   j += 1
  for z_j in range(0, len(z) - 1):
-  z[z_j + 1] -= z_ratio * tableu[row][z_j]
+  z[z_j + 1] -= multiply_image_values(z_ratio, tableu[row][z_j], 2)
 
  i = 0
  for xi in tableu:
   if i != row:
    ratio = xi[col - 1]
    j = 0
-   x_b[i] -= ratio * x_b[row]
+   x_b[i] -= multiply_image_values(ratio, x_b[row], 2)
    for xij in xi:
-    xij -= ratio * tableu[row][j]
+    xij -= multiply_image_values(ratio, tableu[row][j], 2)
     tableu[i][j] = xij
     j += 1
   i += 1
@@ -39,7 +39,7 @@ def pivotOn(z, x_b, tableu, row, col):
 def simplex(z, x_b, tableu):
 
  THETA_INFINITE = -1
- opt = False
+ optimal = False
  unbounded = False
  n = len(z)
  m = len(tableu)
@@ -47,18 +47,11 @@ def simplex(z, x_b, tableu):
 
  tableu = set_matrix_parameter(tableu)
 
- while ((not opt) and (not unbounded)):
+ while ((not optimal) and (not unbounded)):
   min = 0.0
   pivotCol = j = 0
   while(j < (n-m)):
    cj = z[j]
-   # we will simply choose the most negative column
-    #which is called: "the nonbasic gradient method"
-    #other methods as "all-variable method" could be used
-    #but the nonbacis gradient method is simpler
-    #and all-variable method has only been shown to be superior for some
-     #extensive experiments by Kuhn and Quandt, the random tests used
-     #by Kuhn and Quandt might not really represent "typical" LP's for
      #certain users.
    if (cj < min) and (j > 0):
     min = cj
@@ -67,7 +60,7 @@ def simplex(z, x_b, tableu):
   if min == 0.0:
    #we cannot profitably bring a column into the basis
    #which means that we've found an optimal solution
-   opt = True
+   optimal = True
    continue
   pivotRow = i = 0
   minTheta = THETA_INFINITE
@@ -97,7 +90,7 @@ def simplex(z, x_b, tableu):
   #now we pivot on pivotRow and pivotCol
   pivotOn(z, x_b, tableu, pivotRow, pivotCol)
 
- print ('opt = {}'.format(opt))
+ print ('opt = {}'.format(optimal))
  print ('unbounded = {}'.format(unbounded))
  print ('Final Tableu')
  printTableu(tableu)
@@ -110,9 +103,9 @@ t = Symbol("t")
 
 z = [0.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0]
 x_b = [1.0, 1.0, 1.0]
-x1 = [3.0 * t, 4.0 * t ** 2, 8.0 * t,  1.0,  0.0,  0.0]
-x2 = [4.0 * t ** 2, 5.0 * t, 6.0 * t ** 2,   0.0,  1.0,  0.0]
-x3 = [7.0 * t, 3.0 * t ** 2, 2.0 * t,  0.0,  0.0,  1.0]
+x1 = [3.0 * t, 4.0 * t + 2, 8.0 + t,  1.0,  0.0,  0.0]
+x2 = [4.0 + t + 2, 5.0 * t, 6.0 * t + 2,   0.0,  1.0,  0.0]
+x3 = [7.0 + t, 3.0 * t + 2, 2.0 * t,  0.0,  0.0,  1.0]
 
 tableu = []
 tableu.append(x1)

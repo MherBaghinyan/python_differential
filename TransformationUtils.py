@@ -66,3 +66,10 @@ def multiply_image_values(value1, value2, k_value):
 def divide_image_values(value1, value2, k_value):
     mul = multiply_image_values(value1, value2, k_value)
     return (item_transform(value1, k_value) - mul) / item_transform(value2, 0)
+
+
+#####################################################################
+#                   SIMPLEX TRANSFORMATIONS
+#####################################################################
+
+
