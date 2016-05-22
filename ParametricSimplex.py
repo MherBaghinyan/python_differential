@@ -13,23 +13,23 @@ def printTableu(tableu):
 def pivotOn(z, x_b, tableu, row, col):
  j = 0
  pivot = tableu[row][col - 1]
- x_b[row] = divide_image_values(x_b[row], pivot, 2)
+ x_b[row] = x_b[row] / pivot
  z_ratio = z[col]
- z[0] -= multiply_image_values(z_ratio, x_b[row], 2)
+ z[0] -= z_ratio * x_b[row]
  for x in tableu[row]:
-  tableu[row][j] = divide_image_values(tableu[row][j], pivot, 2)
+  tableu[row][j] = tableu[row][j] / pivot
   j += 1
  for z_j in range(0, len(z) - 1):
-  z[z_j + 1] -= multiply_image_values(z_ratio, tableu[row][z_j], 2)
+  z[z_j + 1] -= z_ratio * tableu[row][z_j]
 
  i = 0
  for xi in tableu:
   if i != row:
    ratio = xi[col - 1]
    j = 0
-   x_b[i] -= multiply_image_values(ratio, x_b[row], 2)
+   x_b[i] -= ratio * x_b[row]
    for xij in xi:
-    xij -= multiply_image_values(ratio, tableu[row][j], 2)
+    xij -= ratio * tableu[row][j]
     tableu[i][j] = xij
     j += 1
   i += 1
@@ -116,7 +116,7 @@ t = Symbol("t")
 z = [0.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0]
 x_b = [1.0, 1.0, 1.0]
 x1 = [3.0 * t, 4.0 * t + 2, 8.0 + t,  1.0,  0.0,  0.0]
-x2 = [4.0 + t + 2, 5.0 * t, 6.0 * t + 2,   0.0,  1.0,  0.0]
+x2 = [4.0 + t, 5.0 * t, 6.0 * t + 2,   0.0,  1.0,  0.0]
 x3 = [7.0 + t, 3.0 * t + 2, 2.0 * t,  0.0,  0.0,  1.0]
 
 tableu = []

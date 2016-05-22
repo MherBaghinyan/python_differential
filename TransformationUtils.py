@@ -65,13 +65,23 @@ def divide_image_values(value1, value2, k_value):
 #                   SIMPLEX TRANSFORMATIONS
 #####################################################################
 
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
 
 def set_matrix_parameter(matrix, level):
-    length = len(matrix)
-    result = [[0] * length for x in range(length)]
-    for i in range(0, length):
-        for j in range(0, length):
-            result[i][j] = matrix[i][j].evalf(subs={t: 0})
+    rows = len(matrix)
+    columns = len(matrix[0])
+    result = [[0] * columns for x in range(rows)]
+    for i in range(0, rows):
+        for j in range(0, columns):
+            if is_number(matrix[i][j].solve):
+                result[i][j] = matrix[i][j]
+            else:
+                result[i][j] = matrix[i][j].evalf(subs={t: 0})
     return result
 
 
