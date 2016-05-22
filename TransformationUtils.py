@@ -27,10 +27,11 @@ def item_transform(item, level):
 
 def differential_transform(_matrix, level):
     "returns a differential of given matrix"
-    _length = len(_matrix)
-    z_matrix = [[0] * _length for x in range(_length)]
-    for i in range(0, _length):
-        for j in range(0, _length):
+    rows = len(_matrix)
+    columns = len(_matrix[0])
+    z_matrix = [[0] * columns for x in range(rows)]
+    for i in range(0, rows):
+        for j in range(0, columns):
             z_matrix[i][j] = item_transform(_matrix[i][j], level)
     return z_matrix
 
