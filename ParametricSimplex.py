@@ -36,16 +36,23 @@ def pivotOn(z, x_b, tableu, row, col):
  return tableu
 
 # assuming tablue in standard form with basis formed in last m columns
-def simplex(z, x_b, tableu):
+def simplex(z, x_b, tableu, MAX_K):
 
  THETA_INFINITE = -1
+ MAX_ITERATIONS_COUNT = 10
  optimal = False
  unbounded = False
  n = len(z)
  m = len(tableu)
  iteration = 0
 
- tableu = set_matrix_parameter(tableu)
+ hyper_matrix = [[tableu] * MAX_ITERATIONS_COUNT for x in range(MAX_K + 1)]
+
+ for j in range(0, MAX_K + 1):
+   hyper_matrix[iteration][j] = set_matrix_parameter(tableu, 0)
+   print(hyper_matrix[iteration][j])
+
+ tableu = hyper_matrix[iteration][0]
 
  while ((not optimal) and (not unbounded)):
   min = 0.0
@@ -112,7 +119,8 @@ tableu.append(x1)
 tableu.append(x2)
 tableu.append(x3)
 
-tableu = simplex(z, x_b, tableu)
+MAX_K = 2
+tableu = simplex(z, x_b, tableu, MAX_K)
 
 V = 1 / z[0]
 print("V = ", V)

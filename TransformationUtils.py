@@ -9,13 +9,6 @@ def get_max_k(matrix):
         level += 1
     return level
 
-def set_matrix_parameter(matrix):
-    length = len(matrix)
-    for i in range(0, length):
-        for j in range(0, length):
-            matrix[i][j] = matrix[i][j].evalf(subs={t: 0})
-    return matrix
-
 def differential(matrix, level):
     "returns a differential of given matrix"
     _length = len(matrix)
@@ -71,5 +64,13 @@ def divide_image_values(value1, value2, k_value):
 #####################################################################
 #                   SIMPLEX TRANSFORMATIONS
 #####################################################################
+
+
+def set_matrix_parameter(matrix, level):
+    length = len(matrix)
+    for i in range(0, length):
+        for j in range(0, length):
+            matrix[i][j] = matrix[i][j].evalf(subs={t: 0})
+    return matrix
 
 
