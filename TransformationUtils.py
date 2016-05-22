@@ -68,9 +68,10 @@ def divide_image_values(value1, value2, k_value):
 
 def set_matrix_parameter(matrix, level):
     length = len(matrix)
+    result = [[0] * length for x in range(length)]
     for i in range(0, length):
         for j in range(0, length):
-            matrix[i][j] = matrix[i][j].evalf(subs={t: 0})
-    return matrix
+            result[i][j] = matrix[i][j].evalf(subs={t: 0})
+    return result
 
 

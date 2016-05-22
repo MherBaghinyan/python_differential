@@ -49,8 +49,11 @@ def simplex(z, x_b, tableu, MAX_K):
  hyper_matrix = [[tableu] * MAX_ITERATIONS_COUNT for x in range(MAX_K + 1)]
 
  for j in range(0, MAX_K + 1):
+  if j == 0:
    hyper_matrix[iteration][j] = set_matrix_parameter(tableu, 0)
-   print(hyper_matrix[iteration][j])
+  else:
+   hyper_matrix[iteration][j] = differential_transform(tableu, j)
+  print(hyper_matrix[iteration][j])
 
  tableu = hyper_matrix[iteration][0]
 
