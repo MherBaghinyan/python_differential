@@ -39,23 +39,25 @@ def pivotOn(z, x_b, tableu, row, col):
 def simplex(z, x_b, tableu, MAX_K):
 
  THETA_INFINITE = -1
- MAX_ITERATIONS_COUNT = 10
+ MAX_ITERATIONS_COUNT = 20
  optimal = False
  unbounded = False
  n = len(z)
  m = len(tableu)
  iteration = 0
 
- hyper_matrix = [[tableu] * MAX_ITERATIONS_COUNT for x in range(MAX_K + 1)]
+ hyper_tableu = [[tableu] * MAX_ITERATIONS_COUNT for x in range(MAX_K + 1)]
+ hyper_X = [[x_b] * MAX_ITERATIONS_COUNT for x in range(MAX_K + 1)]
+ hyper_Z = [[z] * MAX_ITERATIONS_COUNT for x in range(MAX_K + 1)]
 
  for j in range(0, MAX_K + 1):
   if j == 0:
-   hyper_matrix[iteration][j] = set_matrix_parameter(tableu, 0)
+   hyper_tableu[iteration][j] = set_matrix_parameter(tableu, 0)
   else:
-   hyper_matrix[iteration][j] = differential_transform(tableu, j)
-  print(hyper_matrix[iteration][j])
+   hyper_tableu[iteration][j] = differential_transform(tableu, j)
+  print(hyper_tableu[iteration][j])
 
- tableu = hyper_matrix[iteration][0]
+ tableu = hyper_tableu[iteration][0]
 
  while ((not optimal) and (not unbounded)):
   min = 0.0
