@@ -70,7 +70,7 @@ def is_number(s):
     try:
         float(s)
         return True
-    except ValueError:
+    except TypeError:
         return False
 
 def set_matrix_parameter(matrix, level):
@@ -79,7 +79,7 @@ def set_matrix_parameter(matrix, level):
     result = [[0] * columns for x in range(rows)]
     for i in range(0, rows):
         for j in range(0, columns):
-            if is_number(matrix[i][j].solve):
+            if is_number(matrix[i][j]):
                 result[i][j] = matrix[i][j]
             else:
                 result[i][j] = matrix[i][j].evalf(subs={t: 0})
