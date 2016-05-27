@@ -46,18 +46,17 @@ def simplex(z, x_b, tableu, MAX_K):
  m = len(tableu)
  iteration = 0
 
- hyper_tableu = [[tableu] * MAX_ITERATIONS_COUNT for x in range(MAX_K + 1)]
  hyper_X = [[x_b] * MAX_ITERATIONS_COUNT for x in range(MAX_K + 1)]
  hyper_Z = [[z] * MAX_ITERATIONS_COUNT for x in range(MAX_K + 1)]
 
  for j in range(0, MAX_K + 1):
   if j == 0:
-   hyper_tableu[iteration][j] = set_matrix_parameter(tableu, 0)
+   hyper_X[iteration][j] = set_matrix_parameter(tableu, 0)
   else:
-   hyper_tableu[iteration][j] = differential_transform(tableu, j)
-  print(hyper_tableu[iteration][j])
+   hyper_X[iteration][j] = differential_transform(tableu, j)
+  print(hyper_X[iteration][j])
 
- tableu = hyper_tableu[iteration][0]
+ x_b = hyper_X[iteration][0]
 
  while ((not optimal) and (not unbounded)):
   min = 0.0
@@ -103,7 +102,7 @@ def simplex(z, x_b, tableu, MAX_K):
   pivotOn(z, x_b, tableu, pivotRow, pivotCol)
 
   for k in range(1, MAX_K + 1):
-   pivotOn(hyper_Z[k], hyper_X[k], hyper_tableu[iteration][k], pivotRow, pivotCol)
+   pivotOn(hyper_Z[k], hyper_X[k], tableu, pivotRow, pivotCol)
 
  print ('opt = {}'.format(optimal))
  print ('unbounded = {}'.format(unbounded))
