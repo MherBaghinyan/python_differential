@@ -96,10 +96,11 @@ def simplex(z, x_b, tableu, MAX_K):
    continue
 
   #now we pivot on pivotRow and pivotCol
-  pivotOn(z, x_b, tableu, pivotRow, pivotCol)
-
-  for k in range(1, MAX_K + 1):
-   pivotOn(hyper_Z[k][0], hyper_X[k][0], tableu, pivotRow, pivotCol)
+  if iteration == 0:
+   pivotOn(z, x_b, tableu, pivotRow, pivotCol)
+  else:
+   for k in range(1, MAX_K + 1):
+    pivotOn(hyper_Z[iteration][k-1], hyper_X[iteration][k-1], tableu, pivotRow, pivotCol)
 
  print ('opt = {}'.format(optimal))
  print ('unbounded = {}'.format(unbounded))
