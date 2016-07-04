@@ -6,6 +6,16 @@ root.geometry("500x500")
 w = Label(root, text="Insert the payoff matrix")
 w.pack()
 
+rows = []
+for i in range(5):
+    cols = []
+    for j in range(4):
+        e = Entry(root)
+        e.insert(END, '%d.%d' % (i, j))
+        cols.append(e)
+    rows.append(cols)
+e.pack()
+print(rows)
 
 # rows = []
 # for i in range(5):
