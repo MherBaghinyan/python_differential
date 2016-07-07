@@ -1,6 +1,7 @@
 from tkinter import *
 
 root = Tk()
+root.title("Parametric game model solver")
 root.geometry("500x500")
 
 w = Label(root, text="Insert the payoff matrix")
