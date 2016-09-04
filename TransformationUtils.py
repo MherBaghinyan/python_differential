@@ -2,6 +2,7 @@ from sympy import *
 import numpy as np
 
 t = Symbol('t')
+d = Symbol('d')
 
 def get_max_k(matrix):
     level = 0
