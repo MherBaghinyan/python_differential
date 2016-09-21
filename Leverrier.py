@@ -12,6 +12,7 @@ S_matrix = [[1 + t, 1 - t], [-t, t ** 2]]
 
 print(S_matrix)
 
+
 def multiply_image_matrix(matrix, k):
     _length = len(matrix)
     z_matrix = [[0] * _length for x in range(_length)]
@@ -19,11 +20,13 @@ def multiply_image_matrix(matrix, k):
         z_matrix += np.dot(differential_transform(matrix, l), differential_transform(matrix, k - l))
     return z_matrix
 
+
 def multiply_p_values(n_value, i, k_value):
     value = 0
     for l in range(0, k_value + 1):
         value += get_s_number(n_value - i, l) * get_p_image(i, k_value - l)
     return value
+
 
 def get_s_number(n_value, k_value):
     if n_value > 1:
@@ -36,6 +39,7 @@ def get_s_number(n_value, k_value):
         sum += matrix[n][n]
     return sum
 
+
 def get_p_image(n_value, k_value):
     item = get_s_number(n_value, k_value)
     addition = 0
@@ -45,17 +49,19 @@ def get_p_image(n_value, k_value):
     print("n = ", n_value, "k = ", k_value, "p = ", result)
     return result
 
+
 def p_items( n, k_value):
     item = 0
     for k in range(0, k_value + 1):
         item += (t ** k / factorial(k)) * get_p_image(n, k)
     return item
 
-def calculate_Leverrier(n_value, k_value):
+
+def calculate_leverrier(n_value, k_value):
     p_item = [0 for x in range(n_value)]
     for n in range(1, n_value + 1):
         p_item[n - 1] = p_items(n, k_value)
     return p_item
 
 k_max = get_max_k(S_matrix)
-print(calculate_Leverrier(len(S_matrix), k_max))
+print(calculate_leverrier(len(S_matrix), k_max))
