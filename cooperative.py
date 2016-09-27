@@ -32,8 +32,10 @@ def multiply_images(value1, value2, k_value):
 
 def exponential_c_values(image1, image2, k_value):
     item = 0
+    if k_value == 0:
+        return 1/multiply_images(image1, image2, 0)
     for k in range(0, k_value + 1):
-        item += exponential_c_values(image1, image2, k)*multiply_images(image1, image2, k_value - k - 1)
+        item += exponential_c_values(image1, image2, k)*multiply_images(image1, image2, k_value - k)
     return (1/multiply_images(image1, image2, 0))*item
 
 
