@@ -16,11 +16,7 @@ def multiply_image_matrix(matrix, k):
 
 
 def item_transformation(item, level):
-    if level == 0:
-        return item.evalf(subs={t: 1.2})
-    derivative = diff(item, t, level)
-    expr_with_value = derivative.evalf(subs={t: 1.2})
-    return expr_with_value / factorial(level)
+    return diff(item, t, level)
 
 
 def multiply_images(value1, value2, k_value):
@@ -34,7 +30,7 @@ def exponential_c_values(image1, image2, k_value):
     item = 0
     if k_value == 0:
         return 1/multiply_images(image1, image2, 0)
-    for k in range(0, k_value + 1):
+    for k in range(0, k_value):
         item += exponential_c_values(image1, image2, k)*multiply_images(image1, image2, k_value - k)
     return (1/multiply_images(image1, image2, 0))*item
 
