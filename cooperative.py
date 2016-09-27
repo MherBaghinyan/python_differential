@@ -30,13 +30,21 @@ def multiply_images(value1, value2, k_value):
     return value
 
 
-def recover_image_values(n, k_value):
+def exponential_c_values(image1, image2, k_value):
     item = 0
     for k in range(0, k_value + 1):
-        item += (t ** k / factorial(k)) * multiply_images(n, n, k)
-    return item
+        item += exponential_c_values(image1, image2, k)*multiply_images(image1, image2, k_value - k - 1)
+    return (1/multiply_images(image1, image2, 0))*item
 
 
-item = exp(-0.8*(0.5040+t))
-print(multiply_images(item, item, 2))
-print(recover_image_values(item, 2))
+def recover_exponential_image_values(image1, image2, k_value):
+    item = 0
+    for k in range(0, k_value + 1):
+        item += t ** k * exponential_c_values(image1, image2, k)
+    return 1/item
+
+
+item1 = t*exp(-0.8*(0.5040+t))
+item2 = t
+print(multiply_images(item1, item2, 2))
+print(recover_exponential_image_values(item1, item2, 2))

@@ -3,6 +3,25 @@ from TransformationUtils import *
 d = Symbol('d')
 t = Symbol('t')
 
+
+def item_multi_transform(item, level, value, d_value):
+    if level == 0:
+        return item.evalf(subs={t: value, d: d_value})
+    derivative = diff(item, t, level)
+    expr_with_value = derivative.evalf(subs={t: value, d: d_value})
+    return expr_with_value / factorial(level)
+
+
+def matrix_multi_differential(matrix, level, t_value, d_value):
+    "returns a differential of given matrix"
+    _length = len(matrix)
+    z_matrix = [[0] * _length for x in range(_length)]
+    for i in range(0, _length):
+        for j in range(0, _length):
+            z_matrix[i][j] = item_multi_transform(matrix[i][j], level, t_value, d_value)
+    return z_matrix
+
+
 R_matrix = [[(0.4 * (7/d ** 2) + 0.4 * (0.7/t ** 2) + 0.4 * (7.1/d ** 2)) ** -1/2,
              (0.4 * (4/d ** 2) + 0.4 * (0.5/t ** 2) + 0.4 * (4.2/d ** 2)) ** -1/2,
              (0.4 * (6/d ** 2) + 0.4 * (0.6/t ** 2) + 0.4 * (6.3/d ** 2)) ** -1/2,
@@ -113,7 +132,11 @@ R_matrix = [[(0.4 * (7/d ** 2) + 0.4 * (0.7/t ** 2) + 0.4 * (7.1/d ** 2)) ** -1/
              (0.4 * (12/d ** 2) + 0.4 * (0.6/t ** 2) + 0.4 * (11.3/d ** 2)) ** -1/2,
              (0.4 * (6/d ** 2) + 0.4 * (0.6/t ** 2) + 0.4 * (7.3/d ** 2)) ** -1/2]]
 
-print(R_matrix)
+#print(R_matrix)
+print('---------------------------------------------------------------------------------')
+print(item_multi_transform((0.4 * (6/d ** 2) + 0.4 * (0.6/t ** 2) + 0.4 * (7.3/d ** 2)) ** -1/2, 0, 0.5, 0.5))
+print('---------------------------------------------------------------------------------')
+# print(matrix_multi_differential(R_matrix, 1, 0.5, 0.5))
 
 
 # d=0.5
@@ -129,12 +152,6 @@ x4 = [1.0,  (0.4 * (1.1 ** 2) + 0.4 * (0.16 ** 2) + 0.4 * (1.14 ** 2)) ** -1/2, 
 x5 = [1.0,  (0.4 * (1.6 ** 2) + 0.4 * (0.21 ** 2) + 0.4 * (1.2 ** 2)) ** -1/2,  (0.4 * (1.2 ** 2) + 0.4 *(0.3 ** 2) + 0.4 * (1.1 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.21 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2,  (0.4 * (0.7 ** 2) + 0.4 *(0.12 ** 2) + 0.4 *(0.3 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.2 ** 2) + 0.4 *(0.9 ** 2)) ** -1/2,  0.0,  0.0,  0.0,  0.0,  1.0]
 
 
-print(x1)
-print(x2)
-print(x3)
-print(x4)
-print(x5)
-
-print('----------------------------------------------')
-print((0.4 * (9.2 ** 2) + 0.4 * (9.1 ** 2) + 0.4 * (28 ** 2)) ** -1/2)
-print((0.4 * (1.2 ** 2) + 0.4 * (0.7 ** 2) + 0.4 * (1.1 ** 2)) ** -1/2)
+print('---------------------------------------------------------------------')
+# print((0.4 * (9.2 ** 2) + 0.4 * (9.1 ** 2) + 0.4 * (28 ** 2)) ** -1/2)
+# print((0.4 * (1.2 ** 2) + 0.4 * (0.7 ** 2) + 0.4 * (1.1 ** 2)) ** -1/2)
