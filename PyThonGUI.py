@@ -25,7 +25,7 @@ transformationLabel.pack(padx=10)
 var = StringVar(root)
 var.set("Cooperative")  # initial value
 
-option = OptionMenu(root, var, "Cooperative", "Multi parameter game", "One parameter game")
+option = OptionMenu(root, var, "Cooperative game", "Multi parameter game", "One parameter game")
 option.pack(padx=10, pady=1, side=LEFT)
 
 
@@ -40,6 +40,8 @@ button.pack(padx=10, pady=10)
 #opens a new window
 def create_window():
     window = Toplevel(root)
+    window.title("Cooperative game")
+    window.geometry("500x500")
 
 
 b = Button(root, text="Create new window", command=create_window)
