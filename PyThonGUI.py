@@ -28,14 +28,22 @@ var.set("Cooperative")  # initial value
 option = OptionMenu(root, var, "Cooperative", "Multi parameter game", "One parameter game")
 option.pack(padx=10, pady=1, side=LEFT)
 
-# test stuff
-
 
 def ok():
     print("value is", var.get())
-    root.quit()
+    # root.quit()
 
 button = Button(root, text="OK", command=ok)
 button.pack(padx=10, pady=10)
+
+
+#opens a new window
+def create_window():
+    window = Toplevel(root)
+
+
+b = Button(root, text="Create new window", command=create_window)
+b.pack()
+
 
 root.mainloop()
