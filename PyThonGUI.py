@@ -1,6 +1,6 @@
 __author__ = 'Gebruiker'
 #GUI link
-#http://www.python-course.eu/tkinter_layout_management.php
+#http://www.python-course.eu/tkinter_entry_widgets.php
 from tkinter import *
 
 root = Tk()
