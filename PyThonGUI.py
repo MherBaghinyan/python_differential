@@ -5,7 +5,7 @@ from tkinter import *
 
 root = Tk()
 root.title("Parametric game model solver")
-root.geometry("500x500")
+root.geometry("700x500")
 
 
 def evaluate(event):
