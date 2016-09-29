@@ -21,6 +21,18 @@ transformationEntry.pack(padx=10, pady=1, side=LEFT)
 transformationLabel = Label(root)
 transformationLabel.pack(padx=10)
 
+# rows = []
+# for i in range(5):
+#     cols = []
+#     for j in range(4):
+#         e = Entry(root, relief=RIDGE)
+#         e.grid(row=i, column=j, sticky=NSEW)
+#         e.insert(END, '%d.%d' % (i, j))
+#         cols.append(e)
+#     rows.append(cols)
+#
+# print(rows)
+
 
 var = StringVar(root)
 var.set("Cooperative")  # initial value
