@@ -30,7 +30,7 @@ def multiply_image_matrix(matrix, k):
 
 
 def item_transformation(item, level):
-    return diff(item, t, level)
+    return diff(item, t, level) / factorial(level)
 
 
 def multiply_images(value1, value2, k_value):
