@@ -2,9 +2,23 @@ from TransformationUtils import *
 
 t = Symbol('t')
 
-S_matrix = [[1, 1 - t], [t, 0]]
+S_matrix = [[1, -t], [t, 0]]
 
 print(S_matrix)
+
+
+def exponential_matrix(matrix):
+    rows = len(matrix)
+    columns = len(matrix[0])
+    e_matrix = [[0] * columns for x in range(rows)]
+    for i in range(0, rows):
+        for j in range(0, columns):
+            item = matrix[i][j]
+            if is_number(item):
+                e_matrix[i][j] = item*exp(-0.8*(item-item))
+            else:
+                e_matrix[i][j] = recover_exponential_image_values(item, exp(-0.1*(item+item)), 1).evalf(subs={t: 1.55})
+    return e_matrix
 
 
 def multiply_image_matrix(matrix, k):
@@ -42,7 +56,12 @@ def recover_exponential_image_values(image1, image2, k_value):
     return 1/item
 
 
-item1 = t*exp(-0.8*(0.5040+t))
+item1 = t*exp(-0.1*(t+t))
 item2 = t
 print(multiply_images(item1, item2, 2))
-print(recover_exponential_image_values(item1, item2, 2))
+result = recover_exponential_image_values(item1, item2, 2)
+print(result)
+print(result.evalf(subs={t: 1.55}))
+print(exponential_matrix(S_matrix))
+
+
