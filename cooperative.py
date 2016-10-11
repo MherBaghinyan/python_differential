@@ -15,7 +15,7 @@ def exponential_matrix(matrix):
         for j in range(0, columns):
             item = matrix[i][j]
             if is_number(item):
-                e_matrix[i][j] = item*exp(-0.8*(item-item))
+                e_matrix[i][j] = item*exp(-0.1*(item+item))
             else:
                 e_matrix[i][j] = recover_exponential_image_values(item, exp(-0.1*(item+item)), 1).evalf(subs={t: 1.55})
     return e_matrix
@@ -58,10 +58,14 @@ def recover_exponential_image_values(image1, image2, k_value):
 
 item1 = t*exp(-0.1*(t+t))
 item2 = t
-print(multiply_images(item1, item2, 2))
-result = recover_exponential_image_values(item1, item2, 2)
-print(result)
-print(result.evalf(subs={t: 1.55}))
-print(exponential_matrix(S_matrix))
+# print(multiply_images(item1, item2, 2))
+# result = recover_exponential_image_values(item1, item2, 2)
+# print(result)
+# print(result.evalf(subs={t: 1.55}))
+
+iterated_matrix = S_matrix
+for iteration in range(0, 7):
+    iterated_matrix = exponential_matrix(iterated_matrix)
+    print(iterated_matrix)
 
 
