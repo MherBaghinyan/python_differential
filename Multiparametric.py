@@ -67,7 +67,13 @@ differentiated = matrix_multi_differential(R_matrix, 0, 0, t_value, d_value)
 
 for i in range(0, k + 1):
     for j in range(0, k + 1):
-        print(matrix_multi_differential(R_matrix, i, j, t_value, d_value))
+        simplex_matrix = []
+        _length = len(R_matrix)
+        z = [0.0, -1.0, -1.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0,  0.0,  0.0]
+        simplex_matrix.append(z)
+        base_matrix = matrix_multi_differential(R_matrix, i, j, t_value, d_value)
+        simplex_matrix.append(base_matrix)
+        print(simplex_matrix)
         print('----------------', i, '-----------------', j)
 
 tableu = simplex(differentiated)
