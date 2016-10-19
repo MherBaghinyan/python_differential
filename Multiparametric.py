@@ -65,6 +65,8 @@ differentiated = matrix_multi_differential(R_matrix, 0, 0, t_value, d_value)
 #print(differentiated)
 # print(matrix_multi_differential(R_matrix, 1, 2, 0.5, 0.03))
 
+v_recovered = 0
+
 for i in range(0, k + 1):
     for j in range(0, k + 1):
         simplex_matrix = []
@@ -73,26 +75,35 @@ for i in range(0, k + 1):
         z.append(0.0)
         for z_i in range(0, _length):
             z.append(-1.0)
-        simplex_matrix.append(z)
         for z_i in range(0, _length):
             z.append(0.0)
         simplex_matrix.append(z)
         base_matrix = matrix_multi_differential(R_matrix, i, j, t_value, d_value)
-        simplex_matrix.append(base_matrix)
         for m_i in range(0, _length):
+            m_array = [0 for var in range(_length * 2 + 1)]
             for m_j in range(0, _length):
-                m_array = np.empty([_length*2 + 1])
-                m_array[0] = [1.0]
+                m_array[0] = 1.0
                 m_array[m_j + 1] = base_matrix[m_i][m_j]
                 if m_i == m_j:
-                    m_array[_length + m_j] = 1.0
+                    m_array[_length + m_j + 1] = 1.0
                 else:
-                    m_array[_length + m_j] = 0.0
+                    m_array[_length + m_j + 1] = 0.0
+            simplex_matrix.append(m_array)
+        tableu = simplex(simplex_matrix)
+        V = 1 / tableu[0][0]
+        print("V = ", V)
+        length = len(tableu)
+        strategies = [0 for x in range(length)]
+        for n in range(1, length):
+            strategies[n - 1] = tableu[n][0] * V
+        print(tableu[n][0])
+        print(strategies)
+
+        v_recovered += V*((t-t_value)**i)*((d-d_value)**j)
 
         print(simplex_matrix)
         print('----------------', i, '-----------------', j)
 
-tableu = simplex(differentiated)
 
 z = [0.0, -1.0, -1.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0,  0.0,  0.0]
 x1 = [1.0,  (0.4 * (1.2 ** 2) + 0.4 * (0.3 ** 2) + 0.4 * (1.1 ** 2)) ** -1/2,  (0.4 * (1.2 ** 2) + 0.4 *(0.11 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.1 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2,  (0.4 * (1.2 ** 2) + 0.4 *(0.12 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.31 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2,  1.0,  0.0,  0.0,  0.0,  0.0]
