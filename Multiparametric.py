@@ -69,10 +69,26 @@ for i in range(0, k + 1):
     for j in range(0, k + 1):
         simplex_matrix = []
         _length = len(R_matrix)
-        z = [0.0, -1.0, -1.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0,  0.0,  0.0]
+        z = []
+        z.append(0.0)
+        for z_i in range(0, _length):
+            z.append(-1.0)
+        simplex_matrix.append(z)
+        for z_i in range(0, _length):
+            z.append(0.0)
         simplex_matrix.append(z)
         base_matrix = matrix_multi_differential(R_matrix, i, j, t_value, d_value)
         simplex_matrix.append(base_matrix)
+        for m_i in range(0, _length):
+            for m_j in range(0, _length):
+                m_array = np.empty([_length*2 + 1])
+                m_array[0] = [1.0]
+                m_array[m_j + 1] = base_matrix[m_i][m_j]
+                if m_i == m_j:
+                    m_array[_length + m_j] = 1.0
+                else:
+                    m_array[_length + m_j] = 0.0
+
         print(simplex_matrix)
         print('----------------', i, '-----------------', j)
 
