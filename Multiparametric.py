@@ -27,6 +27,30 @@ def matrix_multi_differential(matrix, t_level, d_level, t_value, d_value):
     return z_matrix
 
 
+def prepare_matrix_for_simplex(R_matrix, i, j):
+    simplex_matrix = []
+    _length = len(R_matrix)
+    z = []
+    z.append(0.0)
+    for z_i in range(0, _length):
+        z.append(-1.0)
+    for z_i in range(0, _length):
+        z.append(0.0)
+    simplex_matrix.append(z)
+    base_matrix = matrix_multi_differential(R_matrix, i, j, t_value, d_value)
+    for m_i in range(0, _length):
+        m_array = [0 for var in range(_length * 2 + 1)]
+        for m_j in range(0, _length):
+            m_array[0] = 1.0
+            m_array[m_j + 1] = base_matrix[m_i][m_j]
+            if m_i == m_j:
+                m_array[_length + m_j + 1] = 1.0
+            else:
+                m_array[_length + m_j + 1] = 0.0
+        simplex_matrix.append(m_array)
+    return simplex_matrix
+
+
 R_matrix = [[(0.4 * (7/d ** 2) + 0.4 * (0.7/t ** 2) + 0.4 * (7.1/d ** 2)) ** -1/2,
              (0.4 * (4/d ** 2) + 0.4 * (0.5/t ** 2) + 0.4 * (4.2/d ** 2)) ** -1/2,
              (0.4 * (6/d ** 2) + 0.4 * (0.6/t ** 2) + 0.4 * (6.3/d ** 2)) ** -1/2,
@@ -69,26 +93,7 @@ v_recovered = 0
 
 for i in range(0, k + 1):
     for j in range(0, k + 1):
-        simplex_matrix = []
-        _length = len(R_matrix)
-        z = []
-        z.append(0.0)
-        for z_i in range(0, _length):
-            z.append(-1.0)
-        for z_i in range(0, _length):
-            z.append(0.0)
-        simplex_matrix.append(z)
-        base_matrix = matrix_multi_differential(R_matrix, i, j, t_value, d_value)
-        for m_i in range(0, _length):
-            m_array = [0 for var in range(_length * 2 + 1)]
-            for m_j in range(0, _length):
-                m_array[0] = 1.0
-                m_array[m_j + 1] = base_matrix[m_i][m_j]
-                if m_i == m_j:
-                    m_array[_length + m_j + 1] = 1.0
-                else:
-                    m_array[_length + m_j + 1] = 0.0
-            simplex_matrix.append(m_array)
+        simplex_matrix = prepare_matrix_for_simplex(R_matrix, i, j)
         tableu = simplex(simplex_matrix)
         V = 1 / tableu[0][0]
         print("V = ", V)
@@ -99,7 +104,8 @@ for i in range(0, k + 1):
         print(tableu[n][0])
         print(strategies)
 
-        v_recovered += V*((t-t_value)**i)*((d-d_value)**j)
+        item = V*((t-t_value)**i)*((d-d_value)**j)
+        v_recovered += item.evalf(subs={t: t_value, d: d_value})
 
         print(simplex_matrix)
         print('----------------', i, '-----------------', j)
