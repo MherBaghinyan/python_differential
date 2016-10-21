@@ -1,6 +1,7 @@
 from TransformationUtils import *
 from simplex import *
 
+
 d = Symbol('d')
 t = Symbol('t')
 k = 2
@@ -90,6 +91,7 @@ differentiated = matrix_multi_differential(R_matrix, 0, 0, t_value, d_value)
 # print(matrix_multi_differential(R_matrix, 1, 2, 0.5, 0.03))
 
 v_recovered = 0
+strategies_recovered = [0 for x in range(len(R_matrix))]
 
 for i in range(0, k + 1):
     for j in range(0, k + 1):
@@ -106,7 +108,8 @@ for i in range(0, k + 1):
 
         item = V*((t-t_value)**i)*((d-d_value)**j)
         v_recovered += item.evalf(subs={t: t_value, d: d_value})
-
+        for n in range(0, length - 1):
+            strategies_recovered[n] += strategies[n] * ((t-t_value)**i)*((d-d_value)**j)
         print(simplex_matrix)
         print('----------------', i, '-----------------', j)
 
