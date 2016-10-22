@@ -103,16 +103,20 @@ for i in range(0, k + 1):
         strategies = [0 for x in range(length)]
         for n in range(1, length):
             strategies[n - 1] = tableu[n][0] * V
-        print(tableu[n][0])
-        print(strategies)
+        # print(tableu[n][0])
+        # print(strategies)
 
         item = V*((t-t_value)**i)*((d-d_value)**j)
         v_recovered += item.evalf(subs={t: t_value, d: d_value})
         for n in range(0, length - 1):
-            strategies_recovered[n] += strategies[n] * ((t-t_value)**i)*((d-d_value)**j)
+            s_item = strategies[n] * ((t-t_value)**i)*((d-d_value)**j)
+            strategies_recovered[n] += s_item.evalf(subs={t: t_value, d: d_value})
         print(simplex_matrix)
         print('----------------', i, '-----------------', j)
 
+
+print(v_recovered)
+print(strategies_recovered)
 
 z = [0.0, -1.0, -1.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0,  0.0,  0.0]
 x1 = [1.0,  (0.4 * (1.2 ** 2) + 0.4 * (0.3 ** 2) + 0.4 * (1.1 ** 2)) ** -1/2,  (0.4 * (1.2 ** 2) + 0.4 *(0.11 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.1 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2,  (0.4 * (1.2 ** 2) + 0.4 *(0.12 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.31 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2,  1.0,  0.0,  0.0,  0.0,  0.0]
