@@ -1,6 +1,7 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
 from Multiparametric import *
 from tkinter import *
+from sympy.parsing.sympy_parser import parse_expr
 
 rows = []
 for i in range(5):
@@ -8,7 +9,7 @@ for i in range(5):
     for j in range(5):
         e = Entry(relief=RIDGE)
         e.grid(row=i, column=j, sticky=NSEW)
-        e.insert(END, '%d.%d' % (i, j))
+        e.insert(END, 0.0)
         cols.append(e)
     rows.append(cols)
 
@@ -19,7 +20,7 @@ def on_press():
     for row in rows:
         j = 0
         for col in row:
-            z_matrix[i][j] = col.get()
+            z_matrix[i][j] = parse_expr(col.get())
             j += 1
             print(col.get())
         i += 1
