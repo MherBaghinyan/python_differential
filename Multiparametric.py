@@ -52,6 +52,34 @@ def prepare_matrix_for_simplex(R_matrix, i, j):
     return simplex_matrix
 
 
+def initiate_simplex_matrix(R_matrix):
+    v_recovered = 0
+    strategies_recovered = [0 for x in range(len(R_matrix))]
+
+    for i in range(0, k + 1):
+        for j in range(0, k + 1):
+            simplex_matrix = prepare_matrix_for_simplex(R_matrix, i, j)
+            tableu = simplex(simplex_matrix)
+            V = 1 / tableu[0][0]
+            print("V = ", V)
+            length = len(tableu)
+            strategies = [0 for x in range(length)]
+            for n in range(1, length):
+                strategies[n - 1] = tableu[n][0] * V
+            # print(tableu[n][0])
+            # print(strategies)
+
+            item = V*((t-t_value)**i)*((d-d_value)**j)
+            v_recovered += item.evalf(subs={t: t_value, d: d_value})
+            for n in range(0, length - 1):
+                s_item = strategies[n] * ((t-t_value)**i)*((d-d_value)**j)
+                strategies_recovered[n] += s_item.evalf(subs={t: t_value, d: d_value})
+            print(simplex_matrix)
+            print('----------------', i, '-----------------', j)
+
+            print(v_recovered)
+            print(strategies_recovered)
+
 R_matrix = [[(0.4 * (7/d ** 2) + 0.4 * (0.7/t ** 2) + 0.4 * (7.1/d ** 2)) ** -1/2,
              (0.4 * (4/d ** 2) + 0.4 * (0.5/t ** 2) + 0.4 * (4.2/d ** 2)) ** -1/2,
              (0.4 * (6/d ** 2) + 0.4 * (0.6/t ** 2) + 0.4 * (6.3/d ** 2)) ** -1/2,
@@ -90,33 +118,7 @@ differentiated = matrix_multi_differential(R_matrix, 0, 0, t_value, d_value)
 #print(differentiated)
 # print(matrix_multi_differential(R_matrix, 1, 2, 0.5, 0.03))
 
-v_recovered = 0
-strategies_recovered = [0 for x in range(len(R_matrix))]
-
-for i in range(0, k + 1):
-    for j in range(0, k + 1):
-        simplex_matrix = prepare_matrix_for_simplex(R_matrix, i, j)
-        tableu = simplex(simplex_matrix)
-        V = 1 / tableu[0][0]
-        print("V = ", V)
-        length = len(tableu)
-        strategies = [0 for x in range(length)]
-        for n in range(1, length):
-            strategies[n - 1] = tableu[n][0] * V
-        # print(tableu[n][0])
-        # print(strategies)
-
-        item = V*((t-t_value)**i)*((d-d_value)**j)
-        v_recovered += item.evalf(subs={t: t_value, d: d_value})
-        for n in range(0, length - 1):
-            s_item = strategies[n] * ((t-t_value)**i)*((d-d_value)**j)
-            strategies_recovered[n] += s_item.evalf(subs={t: t_value, d: d_value})
-        print(simplex_matrix)
-        print('----------------', i, '-----------------', j)
-
-
-print(v_recovered)
-print(strategies_recovered)
+# initiate_simplex_matrix(R_matrix)
 
 z = [0.0, -1.0, -1.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0,  0.0,  0.0]
 x1 = [1.0,  (0.4 * (1.2 ** 2) + 0.4 * (0.3 ** 2) + 0.4 * (1.1 ** 2)) ** -1/2,  (0.4 * (1.2 ** 2) + 0.4 *(0.11 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.1 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2,  (0.4 * (1.2 ** 2) + 0.4 *(0.12 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.31 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2,  1.0,  0.0,  0.0,  0.0,  0.0]
