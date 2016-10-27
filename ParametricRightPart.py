@@ -50,34 +50,34 @@ def prepare_matrix_for_simplex(s_matrix, right_vector, i):
     return simplex_matrix
 
 
-def initiate_simplex_matrix(s_matrix, right_vector, v_recovered, strategies_recovered):
-
+def initiate_simplex_matrix(s_matrix, right_vector, strategies_recovered):
+    v_recovered = 0
     for i in range(0, k + 1):
-           simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, i)
-           tableu = simplex(simplex_matrix)
-           V = 0
-           if tableu[0][0] != 0:
-               V = 1 / tableu[0][0]
-           print("V = ", V)
-           length = len(tableu)
-           strategies = [0 for x in range(length)]
-           for n in range(1, length):
-               strategies[n - 1] = tableu[n][0] * V
-           # print(tableu[n][0])
-           # print(strategies)
+        simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, i)
+        tableu = simplex(simplex_matrix)
+        V = 0
+        if tableu[0][0] != 0:
+            V = 1 / tableu[0][0]
+        print("V = ", V)
+        length = len(tableu)
+        strategies = [0 for x in range(length)]
+        for n in range(1, length):
+            strategies[n - 1] = tableu[n][0] * V
+        # print(tableu[n][0])
+        # print(strategies)
 
-           item = V*((t-t_value)**i)
-           v_recovered += item.evalf(subs={t: t_value})
-           for n in range(0, length - 1):
-               s_item = strategies[n] * ((t-t_value)**i)
-               strategies_recovered[n] += s_item.evalf(subs={t: t_value})
-           print(simplex_matrix)
-           print('----------------', i)
+        item = V*((t-t_value)**i)
+        v_recovered += item.evalf(subs={t: t_value})
+        for n in range(0, length - 1):
+            s_item = strategies[n] * ((t-t_value)**i)
+            strategies_recovered[n] += s_item.evalf(subs={t: t_value})
+        print(simplex_matrix)
+        print('----------------', i)
 
-           print(v_recovered)
-           print(strategies_recovered)
+        print(v_recovered)
+        print(strategies_recovered)
 
-           return v_recovered
+        return v_recovered
 
 z = [0.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0]
 x_b = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
@@ -87,6 +87,5 @@ x1 = [[179.95, 156.12, 90],
 
 v_recovered = 0
 strategies_recovered = [0 for x in range(len(x1))]
-
-initiate_simplex_matrix(x1, x_b)
+v_recovered = initiate_simplex_matrix(x1, x_b, strategies_recovered)
 
