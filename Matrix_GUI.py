@@ -26,7 +26,14 @@ def on_press():
         i += 1
         print()
 
-    initiate_simplex_matrix(z_matrix)
+    v_recovered = 0
+    strategies_recovered = [0 for x in range(len(z_matrix))]
+    v_recovered = initiate_simplex_matrix(z_matrix, v_recovered, strategies_recovered)
+
+    v_label = Label(text=v_recovered)
+    v_label.pack()
+    s_label = Label(text=strategies_recovered)
+    s_label.pack()
 
 Button(text='Fetch', command=on_press).grid()
 mainloop()
