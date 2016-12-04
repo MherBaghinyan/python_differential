@@ -79,7 +79,6 @@ def initiate_simplex_matrix(s_matrix, right_vector, strategies_recovered):
 
         return v_recovered
 
-z = [0.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0]
 x_b = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
 x1 = [[179.95, 156.12, 90],
       [89.95, 179.87, 155],

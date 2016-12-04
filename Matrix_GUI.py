@@ -23,9 +23,10 @@ z_matrix = [[0] * len(rows) for x in range(len(rows))]
 
 strategies_recovered = [0 for x in range(len(z_matrix))]
 
-v_label = Label(root, text=v_recovered).grid(row=0, column=6)
+v_label = Label(root, text=v_recovered).grid(row=6, column=0)
 
-s_label = Label(root, text=strategies_recovered).grid(row=1, column=7)
+s_label = Label(root, text=strategies_recovered).grid(row=7, column=0)
+
 
 def on_press():
     i = 0

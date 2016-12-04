@@ -5,7 +5,7 @@ from tkinter import *
 
 root = Tk()
 root.title("Parametric game model solver")
-root.geometry("700x500")
+root.geometry("700x700")
 
 
 def evaluate(event):
@@ -20,19 +20,6 @@ transformationEntry.bind('<Return>', evaluate)
 transformationEntry.pack(padx=10, pady=1, side=LEFT)
 transformationLabel = Label(root)
 transformationLabel.pack(padx=10)
-
-# rows = []
-# for i in range(5):
-#     cols = []
-#     for j in range(4):
-#         e = Entry(root, relief=RIDGE)
-#         e.grid(row=i, column=j, sticky=NSEW)
-#         e.insert(END, '%d.%d' % (i, j))
-#         cols.append(e)
-#     rows.append(cols)
-#
-# print(rows)
-
 
 var = StringVar(root)
 var.set("Cooperative")  # initial value
@@ -70,6 +57,36 @@ def create_window():
 
 b = Button(root, text="Create new window", command=create_window)
 b.pack()
+
+
+fields = 'm =', 'n ='
+
+def fetch(entries):
+   for entry in entries:
+      field = entry[0]
+      text  = entry[1].get()
+      print('%s: "%s"' % (field, text))
+
+def makeform(root, fields):
+   entries = []
+   for field in fields:
+      row = Frame(root)
+      lab = Label(row, width=15, text=field, anchor='w')
+      ent = Entry(row)
+      row.pack(side=TOP, fill=X, padx=5, pady=5)
+      lab.pack(side=LEFT)
+      ent.pack(side=RIGHT, expand=YES, fill=X)
+      entries.append((field, ent))
+   return entries
+
+
+matrix_sizes = makeform(root, fields)
+root.bind('<Return>', (lambda event, e=matrix_sizes: fetch(e)))
+b1 = Button(root, text='Show',
+      command=(lambda e=matrix_sizes: fetch(e)))
+b1.pack(side=LEFT, padx=5, pady=5)
+b2 = Button(root, text='Quit', command=root.quit)
+b2.pack(side=LEFT, padx=5, pady=5)
 
 
 root.mainloop()
