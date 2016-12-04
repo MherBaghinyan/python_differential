@@ -7,13 +7,31 @@ root = Tk()
 root.title("Multi Parametric game model solver")
 root.geometry("700x700")
 
+Label(root, text='N=').grid(row=0, column=0)
+n = Entry(root, relief=RIDGE)
+n.grid(row=0, column=1, sticky=NSEW)
+n.insert(END, 5)
+Label(root, text='M=').grid(row=1, column=0)
+m = Entry(root, relief=RIDGE)
+m.grid(row=1, column=1, sticky=NSEW)
+m.insert(END, 5)
+
+Label(root, text='K1').grid(row=0, column=2)
+k1 = Entry(root, relief=RIDGE)
+k1.grid(row=0, column=3, sticky=NSEW)
+k1.insert(END, 0)
+
+Label(root, text='K2').grid(row=1, column=2)
+k2 = Entry(root, relief=RIDGE)
+k2.grid(row=1, column=3, sticky=NSEW)
+k2.insert(END, 0)
 
 rows = []
 for i in range(5):
     cols = []
     for j in range(5):
         e = Entry(root, relief=RIDGE)
-        e.grid(row=i, column=j, sticky=NSEW)
+        e.grid(row=i + 2, column=j, sticky=NSEW)
         e.insert(END, 0.0)
         cols.append(e)
     rows.append(cols)
@@ -23,9 +41,9 @@ z_matrix = [[0] * len(rows) for x in range(len(rows))]
 
 strategies_recovered = [0 for x in range(len(z_matrix))]
 
-v_label = Label(root, text=v_recovered).grid(row=6, column=0)
+v_label = Label(root, text=v_recovered).grid(row=9, column=0)
 
-s_label = Label(root, text=strategies_recovered).grid(row=7, column=0)
+s_label = Label(root, text=strategies_recovered).grid(row=10, column=0)
 
 
 def on_press():
