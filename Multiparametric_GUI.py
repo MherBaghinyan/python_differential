@@ -36,24 +36,26 @@ t = Entry(root, relief=RIDGE)
 t.grid(row=3, column=3, sticky=NSEW, padx=5, pady=5)
 t.insert(END, 0.1)
 
+Label(root, text='Enter parametric game model below').grid(row=4, column=0)
+
 rows = []
 for i in range(5):
     cols = []
     for j in range(5):
         e = Entry(root, relief=RIDGE)
-        e.grid(row=i + 4, column=j, sticky=NSEW, padx=5, pady=5)
+        e.grid(row=i + 5, column=j, sticky=NSEW, padx=5, pady=5)
         e.insert(END, 0.0)
         cols.append(e)
     rows.append(cols)
 
-v_recovered = ''
+v_recovered = StringVar()
 z_matrix = [[0] * len(rows) for x in range(len(rows))]
 
 strategies_recovered = [0 for x in range(len(z_matrix))]
 
-v_label = Label(root, text=v_recovered).grid(row=11, column=0)
+v_label = Label(root, textvariable=v_recovered).grid(row=11, column=0)
 
-s_label = Label(root, text=strategies_recovered).grid(row=12, column=0)
+s_label = Label(root, textvariable=strategies_recovered).grid(row=12, column=0)
 
 
 def on_press():
@@ -68,7 +70,10 @@ def on_press():
         print()
 
     recover_value = 0
-    v_recovered = initiate_simplex_matrix(z_matrix, recover_value, strategies_recovered)
+    return_v = initiate_simplex_matrix(z_matrix, recover_value, strategies_recovered)
+
+    #set label values
+    v_recovered.set(return_v)
 
 
 Button(root, text='Solve', command=on_press).grid()
