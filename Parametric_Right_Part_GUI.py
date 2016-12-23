@@ -5,7 +5,7 @@ from sympy.parsing.sympy_parser import parse_expr
 
 root = Tk()
 root.title("One parameter game model solver")
-root.geometry("800x700")
+root.geometry("1100x700")
 
 Label(root, text='N=').grid(row=0, column=0)
 n = Entry(root, relief=RIDGE)
@@ -16,20 +16,10 @@ m = Entry(root, relief=RIDGE)
 m.grid(row=1, column=1, sticky=NSEW, padx=5, pady=5)
 m.insert(END, 5)
 
-Label(root, text='K1').grid(row=0, column=2)
+Label(root, text='K').grid(row=0, column=2)
 k1 = Entry(root, relief=RIDGE)
 k1.grid(row=0, column=3, sticky=NSEW, padx=5, pady=5)
 k1.insert(END, 0)
-
-Label(root, text='K2').grid(row=1, column=2)
-k2 = Entry(root, relief=RIDGE)
-k2.grid(row=1, column=3, sticky=NSEW, padx=5, pady=5)
-k2.insert(END, 0)
-
-Label(root, text='approximation center d=').grid(row=2, column=2)
-d = Entry(root, relief=RIDGE)
-d.grid(row=2, column=3, sticky=NSEW, padx=5, pady=5)
-d.insert(END, 0.5)
 
 Label(root, text='approximation center t=').grid(row=3, column=2)
 t = Entry(root, relief=RIDGE)
