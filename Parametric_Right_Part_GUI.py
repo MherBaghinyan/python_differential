@@ -26,6 +26,7 @@ t = Entry(root, relief=RIDGE)
 t.grid(row=3, column=3, sticky=NSEW, padx=5, pady=5)
 t.insert(END, 0.1)
 
+# enter matrix
 rows = []
 for i in range(5):
     cols = []
@@ -35,6 +36,21 @@ for i in range(5):
         e.insert(END, 0.0)
         cols.append(e)
     rows.append(cols)
+
+# enter separator labels
+for i in range(5):
+    Label(root, text='< =').grid(row=i + 4, column=8)
+
+
+# enter right side constraint vector
+vec_rows = []
+for i in range(5):
+    e = Entry(root, relief=RIDGE)
+    e.grid(row=i + 4, column=9, sticky=NSEW, padx=5, pady=5)
+    e.insert(END, 0.0)
+    vec_rows.append(e)
+
+Label(root, text='right side vector').grid(row=3, column=9)
 
 v_recovered = ''
 z_matrix = [[0] * len(rows) for x in range(len(rows))]
