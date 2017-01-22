@@ -52,10 +52,13 @@ v_recovered = StringVar()
 z_matrix = [[0] * len(rows) for x in range(len(rows))]
 
 strategies_recovered = [0 for x in range(len(z_matrix))]
+parametric_array = [0 for x in range(len(z_matrix))]
 
 v_label = Label(root, textvariable=v_recovered).grid(row=11, column=0)
 
 s_label = Label(root, textvariable=strategies_recovered).grid(row=12, column=0)
+
+p_label = Label(root, textvariable=strategies_recovered).grid(row=13, column=0)
 
 
 def on_press():
@@ -70,7 +73,7 @@ def on_press():
         print()
 
     recover_value = 0
-    return_v = initiate_simplex_matrix(z_matrix, recover_value, strategies_recovered)
+    return_v = initiate_simplex_matrix(z_matrix, recover_value, strategies_recovered, parametric_array)
 
     #set label values
     v_recovered.set(strategies_recovered)

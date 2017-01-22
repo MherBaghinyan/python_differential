@@ -83,7 +83,7 @@ def prepare_matrix_for_simplex(R_matrix, i, j):
     return simplex_matrix
 
 
-def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered):
+def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, parametric_array):
 
     for i in range(0, k + 1):
         for j in range(0, k + 1):
@@ -104,14 +104,16 @@ def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered):
             v_recovered += item.evalf(subs={t: t_value, d: d_value})
             for n in range(0, length - 1):
                 s_item = strategies[n] * ((t-t_value)**i)*((d-d_value)**j)
+                parametric_array[n] += s_item
                 strategies_recovered[n] += s_item.evalf(subs={t: t_value, d: d_value})
             print(simplex_matrix)
             print('----------------', i, '-----------------', j)
 
             print(v_recovered)
             print(strategies_recovered)
+            print(parametric_array)
 
-            return v_recovered
+            # return v_recovered
 
 #print(R_matrix)
 # print('---------------------------------------------------------------------------------')

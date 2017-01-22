@@ -58,10 +58,13 @@ z_matrix = [[0] * len(rows) for x in range(len(rows))]
 
 strategies_recovered = [0 for x in range(len(z_matrix))]
 
+parametric_array = [0 for x in range(len(z_matrix))]
+
 v_label = Label(root, text=v_recovered).grid(row=11, column=0)
 
 s_label = Label(root, text=strategies_recovered).grid(row=12, column=0)
 
+p_label = Label(root, textvariable=strategies_recovered).grid(row=14, column=0)
 
 def on_press():
     i = 0
@@ -75,7 +78,7 @@ def on_press():
         print()
 
     strategies_recovered = [0 for x in range(len(x1))]
-    v_recovered = initiate_simplex_matrix(x1, x_b, strategies_recovered)
+    v_recovered = initiate_simplex_matrix(x1, x_b, strategies_recovered, parametric_array)
 
 
 Button(root, text='Solve', command=on_press).grid()
