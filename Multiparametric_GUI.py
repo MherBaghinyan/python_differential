@@ -73,7 +73,7 @@ def on_press():
     return_v = initiate_simplex_matrix(z_matrix, recover_value, strategies_recovered)
 
     #set label values
-    v_recovered.set(return_v)
+    v_recovered.set(strategies_recovered)
 
 
 Button(root, text='Solve', command=on_press).grid()
