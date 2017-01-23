@@ -66,7 +66,7 @@ def initiate_simplex_matrix(s_matrix, right_vector, k_, t_value_, strategies_rec
         length = len(tableu)
         strategies = [0 for x in range(length - 1)]
         for n in range(1, length):
-            strategies[n - 1] = tableu[n][0] * V
+            strategies[n - 1] = tableu[n][0]
         # print(tableu[n][0])
         # print(strategies)
 
