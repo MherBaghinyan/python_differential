@@ -55,6 +55,7 @@ def initiate_simplex_matrix(s_matrix, right_vector, k_, t_value_, strategies_rec
     k = k_
     t_value = t_value_
     v_recovered = 0
+    v_parametric = 0
     for i in range(0, k + 1):
         simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, i)
         tableu = simplex(simplex_matrix)
@@ -70,6 +71,7 @@ def initiate_simplex_matrix(s_matrix, right_vector, k_, t_value_, strategies_rec
         # print(strategies)
 
         item = V*((t-t_value)**i)
+        v_parametric += item
         v_recovered += item.evalf(subs={t: t_value})
         for n in range(0, length - 1):
             s_item = strategies[n] * ((t-t_value)**i)
@@ -80,7 +82,11 @@ def initiate_simplex_matrix(s_matrix, right_vector, k_, t_value_, strategies_rec
         #
         # print(v_recovered)
         # print(strategies_recovered)
-        print(parametric_array)
+
+    print(strategies_recovered)
+    print(parametric_array)
+    print('pppppppppppppppppp', v_parametric)
+    print()
 
 
 # x_b = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
