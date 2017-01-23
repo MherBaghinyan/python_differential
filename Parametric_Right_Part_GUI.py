@@ -74,6 +74,7 @@ p_label = Label(root, textvariable=strategies_recovered).grid(row=14, column=0)
 
 parametric_array = [0 for x in range(len(x1))]
 
+
 def on_press():
     i = 0
     for row in rows:
@@ -91,10 +92,14 @@ def on_press():
         v += 1
         print(vec.get())
 
-    k = k1.get()
-    t_value = t.get()
+    k = parse_expr(k1.get())
+    t_value = parse_expr(t.get())
 
-    v_recovered = initiate_simplex_matrix(x1, x_b, k, t_value, strategies_recovered, parametric_array)
+    x_1 = [[179.95, 156.12, 90],
+          [89.95, 179.87, 155],
+          [180, 156, 177]]
+
+    v_recovered = initiate_simplex_matrix(x_1, x_b, k, t_value, strategies_recovered, parametric_array)
 
 
 Button(root, text='Solve', command=on_press).grid(row=30, column=9)
