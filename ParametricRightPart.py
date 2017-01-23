@@ -85,8 +85,9 @@ def initiate_simplex_matrix(s_matrix, right_vector, k_, t_value_, strategies_rec
 
     print(strategies_recovered)
     print(parametric_array)
-    print('pppppppppppppppppp', v_parametric)
+    print('parametric v', v_parametric)
     print()
+    return v_parametric
 
 
 # x_b = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]

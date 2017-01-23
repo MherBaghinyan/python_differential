@@ -66,11 +66,12 @@ x_b = [0 for x in range(len(rows))]
 
 strategies_recovered = [0 for x in range(len(x1))]
 
-v_label = Label(root, text=v_recovered).grid(row=11, column=0)
+v_recovered = StringVar()
+v_label = Label(root, textvariable=v_recovered).grid(row=11, column=0)
 
-s_label = Label(root, text=strategies_recovered).grid(row=12, column=0)
-
-p_label = Label(root, textvariable=strategies_recovered).grid(row=14, column=0)
+s_label = Label(root, textvariable=strategies_recovered).grid(row=12, column=0)
+p_recovered = StringVar()
+p_label = Label(root, textvariable=p_recovered).grid(row=14, column=0)
 
 parametric_array = [0 for x in range(len(x1))]
 
@@ -99,7 +100,9 @@ def on_press():
           [89.95, 179.87, 155],
           [180, 156, 177]]
 
-    v_recovered = initiate_simplex_matrix(x_1, x_b, k, t_value, strategies_recovered, parametric_array)
+    game_value = initiate_simplex_matrix(x_1, x_b, k, t_value, strategies_recovered, parametric_array)
+    v_recovered.set(game_value)
+    p_recovered.set(parametric_array)
 
 
 Button(root, text='Solve', command=on_press).grid(row=30, column=9)
