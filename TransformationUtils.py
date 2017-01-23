@@ -24,7 +24,7 @@ def item_transform(item, level):
         return item.evalf(subs={t: 0})
     derivative = diff(item, t, level)
     expr_with_value = derivative.evalf(subs={t: 0})
-    return int(expr_with_value / factorial(level))
+    return expr_with_value / factorial(level)
 
 def differential_transform(_matrix, level):
     "returns a differential of given matrix"

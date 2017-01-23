@@ -11,7 +11,7 @@ root.geometry("1100x700")
 m_value = 3
 n_value = 3
 k = 2
-t_value = 1.2
+t_value = 0
 
 Label(root, text='N=').grid(row=0, column=0)
 n = Entry(root, relief=RIDGE)

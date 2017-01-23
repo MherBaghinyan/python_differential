@@ -64,7 +64,7 @@ def initiate_simplex_matrix(s_matrix, right_vector, k_, t_value_, strategies_rec
             V = 1 / tableu[0][0]
         print("V = ", V)
         length = len(tableu)
-        strategies = [0 for x in range(length)]
+        strategies = [0 for x in range(length - 1)]
         for n in range(1, length):
             strategies[n - 1] = tableu[n][0] * V
         # print(tableu[n][0])
