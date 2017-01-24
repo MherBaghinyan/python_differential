@@ -13,21 +13,21 @@ n_value = 3
 k = 2
 t_value = 0
 
-Label(root, text='N=').grid(row=0, column=0)
+Label(root, text='N = ').grid(row=0, column=0)
 n = Entry(root, relief=RIDGE)
 n.grid(row=0, column=1, sticky=NSEW, padx=5, pady=5)
 n.insert(END, n_value)
-Label(root, text='M=').grid(row=1, column=0)
+Label(root, text='M = ').grid(row=1, column=0)
 m = Entry(root, relief=RIDGE)
 m.grid(row=1, column=1, sticky=NSEW, padx=5, pady=5)
 m.insert(END, m_value)
 
-Label(root, text='K').grid(row=0, column=2)
+Label(root, text='K = ').grid(row=0, column=2)
 k1 = Entry(root, relief=RIDGE)
 k1.grid(row=0, column=3, sticky=NSEW, padx=5, pady=5)
 k1.insert(END, k)
 
-Label(root, text='Parameter to work with = t').grid(row=0, column=4)
+Label(root, text='Parameter to work with = t').grid(row=0, column=9)
 
 Label(root, text='approximation center t =').grid(row=3, column=2)
 t = Entry(root, relief=RIDGE)
@@ -60,18 +60,22 @@ for i in range(n_value):
 
 Label(root, text='right side vector').grid(row=3, column=9)
 
-v_recovered = ''
 x1 = [[0] * len(rows) for x in range(len(rows))]
 x_b = [0 for x in range(len(rows))]
 
 strategies_recovered = [0 for x in range(len(x1))]
 
 v_recovered = StringVar()
-v_label = Label(root, textvariable=v_recovered).grid(row=11, column=0)
+v_label_msg = Label(root, text='Game value = ').grid(row=11, column=0)
+v_label = Label(root, textvariable=v_recovered).grid(row=11, column=1)
 
 s_label = Label(root, textvariable=strategies_recovered).grid(row=12, column=0)
-p_recovered = StringVar()
-p_label = Label(root, textvariable=p_recovered).grid(row=14, column=0)
+
+p_label_msg = Label(root, text='game strategy values = ').grid(row=14, column=0)
+
+p_recovered = [StringVar() for x in range(m_value)]
+for i in range(m_value):
+    p_label = Label(root, textvariable=p_recovered[i]).grid(row=14, column=i + 1)
 
 parametric_array = [0 for x in range(len(x1))]
 
@@ -102,7 +106,8 @@ def on_press():
 
     game_value = initiate_simplex_matrix(x_1, x_b, k, t_value, strategies_recovered, parametric_array)
     v_recovered.set(game_value)
-    p_recovered.set(parametric_array)
+    for p in range(m_value):
+        p_recovered[p].set(parametric_array[p])
 
 
 Button(root, text='Solve', command=on_press).grid(row=30, column=9)
