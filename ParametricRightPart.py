@@ -70,11 +70,11 @@ def initiate_simplex_matrix(s_matrix, right_vector, k_, t_value_, strategies_rec
         # print(tableu[n][0])
         # print(strategies)
 
-        item = V*((t-t_value)**i)
+        item = V*(t**i)
         v_parametric += item
         v_recovered += item.evalf(subs={t: t_value})
         for n in range(0, length - 1):
-            s_item = strategies[n] * ((t-t_value)**i)
+            s_item = strategies[n] * (t**i)
             parametric_array[n] += s_item
             strategies_recovered[n] += s_item.evalf(subs={t: t_value})
         # print(simplex_matrix)
