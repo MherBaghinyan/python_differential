@@ -68,14 +68,12 @@ def form_next_table(table, pivot_row, pivot_column):
         table[pivot_row][j] = pivot_vector[j]
 
     for i in range(0, rows):
+        ratio = table[i][pivot_column]
         if i == pivot_row:
             continue
         for j in range(0, columns):
-            table[i][j] -= pivot_vector[j] * table[i][pivot_column]
-
-
-
-
+            multiplier = pivot_vector[j] * ratio
+            table[i][j] -= multiplier
 
     return table
 
