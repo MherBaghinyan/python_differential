@@ -5,6 +5,47 @@ t = Symbol('t')
 k = 2
 t_value = 1
 
+
+# generate next image table
+def next_image_table(table, x_image, pivot_row, pivot_column):
+
+    columns = len(table[0])
+    rows = len(table)
+
+    pivot_value = table[pivot_row][pivot_column]
+
+    pivot_vector = [0 for x in range(columns)]
+    for j in range(0, columns):
+        pivot_vector[j] = table[pivot_row][j] / pivot_value
+        table[pivot_row][j] = pivot_vector[j]
+
+    # Xb images pivot row values
+    k_count = len(x_image)
+    for k in range(0, k_count):
+        x_image[k][pivot_row - 1] /= pivot_value
+
+    ratios = [0 for x in range(rows - 1)]
+    for i in range(0, rows):
+        ratio = table[i][pivot_column]
+        if i != 0:
+            ratios[i - 1] = ratio
+
+        if i == pivot_row:
+            continue
+        for j in range(0, columns):
+            multiplier = pivot_vector[j] * ratio
+            table[i][j] -= multiplier
+
+    # Xb images pivot row values
+    for k in range(0, k_count):
+        for i in range(0, rows - 1):
+            if i == pivot_row - 1:
+                continue
+            x_image[k][i] -= x_image[k][pivot_row - 1] * ratios[i]
+
+    return table
+
+
 #main simplex method
 def parametric_simplex(table, x_image):
 
@@ -19,7 +60,7 @@ def parametric_simplex(table, x_image):
     print("pivot row", pivot_row)
 
     while pivot_column >= 0:
-        table = form_next_table(table, pivot_row, pivot_column)
+        table = next_image_table(table, x_image, pivot_row, pivot_column)
         printTableu(table)
 
         if not any([n for n in array if n < 0]):
@@ -47,37 +88,30 @@ def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_, strategies
     simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, 0)
     tableu = parametric_simplex(simplex_matrix, x_b_image_matrix)
 
-    for i in range(0, k + 1):
-        simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, i)
-        tableu = simplex(simplex_matrix)
-        V = 0
-        if tableu[0][0] != 0:
-            V = 1 / tableu[0][0]
-        print("V = ", V)
-        length = len(tableu)
-        strategies = [0 for x in range(length - 1)]
-        for n in range(1, length):
-            strategies[n - 1] = tableu[n][0]
-        # print(tableu[n][0])
-        # print(strategies)
+    printTableu(x_b_image_matrix)
 
-        item = V*(t**i)
-        v_parametric += item
-        v_recovered += item.evalf(subs={t: t_value})
-        for n in range(0, length - 1):
-            s_item = strategies[n] * (t**i)
-            parametric_array[n] += s_item
-            strategies_recovered[n] += s_item.evalf(subs={t: t_value})
-        # print(simplex_matrix)
-        # print('----------------', i)
-        #
-        # print(v_recovered)
-        # print(strategies_recovered)
+    # for i in range(0, k + 1):
+    #     simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, i)
+    #     tableu = simplex(simplex_matrix)
+    #     V = 0
+    #     if tableu[0][0] != 0:
+    #         V = 1 / tableu[0][0]
+    #     print("V = ", V)
+    #     length = len(tableu)
+    #     strategies = [0 for x in range(length - 1)]
+    #     for n in range(1, length):
+    #         strategies[n - 1] = tableu[n][0]
+    #     # print(tableu[n][0])
+    #     # print(strategies)
+    #
+    #     item = V*(t**i)
+    #     v_parametric += item
+    #     v_recovered += item.evalf(subs={t: t_value})
+    #     for n in range(0, length - 1):
+    #         s_item = strategies[n] * (t**i)
+    #         parametric_array[n] += s_item
+    #         strategies_recovered[n] += s_item.evalf(subs={t: t_value})
 
-    print(strategies_recovered)
-    print(parametric_array)
-    print('parametric v', v_parametric)
-    print()
     return v_parametric
 
 
@@ -92,16 +126,16 @@ parametric_array = [0 for x in range(len(x1))]
 
 parametric_simplex_solution(x1, x_b, k, t_value, strategies_recovered, parametric_array)
 
-tableu = []
-z = [0.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0]
-x1 = [1.1504, 179.95,  156.12, 90,  1.0,  0.0,  0.0]
-x2 = [1.1504, 89.95, 179.87, 155,   0.0,  1.0,  0.0]
-x3 = [1.1504, 180,  156, 177,  0.0,  0.0,  1.0]
-
-tableu.append(z)
-tableu.append(x1)
-tableu.append(x2)
-tableu.append(x3)
-
-tableu = simplex_mher(tableu)
+# tableu = []
+# z = [0.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0]
+# x1 = [1.1504, 179.95,  156.12, 90,  1.0,  0.0,  0.0]
+# x2 = [1.1504, 89.95, 179.87, 155,   0.0,  1.0,  0.0]
+# x3 = [1.1504, 180,  156, 177,  0.0,  0.0,  1.0]
+#
+# tableu.append(z)
+# tableu.append(x1)
+# tableu.append(x2)
+# tableu.append(x3)
+#
+# tableu = simplex_mher(tableu)
 

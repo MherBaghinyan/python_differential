@@ -107,11 +107,11 @@ def simplex(z, x_b, tableu):
 
 t = Symbol("t")
 
-z = [0.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0]
-x_b = [1.1504, 1.1504, 1.1504]
-x1 = [179.95 ,  156.12 , 90 ,  1.0,  0.0,  0.0]
-x2 = [89.95 , 179.87 , 155 ,   0.0,  1.0,  0.0]
-x3 = [180,  156 , 177 ,  0.0,  0.0,  1.0]
+z = [0.0, -3.0, -2.0, -5.0, 0.0,  0.0,  0.0]
+x_b = [40.0, 60.0, 30.0]
+x1 = [1.0 ,  2.0 , 1.0 ,  1.0,  0.0,  0.0]
+x2 = [3.0 , 0.0, 2.0,   0.0,  1.0,  0.0]
+x3 = [1.0,  4.0 , 0.0 ,  0.0,  0.0,  1.0]
 
 
 tableu = []
@@ -121,14 +121,14 @@ tableu.append(x3)
 
 tableu = simplex(z, x_b, tableu)
 
-V = 1 / z[0]
-print("Z = ", z)
-print("x_b = ", x_b)
-print("V = ", V)
-
-length = len(tableu)
-strategies = [0 for x in range(length)]
-for n in range(0, length):
-    print(length - n - 1, "n = ", x_b[length - n - 1])
-    strategies[n] = x_b[length - n - 1] * V
-print(strategies)
+# V = 1 / z[0]
+# print("Z = ", z)
+# print("x_b = ", x_b)
+# print("V = ", V)
+#
+# length = len(tableu)
+# strategies = [0 for x in range(length)]
+# for n in range(0, length):
+#     print(length - n - 1, "n = ", x_b[length - n - 1])
+#     strategies[n] = x_b[length - n - 1] * V
+# print(strategies)
