@@ -23,7 +23,6 @@ def find_largest_value(data):
 # finds entering column
 # column ==> in
 def find_entering_column(data):
-    location = 0
     max_negative = min([n for n in data if n < 0])
 
     if max_negative >= 0:
@@ -31,8 +30,7 @@ def find_entering_column(data):
 
     for m in range(1, len(data)):
         if data[m] == max_negative:
-            location = m
-            return location
+            return m
 
 
 # finds departing row
@@ -45,12 +43,12 @@ def find_departing_row(table, pivot_column):
         if table[i][pivot_column] > 0:
             values[i - 1] = table[i][0] / table[i][pivot_column]
         else:
-            values[i - 1] = 0
+            values[i - 1] = -1
 
-    max_value = min([n for n in values if n >= 0])
+    min_value = min([n for n in values if n >= 0])
     pivot_row = 0
     for i in range(0, rows):
-        if values[i] == max_value:
+        if values[i] == min_value:
             return i + 1
 
 
@@ -91,8 +89,18 @@ def simplex_mher(table):
     print("pivot column", pivot_column)
     print("pivot row", pivot_row)
 
-    table = form_next_table(table, pivot_row, pivot_column)
-    print(table)
+    while pivot_column >= 0:
+        table = form_next_table(table, pivot_row, pivot_column)
+        printTableu(table)
+
+        if not any([n for n in array if n < 0]):
+            break
+
+        array = table[0]
+        pivot_column = find_entering_column(array)
+        pivot_row = find_departing_row(table, pivot_column)
+
+    return table
 
 
 tableu = []
