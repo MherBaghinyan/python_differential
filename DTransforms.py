@@ -25,7 +25,7 @@ def a_addition(matrix, k):
     return result
 
 def x_image_transform(matrix, vector, index):
-    return a_addition(matrix, index) * differential_vector(vector, index)
+    return a_addition(matrix, index) * differential_vector(vector, index, 0)
 
 def last_part(matrix, vector, k):
     _length = len(matrix)

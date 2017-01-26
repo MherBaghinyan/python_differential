@@ -3,7 +3,7 @@ from ParametricRightPart import *
 
 t = Symbol('t')
 k = 2
-t_value = 1
+t_value = 0
 
 
 # generate next image table
@@ -82,11 +82,16 @@ def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_, strategies
     x_b_image_matrix = [[0] * len(right_vector) for x in range(k + 1)]
     for i in range(0, k + 1):
         for j in range(0, len(right_vector)):
-            image_vec = differential_vector(right_vector, i)
+            image_vec = differential_vector(right_vector, i, t_value)
             x_b_image_matrix[i][j] = image_vec[j]
 
-    simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, 0)
+    simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, 0, t_value)
     tableu = parametric_simplex(simplex_matrix, x_b_image_matrix)
+
+    for i in range(0, k + 1):
+        for j in range(0, len(right_vector)):
+            s_item = x_b_image_matrix[i][j] * (t**i)
+            parametric_array[j] += s_item
 
     printTableu(x_b_image_matrix)
 
@@ -116,15 +121,15 @@ def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_, strategies
 
 
 
-x_b = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
-x1 = [[179.95, 156.12, 90],
-      [89.95, 179.87, 155],
-      [180, 156, 177]]
+# x_b = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
+# x1 = [[179.95, 156.12, 90],
+#       [89.95, 179.87, 155],
+#       [180, 156, 177]]
+#
+# strategies_recovered = [0 for x in range(len(x1))]
+# parametric_array = [0 for x in range(len(x1))]
 
-strategies_recovered = [0 for x in range(len(x1))]
-parametric_array = [0 for x in range(len(x1))]
-
-parametric_simplex_solution(x1, x_b, k, t_value, strategies_recovered, parametric_array)
+# parametric_simplex_solution(x1, x_b, k, t_value, strategies_recovered, parametric_array)
 
 # tableu = []
 # z = [0.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0]

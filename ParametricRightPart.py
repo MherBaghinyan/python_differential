@@ -26,7 +26,7 @@ t_value = 1
 #     return z_matrix
 
 
-def prepare_matrix_for_simplex(s_matrix, right_vector, i):
+def prepare_matrix_for_simplex(s_matrix, right_vector, i, t_value):
     simplex_matrix = []
     _length = len(s_matrix)
     z = []
@@ -36,7 +36,7 @@ def prepare_matrix_for_simplex(s_matrix, right_vector, i):
     for z_i in range(0, _length):
         z.append(0.0)
     simplex_matrix.append(z)
-    vector_diff = differential_vector(right_vector, i)
+    vector_diff = differential_vector(right_vector, i, t_value)
     for m_i in range(0, _length):
         m_array = [0 for var in range(_length * 2 + 1)]
         for m_j in range(0, _length):
@@ -57,7 +57,7 @@ def initiate_simplex_matrix(s_matrix, right_vector, k_, t_value_, strategies_rec
     v_recovered = 0
     v_parametric = 0
     for i in range(0, k + 1):
-        simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, i)
+        simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, i, t_value)
         tableu = simplex(simplex_matrix)
         V = 0
         if tableu[0][0] != 0:

@@ -1,6 +1,6 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
 from Multiparametric import *
-from ParametricRightPart import *
+from Simplex_Parametric_Right import *
 from tkinter import *
 from sympy.parsing.sympy_parser import parse_expr
 
@@ -104,7 +104,7 @@ def on_press():
           [89.95, 179.87, 155],
           [180, 156, 177]]
 
-    game_value = initiate_simplex_matrix(x_1, x_b, k, t_value, strategies_recovered, parametric_array)
+    game_value = parametric_simplex_solution(x_1, x_b, k, t_value, strategies_recovered, parametric_array)
     v_recovered.set(game_value)
     for p in range(m_value):
         p_recovered[p].set(parametric_array[p])
