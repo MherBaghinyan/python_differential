@@ -32,29 +32,27 @@ def find_entering_column(data):
     for m in range(1, len(data)):
         if data[m] == max_negative:
             location = m
-
-    return location
+            return location
 
 
 # finds departing row
 #  returns number
 def find_departing_row(table, pivot_column):
     rows = len(table)
-    values = [0 for x in range(rows)]
+    values = [0 for x in range(rows - 1)]
 
     for i in range(1, rows):
-        if table[i][pivot_column] is not 0:
-            values[i] = table[i][0] / table[i][pivot_column]
+        if table[i][pivot_column] > 0:
+            values[i - 1] = table[i][0] / table[i][pivot_column]
         else:
-            values[i] = 0
+            values[i - 1] = 0
 
-    max_value = max(values)
+    max_value = min([n for n in values if n >= 0])
     pivot_row = 0
-    for i in range(1, rows):
+    for i in range(0, rows):
         if values[i] == max_value:
-            pivot_row = i
+            return i + 1
 
-    return pivot_row
 
 #generate next table
 def form_next_table(table, pivot_row, pivot_column):
@@ -76,6 +74,9 @@ def form_next_table(table, pivot_row, pivot_column):
             table[i][j] -= pivot_vector[j] * table[i][pivot_column]
 
 
+
+
+
     return table
 
 
@@ -92,9 +93,7 @@ def simplex_mher(table):
     print("pivot column", pivot_column)
     print("pivot row", pivot_row)
 
-    # table = form_next_table(table, pivot_row, pivot_column)
-
-    pivotOn()
+    table = form_next_table(table, pivot_row, pivot_column)
     print(table)
 
 
@@ -111,11 +110,14 @@ tableu.append(x3)
 
 tableu = simplex_mher(tableu)
 
-
-
-
-
-
-
-
-
+# z = [0.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0]
+# x_b = [1.1504, 1.1504, 1.1504]
+# x1 = [179.95 ,  156.12 , 90 ,  1.0,  0.0,  0.0]
+# x2 = [89.95 , 179.87 , 155 ,   0.0,  1.0,  0.0]
+# x3 = [180,  156 , 177 ,  0.0,  0.0,  1.0]
+#
+# tableu = []
+# tableu.append(z)
+# tableu.append(x1)
+# tableu.append(x2)
+# tableu.append(x3)
