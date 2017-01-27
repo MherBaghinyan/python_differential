@@ -76,8 +76,11 @@ def parametric_simplex(table, x_image):
 def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_, strategies_recovered, parametric_array):
     k = k_
     t_value = t_value_
-    v_recovered = 0
-    v_parametric = 0
+    game_parametric = 0
+
+    right_vector =[1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
+
+    # right_vector = [40 - t, 60 + 2*t, 30 - 7*t]
 
     x_b_image_matrix = [[0] * len(right_vector) for x in range(k + 1)]
     for i in range(0, k + 1):
@@ -86,6 +89,14 @@ def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_, strategies
             x_b_image_matrix[i][j] = image_vec[j]
 
     simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, 0, t_value)
+
+    # simplex_matrix = [
+    #     [0.0, -3, -2, -5, 0.0, 0.0, 0.0],
+    #     [40, 1.0, 2.0, 1.0, 1.0, 0.0, 0.0],
+    #     [60, 3.0, 0.0, 2.0, 0.0, 1.0, 0.0],
+    #     [30, 1.0, 4.0, 0.0, 0.0, 0.0, 1.0]
+    # ]
+
     tableu = parametric_simplex(simplex_matrix, x_b_image_matrix)
 
     for i in range(0, k + 1):
@@ -94,6 +105,14 @@ def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_, strategies
             parametric_array[j] += s_item
 
     printTableu(x_b_image_matrix)
+    game_parametric = sum(parametric_array)
+
+    print(parametric_array)
+    print(game_parametric)
+    print(1/sum(parametric_array))
+
+    for i in range(0, len(parametric_array)):
+        print(parametric_array[i].evalf(subs={t: t_value}))
 
     # for i in range(0, k + 1):
     #     simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, i)
@@ -117,7 +136,7 @@ def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_, strategies
     #         parametric_array[n] += s_item
     #         strategies_recovered[n] += s_item.evalf(subs={t: t_value})
 
-    return v_parametric
+    return game_parametric
 
 
 
@@ -143,4 +162,14 @@ def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_, strategies
 # tableu.append(x3)
 #
 # tableu = simplex_mher(tableu)
+
+
+    # right_vector = [40 - t, 60 + 2*t, 30 - 7*t]
+    #
+    # simplex_matrix = [
+    #     [0.0, -3, -2, -5, 0.0, 0.0, 0.0],
+    #     [40, 1.0, 2.0, 1.0, 1.0, 0.0, 0.0],
+    #     [60, 3.0, 0.0, 2.0, 0.0, 1.0, 0.0],
+    #     [30, 1.0, 4.0, 0.0, 0.0, 0.0, 1.0]
+    # ]
 
