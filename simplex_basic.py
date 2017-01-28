@@ -76,7 +76,7 @@ def form_next_table(table, pivot_row, pivot_column):
     return table
 
 
-#main simplex method
+# main simplex method
 def simplex_mher(table):
 
     columns = len(table[0])
@@ -105,16 +105,16 @@ def simplex_mher(table):
 
 tableu = []
 z = [0.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0]
-x1 = [1.1504, 179.95 ,  156.12 , 90 ,  1.0,  0.0,  0.0]
-x2 = [1.1504, 89.95 , 179.87 , 155 ,   0.0,  1.0,  0.0]
-x3 = [1.1504, 180,  156 , 177 ,  0.0,  0.0,  1.0]
+x1 = [1.1504, 179.95,  156.12, 90,  1.0,  0.0,  0.0]
+x2 = [1.1504, 89.95, 179.87, 155,   0.0,  1.0,  0.0]
+x3 = [1.1504, 180,  156, 177,  0.0,  0.0,  1.0]
 
 tableu.append(z)
 tableu.append(x1)
 tableu.append(x2)
 tableu.append(x3)
 
-tableu = simplex_mher(tableu)
+# tableu = simplex_mher(tableu)
 
 # z = [0.0, -3.0, -2.0, -5.0, 0.0,  0.0,  0.0]
 # x_b = [40.0, 60.0, 30.0]

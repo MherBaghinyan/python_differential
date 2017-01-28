@@ -1,9 +1,54 @@
 from simplex_basic import *
-from ParametricRightPart import *
+from TransformationUtils import *
 
 t = Symbol('t')
 k = 2
 t_value = 0
+
+
+def optimality_matrix_for_simplex(s_matrix):
+    simplex_matrix = []
+    _length = len(s_matrix[0])
+    z = []
+    z.append(0.0)
+    z.append(-1.0)
+    for z_i in range(0, _length):
+        z.append(0.0)
+    simplex_matrix.append(z)
+
+    m_j = 1
+    for m_i in range(0, _length):
+        m_array = [0.0 for var in range(_length + 2)]
+        m_array[0] = s_matrix[0][m_i]
+        m_array[1] = -s_matrix[1][m_i]
+        m_array[1 + m_j] = 1.0
+        m_j += 1
+        simplex_matrix.append(m_array)
+    return simplex_matrix
+
+
+def prepare_matrix_for_simplex(s_matrix, right_vector, i, t_value):
+    simplex_matrix = []
+    _length = len(s_matrix)
+    z = []
+    z.append(0.0)
+    for z_i in range(0, _length):
+        z.append(-1.0)
+    for z_i in range(0, _length):
+        z.append(0.0)
+    simplex_matrix.append(z)
+    vector_diff = differential_vector(right_vector, i, t_value)
+    for m_i in range(0, _length):
+        m_array = [0 for var in range(_length * 2 + 1)]
+        for m_j in range(0, _length):
+            m_array[0] = vector_diff[m_i]
+            m_array[m_j + 1] = s_matrix[m_i][m_j]
+            if m_i == m_j:
+                m_array[_length + m_j + 1] = 1.0
+            else:
+                m_array[_length + m_j + 1] = 0.0
+        simplex_matrix.append(m_array)
+    return simplex_matrix
 
 
 # generate next image table
@@ -113,6 +158,9 @@ def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_, strategies
     for i in range(0, len(parametric_array)):
         print(parametric_array[i].evalf(subs={t: t_value}))
 
+    optimality_matrix = optimality_matrix_for_simplex(x_b_image_matrix)
+    o_matrix = simplex_mher(optimality_matrix)
+    print(o_matrix)
     # for i in range(0, k + 1):
     #     simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, i)
     #     tableu = simplex(simplex_matrix)
