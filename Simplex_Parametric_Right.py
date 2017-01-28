@@ -76,7 +76,6 @@ def parametric_simplex(table, x_image):
 def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_, strategies_recovered, parametric_array):
     k = k_
     t_value = t_value_
-    game_parametric = 0
 
     right_vector =[1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
 
