@@ -1,5 +1,5 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
-from Multiparametric import *
+from cooperative import *
 from tkinter import *
 from sympy.parsing.sympy_parser import parse_expr
 
@@ -58,8 +58,7 @@ def on_press():
         i += 1
         print()
 
-    recover_value = 0
-    v_recovered = initiate_simplex_matrix(z_matrix, recover_value, strategies_recovered)
+    cooperative_matrix(z_matrix)
 
 
 Button(root, text='Solve', command=on_press).grid()

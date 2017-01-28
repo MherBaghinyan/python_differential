@@ -1,4 +1,4 @@
-from Simplex_Mher import *
+from simplex_basic import *
 from ParametricRightPart import *
 
 t = Symbol('t')
@@ -76,7 +76,6 @@ def parametric_simplex(table, x_image):
 def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_, strategies_recovered, parametric_array):
     k = k_
     t_value = t_value_
-    v_recovered = 0
     v_parametric = 0
 
     x_b_image_matrix = [[0] * len(right_vector) for x in range(k + 1)]

@@ -63,11 +63,17 @@ print(result)
 #
 print(result.evalf(subs={t: 0.02}))
 
-# iterated_matrix = S_matrix
-# for iteration in range(0, 1):
-#     iterated_matrix = exponential_matrix(iterated_matrix)
-#     print(iterated_matrix)
-#
+iterated_matrix = S_matrix
+
+
+def cooperative_matrix(matrix):
+    for iteration in range(0, 1):
+        matrix = exponential_matrix(matrix)
+        print(matrix)
+    return matrix
+
+# cooperative_matrix(iterated_matrix)
+
 # for iteration in range(0, 3):
 #     print(item_transformation(exp(-0.8*(item1-item2)), iteration))
 
