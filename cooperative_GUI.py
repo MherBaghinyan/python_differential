@@ -3,79 +3,83 @@ from cooperative import *
 from tkinter import *
 from sympy.parsing.sympy_parser import parse_expr
 
-root = Tk()
-root.title("Cooperative game model solver")
-root.geometry("1100x600")
 
+def cooperative_window(root, n_value, m_value):
+    cooperative_root = Toplevel(root)
+    cooperative_root.title("Cooperative game model solver")
+    cooperative_root.geometry("800x600")
 
-k = 2
-t_value = 0.1
-sympathy = 0.2
-iterations = 3
+    Label(cooperative_root, text='K').grid(row=0, column=1)
+    k1 = Entry(cooperative_root, relief=RIDGE)
+    k1.grid(row=0, column=2, sticky=NSEW, padx=5, pady=5)
+    k1.insert(END, 2)
 
-Label(root, text='N=').grid(row=0, column=0)
-n = Entry(root, relief=RIDGE)
-n.grid(row=0, column=1, sticky=NSEW, padx=5, pady=5)
-n.insert(END, 2)
-Label(root, text='M=').grid(row=1, column=0)
-m = Entry(root, relief=RIDGE)
-m.grid(row=1, column=1, sticky=NSEW, padx=5, pady=5)
-m.insert(END, 2)
+    Label(cooperative_root, text='Sympathy parameter = ').grid(row=0, column=3)
+    s1 = Entry(cooperative_root, relief=RIDGE)
+    s1.grid(row=0, column=4, sticky=NSEW, padx=5, pady=5)
+    s1.insert(END, 0.1)
 
-Label(root, text='K').grid(row=0, column=2)
-k1 = Entry(root, relief=RIDGE)
-k1.grid(row=0, column=3, sticky=NSEW, padx=5, pady=5)
-k1.insert(END, k)
+    Label(cooperative_root, text='approximation center t=').grid(row=3, column=1)
+    t1 = Entry(cooperative_root, relief=RIDGE)
+    t1.grid(row=3, column=2, sticky=NSEW, padx=5, pady=5)
+    t1.insert(END, 1.55)
 
-Label(root, text='Sympathy parameter = ').grid(row=0, column=4)
-s = Entry(root, relief=RIDGE)
-s.grid(row=0, column=5, sticky=NSEW, padx=5, pady=5)
-s.insert(END, sympathy)
+    Label(cooperative_root, text='iterations count = ').grid(row=3, column=4)
+    i_entry = Entry(cooperative_root, relief=RIDGE)
+    i_entry.grid(row=3, column=4, sticky=NSEW, padx=5, pady=5)
+    i_entry.insert(END, 1)
 
-Label(root, text='approximation center t=').grid(row=3, column=2)
-t = Entry(root, relief=RIDGE)
-t.grid(row=3, column=3, sticky=NSEW, padx=5, pady=5)
-t.insert(END, t_value)
+    # enter matrix
+    rows = []
+    for i in range(n_value):
+        cols = []
+        for j in range(m_value):
+            e = Entry(cooperative_root, relief=RIDGE)
+            e.grid(row=i + 4, column=j, sticky=NSEW, padx=5, pady=5)
+            e.insert(END, 0.0)
+            cols.append(e)
+        rows.append(cols)
 
-Label(root, text='iterations count = ').grid(row=3, column=4)
-i_entry = Entry(root, relief=RIDGE)
-i_entry.grid(row=3, column=5, sticky=NSEW, padx=5, pady=5)
-i_entry.insert(END, iterations)
+    z_matrix = [[0] * len(rows) for x in range(len(rows))]
 
-# enter matrix
-rows = []
-for i in range(2):
-    cols = []
-    for j in range(2):
-        e = Entry(root, relief=RIDGE)
-        e.grid(row=i + 4, column=j, sticky=NSEW, padx=5, pady=5)
-        e.insert(END, 0.0)
-        cols.append(e)
-    rows.append(cols)
+    # p_recovered = [[StringVar()] * m_value for x in range(n_value)]
+    #
+    # p_recovered[0][0].set('1')
+    # p_recovered[0][1].set('2')
+    # p_recovered[1][0].set('3')
+    # p_recovered[1][1].set('4')
+    #
+    # for i in range(n_value):
+    #     for j in range(m_value):
+    #         Label(cooperative_root, textvariable=p_recovered[i][j]).grid(row=10 + i, column=j)
 
-v_recovered = ''
-z_matrix = [[0] * len(rows) for x in range(len(rows))]
+    p_recovered = [StringVar() for x in range(m_value)]
+    for i in range(m_value):
+        Label(cooperative_root, textvariable=p_recovered[i]).grid(row=10 + i, column=1)
 
-strategies_recovered = [0 for x in range(len(z_matrix))]
+    def on_press():
+        i = 0
+        for row in rows:
+            j = 0
+            for col in row:
+                z_matrix[i][j] = parse_expr(col.get())
+                j += 1
+                print(col.get())
+            i += 1
+            print()
 
-v_label = Label(root, text=v_recovered).grid(row=11, column=0)
+            iterations = parse_expr(i_entry.get())
+            k = parse_expr(k1.get())
+            t_value = parse_expr(t1.get())
+            sympathy = parse_expr(s1.get())
 
-s_label = Label(root, text=strategies_recovered).grid(row=12, column=0)
+        result = cooperative_matrix(z_matrix, iterations, k, t_value, sympathy)
 
+        # for i in range(0, n_value):
+        #     for j in range(0, m_value):
+        #         p_recovered[i][j].set(result[i][j])
+        for i in range(0, m_value):
+            p_recovered[i].set(result[i])
 
-def on_press():
-    i = 0
-    for row in rows:
-        j = 0
-        for col in row:
-            z_matrix[i][j] = parse_expr(col.get())
-            j += 1
-            print(col.get())
-        i += 1
-        print()
-
-    cooperative_matrix(z_matrix, iterations, k, t_value, sympathy)
-
-
-Button(root, text='Solve', command=on_press).grid()
-mainloop()
+    Button(cooperative_root, text='Solve', command=on_press).grid(row=20, column=4)
+    cooperative_root.mainloop()

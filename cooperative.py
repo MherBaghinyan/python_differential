@@ -90,7 +90,7 @@ def get_matrix_b(matrix_a):
 
 def cooperative_matrix(matrix, iterations, k, t_value_, sympathy):
     t_value = t_value_
-    for iteration in range(0, 1):
+    for iteration in range(0, iterations):
         matrix_a = matrix
         matrix_b = get_matrix_b(matrix_a)
         matrix = exponential_matrix(matrix_a, matrix_b, k, t_value, sympathy)
