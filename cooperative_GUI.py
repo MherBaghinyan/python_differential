@@ -5,7 +5,13 @@ from sympy.parsing.sympy_parser import parse_expr
 
 root = Tk()
 root.title("Cooperative game model solver")
-root.geometry("1100x700")
+root.geometry("1100x600")
+
+
+k = 2
+t_value = 0.1
+sympathy = 0.2
+iterations = 3
 
 Label(root, text='N=').grid(row=0, column=0)
 n = Entry(root, relief=RIDGE)
@@ -19,12 +25,22 @@ m.insert(END, 2)
 Label(root, text='K').grid(row=0, column=2)
 k1 = Entry(root, relief=RIDGE)
 k1.grid(row=0, column=3, sticky=NSEW, padx=5, pady=5)
-k1.insert(END, 0)
+k1.insert(END, k)
+
+Label(root, text='Sympathy parameter = ').grid(row=0, column=4)
+s = Entry(root, relief=RIDGE)
+s.grid(row=0, column=5, sticky=NSEW, padx=5, pady=5)
+s.insert(END, sympathy)
 
 Label(root, text='approximation center t=').grid(row=3, column=2)
 t = Entry(root, relief=RIDGE)
 t.grid(row=3, column=3, sticky=NSEW, padx=5, pady=5)
-t.insert(END, 0.1)
+t.insert(END, t_value)
+
+Label(root, text='iterations count = ').grid(row=3, column=4)
+i_entry = Entry(root, relief=RIDGE)
+i_entry.grid(row=3, column=5, sticky=NSEW, padx=5, pady=5)
+i_entry.insert(END, iterations)
 
 # enter matrix
 rows = []
@@ -58,7 +74,7 @@ def on_press():
         i += 1
         print()
 
-    cooperative_matrix(z_matrix)
+    cooperative_matrix(z_matrix, iterations, k, t_value, sympathy)
 
 
 Button(root, text='Solve', command=on_press).grid()
