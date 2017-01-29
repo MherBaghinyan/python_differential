@@ -36,9 +36,9 @@ def create_multi_parameter_window():
 def create_help_window():
     print()
 
-Button(root, text='Cooperative game', command=create_cooperative_window).grid()
-Button(root, text='One parameter game', command=create_one_parameter_window).grid()
-Button(root, text='Multi parameter game', command=create_multi_parameter_window).grid()
-Button(root, text='Help', command=create_help_window).grid()
+Button(root, text='Cooperative game', command=create_cooperative_window).grid(padx=10, pady=10)
+Button(root, text='One parameter game', command=create_one_parameter_window).grid(padx=10, pady=10)
+Button(root, text='Multi parameter game', command=create_multi_parameter_window).grid(padx=10, pady=10)
+Button(root, text='Help', command=create_help_window).grid(padx=10, pady=10)
 
 root.mainloop()

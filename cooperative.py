@@ -7,17 +7,18 @@ S_matrix = [[1, -t], [t, 0]]
 print(S_matrix)
 
 
-def exponential_matrix(matrix, k, t_value, sympathy):
-    rows = len(matrix)
-    columns = len(matrix[0])
+def exponential_matrix(matrix_a, matrix_b, k, t_value, sympathy):
+    rows = len(matrix_a)
+    columns = len(matrix_a[0])
     e_matrix = [[0] * columns for x in range(rows)]
     for i in range(0, rows):
         for j in range(0, columns):
-            item = matrix[i][j]
-            if is_number(item):
-                e_matrix[i][j] = item*exp(-sympathy*(item - (-item)))
+            item1 = matrix_a[i][j]
+            item2 = matrix_b[i][j]
+            if is_number(item1):
+                e_matrix[i][j] = item1*exp(-sympathy*(item1 - item2))
             else:
-                e_matrix[i][j] = recover_exponential_image_values(item, exp(-sympathy*(item - (-item))), k)
+                e_matrix[i][j] = recover_exponential_image_values(item1, exp(-sympathy*(item1 - item2)), k)
     return e_matrix
 
 
@@ -73,20 +74,35 @@ def set_value_to_matrix(matrix, t_value):
     return e_matrix
 
 
+def get_matrix_b(matrix_a):
+    rows = len(matrix_a)
+    columns = len(matrix_a[0])
+    b_matrix = [[0] * columns for x in range(rows)]
+    for i in range(0, rows):
+        for j in range(0, columns):
+            item = matrix_a[i][j]
+            if is_number(item):
+                b_matrix[i][j] = item
+            else:
+                b_matrix[i][j] = -item
+    return b_matrix
+
+
 def cooperative_matrix(matrix, iterations, k, t_value_, sympathy):
     t_value = t_value_
     for iteration in range(0, 1):
-        matrix = exponential_matrix(matrix, k, t_value, sympathy)
+        matrix_a = matrix
+        matrix_b = get_matrix_b(matrix_a)
+        matrix = exponential_matrix(matrix_a, matrix_b, k, t_value, sympathy)
         print(matrix)
 
-    set_value_to_matrix(matrix, t_value)
-
-    return matrix
+    return set_value_to_matrix(matrix, t_value)
 
 
 # item1 = t
 # # print(multiply_images(item1, exp(-0.1*(item1-item2)), 2))
-# result = recover_exponential_image_values(item1, exp(-0.1*(item1-(-item1))), k)
+# result = recover_exponential_image_values(item1, exp(-0.8*(item1-(-item1))), k)
+# # recover_exponential_image_values(item1, exp(-sympathy*(item1 + item2)), k)
 # print(result)
 # #
 # print(result.evalf(subs={t: t_value}))
