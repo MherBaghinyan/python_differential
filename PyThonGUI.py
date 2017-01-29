@@ -41,18 +41,13 @@ def create_window():
     window = Toplevel(root)
     window.title("Cooperative game")
     window.geometry("500x500")
-    window_label = Label(window, text="Enter transformation level: ")
-    window_label.pack()
+    # window_label = Label(window, text="Enter transformation level: ")
+    # window_label.pack()
 
-    rows = []
-    for i in range(5):
-        cols = []
-        for j in range(5):
-            e = Entry(window, relief=RIDGE)
-            e.grid(row=i, column=j, sticky=NSEW)
-            e.insert(END, 0.0)
-            cols.append(e)
-        rows.append(cols)
+    Label(window, text='N=').grid(row=0, column=0)
+    n = Entry(window, relief=RIDGE)
+    n.grid(row=0, column=1, sticky=NSEW, padx=5, pady=5)
+    n.insert(END, 2)
 
 
 b = Button(root, text="Create new window", command=create_window)

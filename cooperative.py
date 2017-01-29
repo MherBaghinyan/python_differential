@@ -2,7 +2,7 @@ from TransformationUtils import *
 
 t = Symbol('t')
 t_value = 1.55
-k = 1
+k = 5
 S_matrix = [[1, -t], [t, 0]]
 print(S_matrix)
 
@@ -15,9 +15,9 @@ def exponential_matrix(matrix, k, t_value, sympathy):
         for j in range(0, columns):
             item = matrix[i][j]
             if is_number(item):
-                e_matrix[i][j] = item*exp(-sympathy*(item+item))
+                e_matrix[i][j] = item*exp(-sympathy*(item - (-item)))
             else:
-                e_matrix[i][j] = recover_exponential_image_values(item, exp(-sympathy*(item+item)), k)
+                e_matrix[i][j] = recover_exponential_image_values(item, exp(-sympathy*(item - (-item))), k)
     return e_matrix
 
 
@@ -30,7 +30,9 @@ def multiply_image_matrix(matrix, k):
 
 
 def item_transformation(item, level):
-    return diff(item, t, level) / factorial(level)
+    derivative = diff(item, t, level)
+    expr_with_value = derivative.evalf(subs={t: t_value})
+    return expr_with_value / factorial(level)
 
 
 def multiply_images(value1, value2, k_value):
@@ -67,11 +69,13 @@ def set_value_to_matrix(matrix, t_value):
                 e_matrix[i][j] = item
             else:
                 e_matrix[i][j] = item.evalf(subs={t: t_value})
+    print(e_matrix)
     return e_matrix
 
 
-def cooperative_matrix(matrix, iterations, k, t_value, sympathy):
-    for iteration in range(0, iterations):
+def cooperative_matrix(matrix, iterations, k, t_value_, sympathy):
+    t_value = t_value_
+    for iteration in range(0, 1):
         matrix = exponential_matrix(matrix, k, t_value, sympathy)
         print(matrix)
 
@@ -80,13 +84,12 @@ def cooperative_matrix(matrix, iterations, k, t_value, sympathy):
     return matrix
 
 
-# item1 = -t
-# item2 = t
+# item1 = t
 # # print(multiply_images(item1, exp(-0.1*(item1-item2)), 2))
-# result = recover_exponential_image_values(item1, exp(-0.8*(item1-item2)), k)
+# result = recover_exponential_image_values(item1, exp(-0.1*(item1-(-item1))), k)
 # print(result)
 # #
-# print(result.evalf(subs={t: 0.02}))
+# print(result.evalf(subs={t: t_value}))
 
 iterated_matrix = S_matrix
 # cooperative_matrix(iterated_matrix)
