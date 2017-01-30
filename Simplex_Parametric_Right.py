@@ -145,7 +145,7 @@ def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_, strategies
 
     for i in range(0, k + 1):
         for j in range(0, len(right_vector)):
-            s_item = x_b_image_matrix[i][j] * (t**i)
+            s_item = x_b_image_matrix[i][j] * ((t-t_value)**i)
             parametric_array[j] += s_item
 
     printTableu(x_b_image_matrix)
