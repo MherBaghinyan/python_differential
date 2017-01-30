@@ -40,7 +40,7 @@ def parametric_window(root, n_value, m_value):
         for j in range(m_value):
             e = Entry(parametric_root, relief=RIDGE)
             e.grid(row=i + 4, column=j, sticky=NSEW, padx=5, pady=5)
-            e.insert(END, x_1[i][j])
+            e.insert(END, 0.0)
             cols.append(e)
         rows.append(cols)
 
@@ -54,7 +54,7 @@ def parametric_window(root, n_value, m_value):
     for i in range(n_value):
         e = Entry(parametric_root, relief=RIDGE)
         e.grid(row=i + 4, column=9, sticky=NSEW, padx=5, pady=5)
-        e.insert(END, 1 + 0.1504*(1 - t))
+        e.insert(END, 0.0)
         vec_rows.append(e)
 
     Label(parametric_root, text='right side vector').grid(row=3, column=9)
@@ -97,8 +97,9 @@ def parametric_window(root, n_value, m_value):
 
         k = parse_expr(k1.get())
         t_value = parse_expr(t1.get())
+        parametric_array = [0 for x in range(len(x1))]
 
-        game_value = parametric_simplex_solution(x1, x_b, k, t_value, strategies_recovered, parametric_array)
+        game_value = parametric_simplex_solution(x_1, x_b, k, t_value, strategies_recovered, parametric_array)
         v_recovered.set(game_value)
         for p in range(m_value):
             p_recovered[p].set(parametric_array[p])

@@ -122,7 +122,7 @@ def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_, strategies
     k = k_
     t_value = t_value_
 
-    # right_vector =[1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
+    right_vector =[1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
 
     # right_vector = [40 - t, 60 + 2*t, 30 - 7*t]
 
