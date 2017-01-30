@@ -49,14 +49,14 @@ def exponential_c_values(image1, image2, k_value):
         return 1/multiply_images(image1, image2, 0)
     for k in range(0, k_value):
         item += exponential_c_values(image1, image2, k)*multiply_images(image1, image2, k_value - k)
-    return (1/multiply_images(image1, image2, 0))*item
+    return (1/multiply_images(image1, image2, 0))*(1/factorial(k_value) - item)
 
 
 def recover_exponential_image_values(image1, image2, k_value):
     item = 0
     for k in range(0, k_value + 1):
         item += t ** k * exponential_c_values(image1, image2, k)
-    return 1/item
+    return exp(t)/item
 
 
 def set_value_to_matrix(matrix, t_value):
