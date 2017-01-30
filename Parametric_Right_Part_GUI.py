@@ -7,7 +7,7 @@ from sympy.parsing.sympy_parser import parse_expr
 
 def parametric_window(root, n_value, m_value):
     parametric_root = Toplevel(root)
-    parametric_root.title("Cooperative game model solver")
+    parametric_root.title("Parametric game model solver")
     parametric_root.geometry("1200x600")
 
     k = 2
@@ -30,6 +30,9 @@ def parametric_window(root, n_value, m_value):
     t1.grid(row=3, column=3, sticky=NSEW, padx=5, pady=5)
     t1.insert(END, t_value)
 
+    x_1 = [[179.95, 156.12, 90],
+          [89.95, 179.87, 155],
+          [180, 156, 177]]
     # enter matrix
     rows = []
     for i in range(n_value):
@@ -37,7 +40,7 @@ def parametric_window(root, n_value, m_value):
         for j in range(m_value):
             e = Entry(parametric_root, relief=RIDGE)
             e.grid(row=i + 4, column=j, sticky=NSEW, padx=5, pady=5)
-            e.insert(END, 0.0)
+            e.insert(END, x_1[i][j])
             cols.append(e)
         rows.append(cols)
 
@@ -51,7 +54,7 @@ def parametric_window(root, n_value, m_value):
     for i in range(n_value):
         e = Entry(parametric_root, relief=RIDGE)
         e.grid(row=i + 4, column=9, sticky=NSEW, padx=5, pady=5)
-        e.insert(END, 0.0)
+        e.insert(END, 1 + 0.1504*(1 - t))
         vec_rows.append(e)
 
     Label(parametric_root, text='right side vector').grid(row=3, column=9)
@@ -95,11 +98,7 @@ def parametric_window(root, n_value, m_value):
         k = parse_expr(k1.get())
         t_value = parse_expr(t1.get())
 
-        x_1 = [[179.95, 156.12, 90],
-              [89.95, 179.87, 155],
-              [180, 156, 177]]
-
-        game_value = parametric_simplex_solution(x_1, x_b, k, t_value, strategies_recovered, parametric_array)
+        game_value = parametric_simplex_solution(x1, x_b, k, t_value, strategies_recovered, parametric_array)
         v_recovered.set(game_value)
         for p in range(m_value):
             p_recovered[p].set(parametric_array[p])
