@@ -1,6 +1,7 @@
 #http://www.python-course.eu/tkinter_entry_widgets.php
 from tkinter import *
 from cooperative_gui import *
+from Parametric_Right_Part_GUI import *
 
 root = Tk()
 root.title("Parametric game model solver")
@@ -22,11 +23,15 @@ m.insert(END, m_value)
 
 
 def create_cooperative_window():
+    n_value = parse_expr(n.get())
+    m_value = parse_expr(m.get())
     cooperative_window(root, n_value, m_value)
 
 
 def create_one_parameter_window():
-    print()
+    n_value = parse_expr(n.get())
+    m_value = parse_expr(m.get())
+    parametric_window(root, n_value, m_value)
 
 
 def create_multi_parameter_window():
