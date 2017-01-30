@@ -149,11 +149,10 @@ def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_, strategies
             parametric_array[j] += s_item
 
     printTableu(x_b_image_matrix)
-    game_parametric = sum(parametric_array)
+    game_parametric = 1/sum(parametric_array)
 
     print(parametric_array)
     print(game_parametric)
-    print(1/sum(parametric_array))
 
     for i in range(0, len(parametric_array)):
         print(parametric_array[i].evalf(subs={t: t_value}))
