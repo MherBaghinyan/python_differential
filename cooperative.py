@@ -18,44 +18,44 @@ def exponential_matrix(matrix_a, matrix_b, k, t_value, sympathy):
             if is_number(item1):
                 e_matrix[i][j] = item1*exp(-sympathy*(item1 - item2))
             else:
-                e_matrix[i][j] = recover_exponential_image_values(item1, exp(-sympathy*(item1 - item2)), k)
+                e_matrix[i][j] = recover_exponential_image_values(item1, exp(-sympathy*(item1 - item2)), k, t_value)
     return e_matrix
 
 
-def multiply_image_matrix(matrix, k):
-    _length = len(matrix)
-    z_matrix = [[0] * _length for x in range(_length)]
-    for l in range(0, k + 1):
-        z_matrix += np.dot(differential_transform(matrix, l), differential_transform(matrix, k - l))
-    return z_matrix
+# def multiply_image_matrix(matrix, k):
+#     _length = len(matrix)
+#     z_matrix = [[0] * _length for x in range(_length)]
+#     for l in range(0, k + 1):
+#         z_matrix += np.dot(differential_transform(matrix, l), differential_transform(matrix, k - l))
+#     return z_matrix
 
 
-def item_transformation(item, level):
+def item_transformation(item, level, t_value):
     derivative = diff(item, t, level)
     expr_with_value = derivative.evalf(subs={t: t_value})
     return expr_with_value / factorial(level)
 
 
-def multiply_images(value1, value2, k_value):
+def multiply_images(value1, value2, k_value, t_value):
     value = 0
     for l in range(0, k_value + 1):
-        value += item_transformation(value1, k_value - l) * item_transformation(value2, k_value)
+        value += item_transformation(value1, k_value - l, t_value) * item_transformation(value2, k_value, t_value)
     return value
 
 
-def exponential_c_values(image1, image2, k_value):
+def exponential_c_values(image1, image2, k_value, t_value):
     item = 0
     if k_value == 0:
-        return 1/multiply_images(image1, image2, 0)
+        return 1/multiply_images(image1, image2, 0, t_value)
     for k in range(0, k_value):
-        item += exponential_c_values(image1, image2, k)*multiply_images(image1, image2, k_value - k)
-    return (1/multiply_images(image1, image2, 0))*(1/factorial(k_value) - item)
+        item += exponential_c_values(image1, image2, k, t_value)*multiply_images(image1, image2, k_value - k, t_value)
+    return (1/multiply_images(image1, image2, 0, t_value))*(1/factorial(k_value) - item)
 
 
-def recover_exponential_image_values(image1, image2, k_value):
+def recover_exponential_image_values(image1, image2, k_value, t_value):
     item = 0
     for k in range(0, k_value + 1):
-        item += (t-t_value) ** k * exponential_c_values(image1, image2, k)
+        item += (t-t_value) ** k * exponential_c_values(image1, image2, k, t_value)
     return exp(t-t_value)/item
 
 
@@ -81,7 +81,7 @@ def get_matrix_b(matrix_a):
     for i in range(0, rows):
         for j in range(0, columns):
             item = matrix_a[i][j]
-            if is_number(item):
+            if is_number(item) and  not (i == 0 and j == 1):
                 b_matrix[i][j] = item
             else:
                 b_matrix[i][j] = -item
