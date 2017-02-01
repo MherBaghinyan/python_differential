@@ -24,10 +24,10 @@ def cooperative_window(root, n_value, m_value):
     t1.grid(row=3, column=2, sticky=NSEW, padx=5, pady=5)
     t1.insert(END, 1.55)
 
-    Label(cooperative_root, text='iterations count = ').grid(row=3, column=4)
-    i_entry = Entry(cooperative_root, relief=RIDGE)
-    i_entry.grid(row=3, column=4, sticky=NSEW, padx=5, pady=5)
-    i_entry.insert(END, 1)
+    # Label(cooperative_root, text='iterations count = ').grid(row=3, column=4)
+    # i_entry = Entry(cooperative_root, relief=RIDGE)
+    # i_entry.grid(row=3, column=4, sticky=NSEW, padx=5, pady=5)
+    # i_entry.insert(END, 1)
 
     # enter matrix
     rows = []
@@ -68,12 +68,12 @@ def cooperative_window(root, n_value, m_value):
             i += 1
             print()
 
-            iterations = parse_expr(i_entry.get())
+            # iterations = parse_expr(i_entry.get())
             k = parse_expr(k1.get())
             t_value = parse_expr(t1.get())
             sympathy = parse_expr(s1.get())
 
-        result = cooperative_matrix(z_matrix, iterations, k, t_value, sympathy)
+        result = cooperative_matrix(z_matrix, 1, k, t_value, sympathy)
 
         # for i in range(0, n_value):
         #     for j in range(0, m_value):
