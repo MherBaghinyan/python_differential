@@ -96,7 +96,7 @@ def cooperative_matrix(matrix, iterations, k, t_value_, sympathy):
         matrix = exponential_matrix(matrix_a, matrix_b, k, t_value, sympathy)
         print(matrix)
 
-    return set_value_to_matrix(matrix, t_value)
+    return matrix
 
 
 # item1 = t
