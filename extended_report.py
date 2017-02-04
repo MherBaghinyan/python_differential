@@ -6,7 +6,7 @@ from Simplex_Parametric_Right import *
 def report_window(root, matrix, vector, k_value):
     report_root = Toplevel(root)
     report_root.title("game model report")
-    report_root.geometry("1000x800")
+    report_root.geometry("1200x800")
     approx_centers = [0.0, 0.5, 1.5, 7.0]
     # top level bar
     Label(report_root, text=' K ').grid(row=0, column=0)

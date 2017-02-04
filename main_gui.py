@@ -2,6 +2,7 @@
 from tkinter import *
 from cooperative_gui import *
 from Parametric_Right_Part_GUI import *
+from help import *
 
 root = Tk()
 root.title("Parametric game model solver")
@@ -39,7 +40,7 @@ def create_multi_parameter_window():
 
 
 def create_help_window():
-    print()
+    help_window(root)
 
 Button(root, text='Cooperative game', command=create_cooperative_window).grid(padx=10, pady=10)
 Button(root, text='One parameter game', command=create_one_parameter_window).grid(padx=10, pady=10)
