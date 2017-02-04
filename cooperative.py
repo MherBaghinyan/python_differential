@@ -1,4 +1,4 @@
-from TransformationUtils import *
+from transformation_util import *
 
 t = Symbol('t')
 t_value = 1.55
@@ -16,7 +16,9 @@ def exponential_matrix(matrix_a, matrix_b, k, t_value, sympathy):
             item1 = matrix_a[i][j]
             item2 = matrix_b[i][j]
             if is_number(item1):
-                e_matrix[i][j] = item1*exp(-sympathy*(item1 - item2))
+                multiplied = float(item1*exp(-sympathy*(item1 - item2)))
+                # formatted = float("{0:.5f}".format(multiplied))
+                e_matrix[i][j] = multiplied
             else:
                 e_matrix[i][j] = recover_exponential_image_values(item1, exp(-sympathy*(item1 - item2)), k, t_value)
     return e_matrix

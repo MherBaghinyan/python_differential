@@ -1,5 +1,5 @@
 from simplex_basic import *
-from TransformationUtils import *
+from transformation_util import *
 
 t = Symbol('t')
 k = 2

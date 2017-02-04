@@ -3,6 +3,7 @@ from Multiparametric import *
 from Simplex_Parametric_Right import *
 from tkinter import *
 from sympy.parsing.sympy_parser import parse_expr
+from extended_report import *
 
 
 def parametric_window(root, n_value, m_value):
@@ -79,31 +80,39 @@ def parametric_window(root, n_value, m_value):
 
     parametric_array = [0 for x in range(len(x1))]
 
-    def on_press():
+    def get_x_1():
         i = 0
         for row in rows:
             j = 0
             for col in row:
                 x1[i][j] = parse_expr(col.get())
                 j += 1
-                print(col.get())
             i += 1
-            print()
+        return x_1
 
+    def get_x_b():
         v = 0
         for vec in vec_rows:
             x_b[v] = parse_expr(vec.get())
             v += 1
-            print(vec.get())
+        return x_b
 
+    def on_press():
         k = parse_expr(k1.get())
         t_value = parse_expr(t1.get())
         parametric_array = [0 for x in range(len(x1))]
 
-        game_value = parametric_simplex_solution(x1, x_b, k, t_value, strategies_recovered, parametric_array)
+        game_value = parametric_simplex_solution(get_x_1(), get_x_b(), k, t_value, strategies_recovered, parametric_array)
         v_recovered.set(game_value)
         for p in range(m_value):
             p_recovered[p].set(parametric_array[p])
 
-    Button(parametric_root, text='Solve', command=on_press).grid(row=30, column=9)
+    def on_extended_press():
+        k = parse_expr(k1.get())
+        report_window(parametric_root, get_x_1(), get_x_b(), k)
+
+    Button(parametric_root, text='Solve', command=on_press).grid(row=30, column=9, padx=10, pady=10)
+
+    Button(parametric_root, text='Get extended report', command=on_extended_press).grid(row=33, column=9, padx=10, pady=10)
+
     parametric_root.mainloop()

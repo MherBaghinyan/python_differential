@@ -5,7 +5,7 @@ from Parametric_Right_Part_GUI import *
 
 root = Tk()
 root.title("Parametric game model solver")
-root.geometry("400x400")
+root.geometry("360x300")
 
 n_value = 2
 m_value = 2
