@@ -101,9 +101,8 @@ def parametric_window(root, n_value, m_value):
         k = parse_expr(k1.get())
         t_value = parse_expr(t1.get())
         parametric_array = [0 for x in range(len(x1))]
-
-        game_value = parametric_simplex_solution(get_x_1(), get_x_b(), k, t_value, strategies_recovered, parametric_array)
-        v_recovered.set(game_value)
+        parametric_simplex_solution(get_x_1(), get_x_b(), k, t_value, parametric_array)
+        v_recovered.set(str(1/sum(parametric_array)))
         for p in range(m_value):
             p_recovered[p].set(parametric_array[p])
 
