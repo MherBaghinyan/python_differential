@@ -2,6 +2,7 @@
 from cooperative import *
 from tkinter import *
 from sympy.parsing.sympy_parser import parse_expr
+from cooperative_report_gui import *
 
 
 def cooperative_window(root, n_value, m_value):
@@ -76,6 +77,8 @@ def cooperative_window(root, n_value, m_value):
 
         for j in range(0, m_value):
             p_values[i].set(set_value_to_matrix(result, t_value))
+
+        graph_c_window(cooperative_root, result, t_value)
 
     Button(cooperative_root, text='Solve', command=on_press).grid(row=20, column=4)
     cooperative_root.mainloop()
