@@ -1,6 +1,7 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
 from tkinter import *
-from Simplex_Parametric_Right import *
+from simplex_parametric_right import *
+from graph_gui import *
 
 
 def report_window(root, matrix, vector, k_value):
@@ -10,10 +11,10 @@ def report_window(root, matrix, vector, k_value):
     approx_centers = [0.0, 0.5, 1.5, 7.0]
     # top level bar
     Label(report_root, text=' K ').grid(row=0, column=0)
-    Label(report_root, text=' t = ' + str(approx_centers[0]) + ' ').grid(row=0, column=1)
-    Label(report_root, text=' t = ' + str(approx_centers[1]) + ' ').grid(row=0, column=2)
-    Label(report_root, text=' t = ' + str(approx_centers[2]) + ' ').grid(row=0, column=3)
-    Label(report_root, text=' t = ' + str(approx_centers[3]) + ' ').grid(row=0, column=4)
+    Label(report_root, text=' t = ' + str(approx_centers[0]) + ' ').grid(row=0, column=1, sticky="nsew")
+    Label(report_root, text=' t = ' + str(approx_centers[1]) + ' ').grid(row=0, column=2, sticky="nsew")
+    Label(report_root, text=' t = ' + str(approx_centers[2]) + ' ').grid(row=0, column=3, sticky="nsew")
+    Label(report_root, text=' t = ' + str(approx_centers[3]) + ' ').grid(row=0, column=4, sticky="nsew")
 
     # left side bar
     for k in range(k_value + 1):
@@ -25,6 +26,7 @@ def report_window(root, matrix, vector, k_value):
     Label(report_root, text=' R2( t ) ').grid(row=k + 3, column=0)
     Label(report_root, text=' R3( t ) ').grid(row=k + 4, column=0)
 
+    v = 0
     length = len(approx_centers)
     for app in range(length):
         parametric_array = [0 for x in range(len(vector))]
@@ -36,9 +38,15 @@ def report_window(root, matrix, vector, k_value):
                 s_item += x_b_image_matrix[k][j]
             Label(report_root, text=str(s_item)).grid(row=k + 1, column=app + 1)
 
-        Label(report_root, text=str(1/sum(parametric_array))).grid(row=k + 1, column=app + 1)
+        v = 1/sum(parametric_array)
+        Label(report_root, text=str(v)).grid(row=k + 1, column=app + 1)
         Label(report_root, text=str(parametric_array[0])).grid(row=k + 2, column=app + 1)
         Label(report_root, text=str(parametric_array[0])).grid(row=k + 3, column=app + 1)
         Label(report_root, text=str(parametric_array[0])).grid(row=k + 4, column=app + 1)
+
+    def create_graph_window():
+        graph_window(report_root, v)
+
+    Button(report_root, text='draw graph', command=create_graph_window).grid(padx=10, pady=10)
 
     report_root.mainloop()

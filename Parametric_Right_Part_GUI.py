@@ -1,9 +1,9 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
-from Multiparametric import *
-from Simplex_Parametric_Right import *
+from multiparametric import *
+from simplex_parametric_right import *
 from tkinter import *
 from sympy.parsing.sympy_parser import parse_expr
-from extended_report import *
+from extended_report_gui import *
 
 
 def parametric_window(root, n_value, m_value):

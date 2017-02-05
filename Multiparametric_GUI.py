@@ -1,5 +1,5 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
-from Multiparametric import *
+from multiparametric import *
 from tkinter import *
 from sympy.parsing.sympy_parser import parse_expr
 
