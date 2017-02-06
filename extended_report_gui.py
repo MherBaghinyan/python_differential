@@ -41,12 +41,15 @@ def report_window(root, matrix, vector, k_value):
         v = 1/sum(parametric_array)
         Label(report_root, text=str(v)).grid(row=k + 1, column=app + 1)
         Label(report_root, text=str(parametric_array[0])).grid(row=k + 2, column=app + 1)
-        Label(report_root, text=str(parametric_array[0])).grid(row=k + 3, column=app + 1)
-        Label(report_root, text=str(parametric_array[0])).grid(row=k + 4, column=app + 1)
+        Label(report_root, text=str(parametric_array[1])).grid(row=k + 3, column=app + 1)
+        Label(report_root, text=str(parametric_array[2])).grid(row=k + 4, column=app + 1)
 
-    def create_graph_window():
-        graph_window(report_root, v)
+        def create_graph_window():
+            graph_window(report_root, v)
 
-    Button(report_root, text='draw graph', command=create_graph_window).grid(padx=10, pady=10)
+        Button(report_root, text='draw V(t) graph', command=create_graph_window).grid(row=k + 5, column=app + 1, padx=10, pady=10)
 
     report_root.mainloop()
+
+
+
