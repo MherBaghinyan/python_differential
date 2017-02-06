@@ -72,11 +72,11 @@ def cooperative_window(root, n_value, m_value):
 
         result = cooperative_matrix(z_matrix, 1, k, t_value, sympathy)
 
-        for i in range(0, m_value):
-            p_recovered[i].set(result[i])
-
-        for j in range(0, m_value):
-            p_values[i].set(set_value_to_matrix(result, t_value))
+        # for i in range(0, m_value):
+        #     p_recovered[i].set(result[i])
+        #
+        # for j in range(0, m_value):
+        #     p_values[i].set(set_value_to_matrix(result, t_value))
 
         graph_c_window(cooperative_root, result, t_value)
 
