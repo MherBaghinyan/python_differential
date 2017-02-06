@@ -83,7 +83,7 @@ def get_matrix_b(matrix_a):
     for i in range(0, rows):
         for j in range(0, columns):
             item = matrix_a[i][j]
-            if is_number(item) and  not (i == 0 and j == 1):
+            if i == j:
                 b_matrix[i][j] = item
             else:
                 b_matrix[i][j] = -item
