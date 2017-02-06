@@ -15,7 +15,7 @@ def cooperative_window(root, n_value, m_value):
     Label(cooperative_root, text='M = ').grid(row=1, column=0)
     Label(cooperative_root, text=m_value).grid(row=1, column=1)
 
-    Label(cooperative_root, text='K').grid(row=0, column=2)
+    Label(cooperative_root, text='K = ').grid(row=0, column=2)
     k1 = Entry(cooperative_root, relief=RIDGE)
     k1.grid(row=0, column=3, sticky=NSEW, padx=5, pady=5)
     k1.insert(END, 2)

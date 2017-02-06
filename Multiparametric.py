@@ -1,5 +1,5 @@
 from transformation_util import *
-from simplex import *
+from simplex_basic import *
 
 
 d = Symbol('d')
@@ -59,7 +59,7 @@ def matrix_multi_differential(matrix, t_level, d_level, t_value, d_value):
     return z_matrix
 
 
-def prepare_matrix_for_simplex(R_matrix, i, j):
+def prepare_matrix_for_simplex(R_matrix, i, j, t_value, d_value):
     simplex_matrix = []
     _length = len(R_matrix)
     z = []
@@ -83,12 +83,12 @@ def prepare_matrix_for_simplex(R_matrix, i, j):
     return simplex_matrix
 
 
-def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, parametric_array):
-
+def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, parametric_array, k1_value, k2_value, d_value, t_value):
+    k = k1_value
     for i in range(0, k + 1):
         for j in range(0, k + 1):
-            simplex_matrix = prepare_matrix_for_simplex(R_matrix, i, j)
-            tableu = simplex(simplex_matrix)
+            simplex_matrix = prepare_matrix_for_simplex(s_matrix, i, j, t_value, d_value)
+            tableu = simplex_mher(simplex_matrix)
             V = 0
             if tableu[0][0] != 0:
                 V = 1 / tableu[0][0]
@@ -119,7 +119,7 @@ def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, paramet
 # print('---------------------------------------------------------------------------------')
 # print(item_multi_transform((0.4 * (6/d ** 2) + 0.4 * (0.6/t ** 2) + 0.4 * (7.3/d ** 2)) ** -1/2, 0, 1, 0.5, 0.03))
 # print('---------------------------------------------------------------------------------')
-differentiated = matrix_multi_differential(R_matrix, 0, 0, t_value, d_value)
+# differentiated = matrix_multi_differential(R_matrix, 0, 0, t_value, d_value)
 #print(differentiated)
 # print(matrix_multi_differential(R_matrix, 1, 2, 0.5, 0.03))
 

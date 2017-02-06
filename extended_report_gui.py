@@ -4,7 +4,7 @@ from simplex_parametric_right import *
 from graph_gui import *
 
 
-def report_window(root, matrix, vector, k_value):
+def report_window(root, matrix, vector, k_value, t_value):
     report_root = Toplevel(root)
     report_root.title("game model report")
     report_root.geometry("1200x800")
