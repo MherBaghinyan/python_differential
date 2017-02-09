@@ -17,12 +17,12 @@ def multi_window(root, n_value, m_value):
     Label(multi_root, text='K1 = ').grid(row=0, column=2)
     k1 = Entry(multi_root, relief=RIDGE)
     k1.grid(row=0, column=3, sticky=NSEW, padx=5, pady=5)
-    k1.insert(END, 0)
+    k1.insert(END, 2)
 
     Label(multi_root, text='K2 = ').grid(row=1, column=2)
     k2 = Entry(multi_root, relief=RIDGE)
     k2.grid(row=1, column=3, sticky=NSEW, padx=5, pady=5)
-    k2.insert(END, 0)
+    k2.insert(END, 2)
 
     Label(multi_root, text='approximation center d=').grid(row=2, column=2)
     d = Entry(multi_root, relief=RIDGE)
