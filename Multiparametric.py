@@ -40,6 +40,14 @@ R_matrix = [[(0.4 * (7/d ** 2) + 0.4 * (0.7/t ** 2) + 0.4 * (7.1/d ** 2)) ** -1/
              (0.4 * (5/d ** 2) + 0.4 * (0.6/t ** 2) + 0.4 * (5.4/d ** 2)) ** -1/2]]
 
 
+def printTableu(tableu):
+ print('----------------------')
+ for row in tableu:
+  print (row)
+ print('----------------------')
+ return
+
+
 def item_multi_transform(item, t_level, d_level, value, d_value):
     if t_level == 0:
         return item.evalf(subs={t: value, d: d_value})
@@ -83,37 +91,25 @@ def prepare_matrix_for_simplex(R_matrix, i, j, t_value, d_value):
     return simplex_matrix
 
 
+def get_image_matrixes(s_matrix, k1_value, k2_value, d_value, t_value):
+    _length = len(s_matrix)
+    z_matrix = [[0] * _length for x in range(_length)]
+
+    image_matrixes = [z_matrix * (k1_value + 1) for x in range(k2_value + 1)]
+    for i in range(0, k1_value + 1):
+        for j in range(0, k2_value + 1):
+            image_matrixes[i][j] = matrix_multi_differential(s_matrix, i, j, d_value, t_value)
+    return image_matrixes
+
+
 def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, parametric_array, k1_value, k2_value, d_value, t_value):
-    k = k1_value
-    for i in range(0, k + 1):
-        for j in range(0, k + 1):
-            simplex_matrix = prepare_matrix_for_simplex(s_matrix, i, j, t_value, d_value)
-            tableu = simplex_mher(simplex_matrix)
-            V = 0
-            if tableu[0][0] != 0:
-                V = 1 / tableu[0][0]
-            print("V = ", V)
-            length = len(tableu)
-            strategies = [0 for x in range(length)]
-            for n in range(1, length):
-                strategies[n - 1] = tableu[n][0] * V
-            # print(tableu[n][0])
-            # print(strategies)
 
-            item = V*((t-t_value)**i)*((d-d_value)**j)
-            v_recovered += item.evalf(subs={t: t_value, d: d_value})
-            for n in range(0, length - 1):
-                s_item = strategies[n] * ((t-t_value)**i)*((d-d_value)**j)
-                parametric_array[n] += s_item
-                strategies_recovered[n] += s_item.evalf(subs={t: t_value, d: d_value})
-            print(simplex_matrix)
-            print('----------------', i, '-----------------', j)
+    image_matrixes = get_image_matrixes(s_matrix, k1_value, k2_value, t_value, d_value)
+    simplex_matrix = prepare_matrix_for_simplex(image_matrixes[0][0], k1_value, k2_value, t_value, d_value)
+    tableu = simplex_mher(simplex_matrix)
 
-            print(v_recovered)
-            print(strategies_recovered)
-            print(parametric_array)
+    printTableu(simplex_matrix)
 
-            # return v_recovered
 
 #print(R_matrix)
 # print('---------------------------------------------------------------------------------')
