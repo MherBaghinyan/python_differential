@@ -4,9 +4,9 @@ from simplex_basic import *
 
 d = Symbol('d')
 t = Symbol('t')
-k = 2
-d_value = 0.02
-t_value = 1.55
+# k = 2
+# d_value = 0.02
+# t_value = 1.55
 
 
 R_matrix = [[(0.4 * (7/d ** 2) + 0.4 * (0.7/t ** 2) + 0.4 * (7.1/d ** 2)) ** -1/2,
@@ -102,11 +102,69 @@ def get_image_matrixes(s_matrix, k1_value, k2_value, d_value, t_value):
     return image_matrixes
 
 
+def simplex_multi(table, image_matrixes, k1_value, k2_value):
+
+    columns = len(table[0])
+    rows = len(table) - 1
+
+    array = table[0]
+    pivot_column = find_entering_column(array)
+    pivot_row = find_departing_row(table, pivot_column)
+
+    print("pivot column", pivot_column)
+    print("pivot row", pivot_row)
+
+    while pivot_column >= 0:
+        table = next_image_table(table, pivot_row, pivot_column)
+
+        for k1 in range(0, k1_value + 1):
+            for k2 in range(0, k2_value + 1):
+                # pivot image row
+                image_matrix = image_matrixes[k1][k2]
+                next_image_table(image_matrix, pivot_row, pivot_column)
+                image_matrixes[k1][k2] = image_matrix
+
+        printTableu(table)
+
+        if not any([n for n in array if n < 0]):
+            break
+
+        array = table[0]
+        pivot_column = find_entering_column(array)
+        pivot_row = find_departing_row(table, pivot_column)
+
+    return table
+
+
+def next_image_table(table, pivot_row, pivot_column):
+
+    columns = len(table[0])
+    rows = len(table)
+
+    pivot_value = table[pivot_row][pivot_column]
+
+    # pivot row
+    pivot_vector = [0 for x in range(columns)]
+    for j in range(0, columns):
+        pivot_vector[j] = table[pivot_row][j] / pivot_value
+        table[pivot_row][j] = pivot_vector[j]
+
+    for i in range(0, rows):
+        ratio = table[i][pivot_column]
+        if i == pivot_row:
+            continue
+        for j in range(0, columns):
+            multiplier = pivot_vector[j] * ratio
+            table[i][j] -= multiplier
+
+    return table
+
+
 def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, parametric_array, k1_value, k2_value, d_value, t_value):
 
     image_matrixes = get_image_matrixes(s_matrix, k1_value, k2_value, t_value, d_value)
     simplex_matrix = prepare_matrix_for_simplex(image_matrixes[0][0], k1_value, k2_value, t_value, d_value)
-    tableu = simplex_mher(simplex_matrix)
+    tableu = simplex_multi(simplex_matrix, image_matrixes, k1_value, k2_value)
 
     printTableu(simplex_matrix)
 
