@@ -48,13 +48,19 @@ def printTableu(tableu):
  return
 
 
-def item_multi_transform(item, t_level, d_level, value, d_value):
+def item_multi_transform(item, t_level, d_level, t_value, d_value):
+    if t_level == 0 and d_level == 0:
+        return item.evalf(subs={t: t_value, d: d_value})
     if t_level == 0:
-        return item.evalf(subs={t: value, d: d_value})
+        d_derive = diff(item, d, d_level)
+        return d_derive.evalf(subs={t: t_value, d: d_value})
+    if d_level == 0:
+        d_derive = diff(item, t, t_level)
+        return d_derive.evalf(subs={t: t_value, d: d_value})
     derivative = diff(item, t, t_level)
     d_derive = diff(derivative, d, d_level)
-    expr_with_value = d_derive.evalf(subs={t: value, d: d_value})
-    return expr_with_value / factorial(t_level)
+    expr_with_value = d_derive.evalf(subs={t: t_value, d: d_value})
+    return expr_with_value
 
 
 def matrix_multi_differential(matrix, t_level, d_level, t_value, d_value):
@@ -67,9 +73,9 @@ def matrix_multi_differential(matrix, t_level, d_level, t_value, d_value):
     return z_matrix
 
 
-def prepare_matrix_for_simplex(R_matrix, i, j, t_value, d_value):
+def prepare_matrix_for_simplex(s_matrix, k1, k2, t_value, d_value):
     simplex_matrix = []
-    _length = len(R_matrix)
+    _length = len(s_matrix)
     z = []
     z.append(0.0)
     for z_i in range(0, _length):
@@ -77,7 +83,7 @@ def prepare_matrix_for_simplex(R_matrix, i, j, t_value, d_value):
     for z_i in range(0, _length):
         z.append(0.0)
     simplex_matrix.append(z)
-    base_matrix = matrix_multi_differential(R_matrix, i, j, t_value, d_value)
+    base_matrix = matrix_multi_differential(s_matrix, k1, k2, t_value, d_value)
     for m_i in range(0, _length):
         m_array = [0 for var in range(_length * 2 + 1)]
         for m_j in range(0, _length):
@@ -92,13 +98,13 @@ def prepare_matrix_for_simplex(R_matrix, i, j, t_value, d_value):
 
 
 def get_image_matrixes(s_matrix, k1_value, k2_value, d_value, t_value):
-    _length = len(s_matrix)
-    z_matrix = [[0] * _length for x in range(_length)]
 
-    image_matrixes = [z_matrix * (k1_value + 1) for x in range(k2_value + 1)]
+    simplex_matrix = prepare_matrix_for_simplex(s_matrix, 0, 0, t_value, d_value)
+
+    image_matrixes = [simplex_matrix * (k1_value + 1) for x in range(k2_value + 1)]
     for i in range(0, k1_value + 1):
         for j in range(0, k2_value + 1):
-            image_matrixes[i][j] = matrix_multi_differential(s_matrix, i, j, d_value, t_value)
+            image_matrixes[i][j] = prepare_matrix_for_simplex(s_matrix, i, j, t_value, d_value)
     return image_matrixes
 
 
@@ -115,13 +121,15 @@ def simplex_multi(table, image_matrixes, k1_value, k2_value):
     print("pivot row", pivot_row)
 
     while pivot_column >= 0:
-        table = next_image_table(table, pivot_row, pivot_column)
+
+        pivot_value = table[pivot_row][pivot_column]
+        table = next_image_table(table, pivot_row, pivot_column, pivot_value)
 
         for k1 in range(0, k1_value + 1):
             for k2 in range(0, k2_value + 1):
                 # pivot image row
                 image_matrix = image_matrixes[k1][k2]
-                next_image_table(image_matrix, pivot_row, pivot_column)
+                next_image_table(image_matrix, pivot_row, pivot_column, pivot_value)
                 image_matrixes[k1][k2] = image_matrix
 
         printTableu(table)
@@ -136,12 +144,10 @@ def simplex_multi(table, image_matrixes, k1_value, k2_value):
     return table
 
 
-def next_image_table(table, pivot_row, pivot_column):
+def next_image_table(table, pivot_row, pivot_column, pivot_value):
 
     columns = len(table[0])
     rows = len(table)
-
-    pivot_value = table[pivot_row][pivot_column]
 
     # pivot row
     pivot_vector = [0 for x in range(columns)]
@@ -163,7 +169,7 @@ def next_image_table(table, pivot_row, pivot_column):
 def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, parametric_array, k1_value, k2_value, d_value, t_value):
 
     image_matrixes = get_image_matrixes(s_matrix, k1_value, k2_value, t_value, d_value)
-    simplex_matrix = prepare_matrix_for_simplex(image_matrixes[0][0], k1_value, k2_value, t_value, d_value)
+    simplex_matrix = image_matrixes[0][0]
     tableu = simplex_multi(simplex_matrix, image_matrixes, k1_value, k2_value)
 
     printTableu(simplex_matrix)
