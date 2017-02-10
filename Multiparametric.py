@@ -78,8 +78,12 @@ def prepare_matrix_for_simplex(s_matrix, k1, k2, t_value, d_value):
     _length = len(s_matrix)
     z = []
     z.append(0.0)
+    if_zero_step = k1 == 0 and k2 == 0
     for z_i in range(0, _length):
-        z.append(-1.0)
+        if if_zero_step:
+            z.append(-1.0)
+        else:
+            z.append(0.0)
     for z_i in range(0, _length):
         z.append(0.0)
     simplex_matrix.append(z)
@@ -87,9 +91,12 @@ def prepare_matrix_for_simplex(s_matrix, k1, k2, t_value, d_value):
     for m_i in range(0, _length):
         m_array = [0 for var in range(_length * 2 + 1)]
         for m_j in range(0, _length):
-            m_array[0] = 1.0
+            if if_zero_step:
+                m_array[0] = 1.0
+            else:
+                m_array[0] = 0.0
             m_array[m_j + 1] = base_matrix[m_i][m_j]
-            if m_i == m_j:
+            if m_i == m_j and if_zero_step:
                 m_array[_length + m_j + 1] = 1.0
             else:
                 m_array[_length + m_j + 1] = 0.0
@@ -172,7 +179,11 @@ def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, paramet
     simplex_matrix = image_matrixes[0][0]
     tableu = simplex_multi(simplex_matrix, image_matrixes, k1_value, k2_value)
 
-    printTableu(simplex_matrix)
+    printTableu(tableu)
+    print('++++++++++++++++++++++++++++')
+    printTableu(image_matrixes[0][0])
+    print('++++++++++++++++++++++++++++')
+    printTableu(image_matrixes[1][0])
 
 
 #print(R_matrix)
