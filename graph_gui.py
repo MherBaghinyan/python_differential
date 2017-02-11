@@ -7,7 +7,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.figure import Figure
 
 
-def graph_window(root, item):
+def graph_window(root, item, parameter_start, parameter_end):
     graph_root = Toplevel(root)
     graph_root.title("game model graph")
     graph_root.geometry("600x600")
@@ -15,7 +15,13 @@ def graph_window(root, item):
     f = Figure(figsize=(5, 5), dpi=100)
     a = f.add_subplot(111)
 
-    point_vec = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6]
+    point_vec = []
+    points = 20
+    delta = (parameter_end - parameter_start) / points
+    step = 0
+    while len(point_vec) < points:
+        point_vec.append(parameter_start + step*delta)
+        step += 1
 
     func_vec = [0 for x in range(len(point_vec))]
 

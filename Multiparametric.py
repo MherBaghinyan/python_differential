@@ -136,8 +136,7 @@ def simplex_multi(table, image_matrixes, k1_value, k2_value):
             for k2 in range(0, k2_value + 1):
                 # pivot image row
                 image_matrix = image_matrixes[k1][k2]
-                next_image_table(image_matrix, pivot_row, pivot_column, pivot_value)
-                image_matrixes[k1][k2] = image_matrix
+                image_matrixes[k1][k2] = next_image_table(image_matrix, pivot_row, pivot_column, pivot_value)
 
         printTableu(table)
 

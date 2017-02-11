@@ -39,7 +39,7 @@ def create_one_parameter_window():
 def create_multi_parameter_window():
     n_value = parse_expr(n.get())
     m_value = parse_expr(m.get())
-    #multi_window(root, n_value, m_value)
+    multi_window(root, n_value, m_value)
 
 
 def create_help_window():

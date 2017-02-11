@@ -1,9 +1,11 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
+# http://docs.sympy.org/dev/modules/parsing.html
 from multiparametric import *
 from simplex_parametric_right import *
 from tkinter import *
 from sympy.parsing.sympy_parser import parse_expr
 from extended_report_gui import *
+from one_solution_gui import *
 
 
 def parametric_window(root, n_value, m_value):
@@ -67,12 +69,12 @@ def parametric_window(root, n_value, m_value):
     strategies_recovered = [0 for x in range(len(x1))]
 
     v_recovered = StringVar()
-    v_label_msg = Label(parametric_root, text='Game value = ').grid(row=11, column=0)
-    v_label = Label(parametric_root, textvariable=v_recovered).grid(row=11, column=1)
-
-    s_label = Label(parametric_root, textvariable=strategies_recovered).grid(row=12, column=0)
-
-    p_label_msg = Label(parametric_root, text='game strategy values = ').grid(row=14, column=0)
+    # v_label_msg = Label(parametric_root, text='Game value = ').grid(row=11, column=0)
+    # v_label = Label(parametric_root, textvariable=v_recovered).grid(row=11, column=1)
+    #
+    # s_label = Label(parametric_root, textvariable=strategies_recovered).grid(row=12, column=0)
+    #
+    # p_label_msg = Label(parametric_root, text='game strategy values = ').grid(row=14, column=0)
 
     p_recovered = [StringVar() for x in range(m_value)]
     for i in range(m_value):
@@ -101,14 +103,16 @@ def parametric_window(root, n_value, m_value):
         k = parse_expr(k1.get())
         t_value = parse_expr(t1.get())
         parametric_array = [0 for x in range(len(x1))]
-        parametric_simplex_solution(get_x_1(), get_x_b(), k, t_value, parametric_array)
-        v_recovered.set(str(1/sum(parametric_array)))
-        for p in range(m_value):
-            p_recovered[p].set(parametric_array[p])
+        #parametric_simplex_solution(get_x_1(), get_x_b(), k, t_value, parametric_array)
+        #v_recovered.set(str(1/sum(parametric_array)))
+        # for p in range(m_value):
+        #     p_recovered[p].set(parametric_array[p])
+        one_window(parametric_root, get_x_1(), get_x_b(), k, t_value)
 
     def on_extended_press():
         k = parse_expr(k1.get())
-        report_window(parametric_root, get_x_1(), get_x_b(), k)
+        t_value = parse_expr(t1.get())
+        report_window(parametric_root, get_x_1(), get_x_b(), k, t_value)
 
     Button(parametric_root, text='Solve', command=on_press).grid(row=30, column=9, padx=10, pady=10)
 
