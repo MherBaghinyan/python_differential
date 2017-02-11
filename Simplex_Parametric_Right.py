@@ -1,14 +1,12 @@
-# https://docs.scipy.org/doc/scipy-0.18.1/reference/tutorial/optimize.html
+# https://docs.scipy.org/doc/scipy-0.18.1/reference/tutorial/optimize.html#constrained-minimization-of-multivariate-scalar-functions-minimize
 from simplex_basic import *
 from transformation_util import *
-# from scipy import optimize
+from optimization_util import *
 t = Symbol('t')
 k = 2
 t_value = 0
 
 
-def nonlinear_optimality():
-    fun = lambda x: (x[0] - 1)**2 + (x[1] - 2.5)**2
 
 def optimality_matrix_for_simplex(s_matrix):
     simplex_matrix = []
