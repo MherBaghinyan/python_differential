@@ -31,7 +31,7 @@ def nonlinear_optimality(x_b_image_matrix, k, vector_len, t_value):
 
     print(res.x)
     print(math.isnan(float(res.x)))
-    return res.x
+    return res.x[0]
 
 
 def lamb(x):
