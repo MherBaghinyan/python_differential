@@ -10,7 +10,7 @@ from matplotlib.figure import Figure
 def graph_window(root, item, parameter_start, parameter_end):
     graph_root = Toplevel(root)
     graph_root.title("game model graph")
-    graph_root.geometry("600x600")
+    graph_root.geometry("700x700")
 
     f = Figure(figsize=(5, 5), dpi=100)
     a = f.add_subplot(111)
