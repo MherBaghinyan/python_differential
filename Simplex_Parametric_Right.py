@@ -1,10 +1,14 @@
+# https://docs.scipy.org/doc/scipy-0.18.1/reference/tutorial/optimize.html
 from simplex_basic import *
 from transformation_util import *
-
+# from scipy import optimize
 t = Symbol('t')
 k = 2
 t_value = 0
 
+
+def nonlinear_optimality():
+    fun = lambda x: (x[0] - 1)**2 + (x[1] - 2.5)**2
 
 def optimality_matrix_for_simplex(s_matrix):
     simplex_matrix = []
@@ -122,36 +126,52 @@ def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_, parametric
     k = k_
     t_value = t_value_
 
-    x_b_image_matrix = [[0] * len(right_vector) for x in range(k + 1)]
-    for i in range(0, k + 1):
-        for j in range(0, len(right_vector)):
-            image_vec = differential_vector(right_vector, i, t_value)
-            x_b_image_matrix[i][j] = image_vec[j]
+    solution = []
+    step_array = []
+    has_solution = true
 
-    simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, 0, t_value)
+    while has_solution:
 
-    tableu = parametric_simplex(simplex_matrix, x_b_image_matrix)
+        x_b_image_matrix = [[0] * len(right_vector) for x in range(k + 1)]
+        for i in range(0, k + 1):
+            for j in range(0, len(right_vector)):
+                image_vec = differential_vector(right_vector, i, t_value)
+                x_b_image_matrix[i][j] = image_vec[j]
 
-    for i in range(0, k + 1):
-        for j in range(0, len(right_vector)):
-            s_item = x_b_image_matrix[i][j] * ((t-t_value)**i)
-            parametric_array[j] += s_item
+        simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, 0, t_value)
 
-    printTableu(x_b_image_matrix)
-    game_parametric = 1/sum(parametric_array)
+        tableu = parametric_simplex(simplex_matrix, x_b_image_matrix)
 
-    print(parametric_array)
-    print(game_parametric)
+        for i in range(0, k + 1):
+            for j in range(0, len(right_vector)):
+                s_item = x_b_image_matrix[i][j] * ((t-t_value)**i)
+                parametric_array[j] += s_item
 
-    for i in range(0, len(parametric_array)):
-        print(parametric_array[i].evalf(subs={t: t_value}))
+        printTableu(x_b_image_matrix)
+        game_parametric = 1/sum(parametric_array)
 
-    optimality_matrix = optimality_matrix_for_simplex(x_b_image_matrix)
-    o_matrix = simplex_mher(optimality_matrix)
-    print(o_matrix)
+        print(parametric_array)
+        print(game_parametric)
 
-    return x_b_image_matrix
+        for i in range(0, len(parametric_array)):
+            print(parametric_array[i].evalf(subs={t: t_value}))
 
+        try:
+            optimality_matrix = optimality_matrix_for_simplex(x_b_image_matrix)
+            o_matrix = simplex_mher(optimality_matrix)
+            print(o_matrix)
+            if o_matrix[0][0] > t_value:
+                step_array.append(t_value)
+                step_array.append(o_matrix[0][0])
+                step_array.append(x_b_image_matrix)
+                solution.append(step_array)
+                t_value = o_matrix[0][0]
+            else:
+                break
+        except TypeError:
+            has_solution = false
+
+    return solution
 
 
 # x_b = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
