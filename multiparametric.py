@@ -118,7 +118,7 @@ def get_image_matrixes(s_matrix, k1_value, k2_value, d_value, t_value):
 def simplex_multi(table, image_matrixes, k1_value, k2_value):
 
     columns = len(table[0])
-    rows = len(table) - 1
+    rows = len(table)
 
     array = table[0]
     pivot_column = find_entering_column(array)
@@ -130,13 +130,16 @@ def simplex_multi(table, image_matrixes, k1_value, k2_value):
     while pivot_column >= 0:
 
         pivot_value = table[pivot_row][pivot_column]
-        table = next_image_table(table, pivot_row, pivot_column, pivot_value)
+        ratio_vec = [0 for x in range(rows)]
+        table = next_simplex_table(table, pivot_row, pivot_column, pivot_value, ratio_vec)
 
         for k1 in range(0, k1_value + 1):
             for k2 in range(0, k2_value + 1):
+                if k1 == 0 and k2 == 0:
+                    image_matrixes[k1][k2] = table
                 # pivot image row
                 image_matrix = image_matrixes[k1][k2]
-                image_matrixes[k1][k2] = next_image_table(image_matrix, pivot_row, pivot_column, pivot_value)
+                image_matrixes[k1][k2] = next_image_table(image_matrix, pivot_row, pivot_column, pivot_value, ratio_vec)
 
         printTableu(table)
 
@@ -150,7 +153,7 @@ def simplex_multi(table, image_matrixes, k1_value, k2_value):
     return table
 
 
-def next_image_table(table, pivot_row, pivot_column, pivot_value):
+def next_simplex_table(table, pivot_row, pivot_column, pivot_value, ratio_vec):
 
     columns = len(table[0])
     rows = len(table)
@@ -163,10 +166,32 @@ def next_image_table(table, pivot_row, pivot_column, pivot_value):
 
     for i in range(0, rows):
         ratio = table[i][pivot_column]
+        ratio_vec[i] = ratio
         if i == pivot_row:
             continue
         for j in range(0, columns):
             multiplier = pivot_vector[j] * ratio
+            table[i][j] -= multiplier
+
+    return table
+
+
+def next_image_table(table, pivot_row, pivot_column, pivot_value, ratio_vec):
+
+    columns = len(table[0])
+    rows = len(table)
+
+    # pivot row
+    pivot_vector = [0 for x in range(columns)]
+    for j in range(0, columns):
+        pivot_vector[j] = table[pivot_row][j] / pivot_value
+        table[pivot_row][j] = pivot_vector[j]
+
+    for i in range(0, rows):
+        if i == pivot_row:
+            continue
+        for j in range(0, columns):
+            multiplier = pivot_vector[j] * ratio_vec[i]
             table[i][j] -= multiplier
 
     return table
@@ -181,8 +206,21 @@ def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, paramet
     printTableu(tableu)
     print('++++++++++++++++++++++++++++')
     printTableu(image_matrixes[0][0])
-    print('++++++++++++++++++++++++++++')
+    print('****************************')
     printTableu(image_matrixes[1][0])
+
+    function_max_parametric = 0
+    for k1 in range(0, k1_value + 1):
+        for k2 in range(0, k2_value + 1):
+            current_image_table = image_matrixes[k1][k2]
+            f_image = current_image_table[0][0]
+            function_max_parametric += f_image*((t-t_value)**k1)*((d-d_value)**k2)
+
+    print(' parametric F max = ', function_max_parametric)
+    game_value = 1/function_max_parametric
+    print(' parametric Game value = ', game_value)
+
+    return game_value
 
 
 #print(R_matrix)
