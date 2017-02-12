@@ -6,7 +6,7 @@ from graph_gui import *
 
 def one_window(root, matrix, vector, k_value, t_value):
     one_root = Toplevel(root)
-    one_root.title("game model report")
+    one_root.title("game model solution")
     one_root.geometry("1200x800")
     # top level bar
     Label(one_root, text=' K ').grid(row=0, column=0)
