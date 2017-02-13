@@ -26,6 +26,8 @@ def one_window(root, matrix, vector, k_value, t_value):
 
     solution_matrix = parametric_simplex_solution(matrix, vector, k_value, t_value)
 
+    step = 0
+
     for s in range(len(solution_matrix)):
         each_step = solution_matrix[s]
         parameter_start = each_step[0]
@@ -36,21 +38,22 @@ def one_window(root, matrix, vector, k_value, t_value):
             s_item = 0
             for j in range(0, len(vector)):
                 s_item += x_b_image_matrix[k][j]
-            Label(one_root, text=str(s_item)).grid(row=(s+1)*k + 1, column=0 + 1)
+            Label(one_root, text=str(s_item)).grid(row=step + k + 1, column=0 + 1)
 
         parametric_array = get_parametric_array(x_b_image_matrix, len(vector), k)
         v = 1/sum(parametric_array)
-        Label(one_root, text=str(v)).grid(row=(s+1)*k + 2, column=0 + 1)
-        Label(one_root, text=str(parametric_array[0])).grid(row=(s+1)*k + 3, column=0 + 1)
-        Label(one_root, text=str(parametric_array[1])).grid(row=(s+1)*k + 4, column=0 + 1)
-        Label(one_root, text=str(parametric_array[2])).grid(row=(s+1)*k + 5, column=0 + 1)
+        Label(one_root, text=str(v)).grid(row=step + k + 2, column=0 + 1)
+        Label(one_root, text=str(parametric_array[0])).grid(row=step + k + 3, column=0 + 1)
+        Label(one_root, text=str(parametric_array[1])).grid(row=step + k + 4, column=0 + 1)
+        Label(one_root, text=str(parametric_array[2])).grid(row=step + k + 5, column=0 + 1)
 
         parametric_array = [0 for x in range(len(vector))]
 
         def create_graph_window():
             graph_window(one_root, v, parameter_start, parameter_end)
 
-        Button(one_root, text='draw V(t) graph', command=create_graph_window).grid(row=(s+1)*k + 6, column=0 + 1, padx=10, pady=10)
+        Button(one_root, text='draw V(t) graph', command=create_graph_window).grid(row=step + k + 6, column=0 + 1, padx=10, pady=10)
+        step = k + 7
 
     one_root.mainloop()
 
