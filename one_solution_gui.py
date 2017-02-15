@@ -47,6 +47,13 @@ def one_window(root, matrix, vector, k_value, t_value):
         Label(one_root, text=str(parametric_array[1])).grid(row=step + k + 4, column=0 + 1)
         Label(one_root, text=str(parametric_array[2])).grid(row=step + k + 5, column=0 + 1)
 
+        with open("Output.txt", "a") as text_file:
+            print("----------------------", file=text_file)
+            print("Game Value = {}".format(str(v)), file=text_file)
+            print("X1 = {}".format(str(parametric_array[0])), file=text_file)
+            print("X2 = {}".format(str(parametric_array[1])), file=text_file)
+            print("X3 = {}".format(str(parametric_array[2])), file=text_file)
+
         parametric_array = [0 for x in range(len(vector))]
 
         def create_graph_window():
