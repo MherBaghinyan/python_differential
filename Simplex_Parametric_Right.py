@@ -105,9 +105,12 @@ def parametric_simplex(table, x_image):
     print("pivot column", pivot_column)
     print("pivot row", pivot_row)
 
+    write_table_file(table)
+
     while pivot_column >= 0:
         table = next_image_table(table, x_image, pivot_row, pivot_column)
         printTableu(table)
+        write_table_file(table)
 
         if not any([n for n in array if n < 0]):
             break
