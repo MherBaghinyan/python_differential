@@ -6,6 +6,16 @@ def printTableu(tableu):
      return
 
 
+def write_table_file(table):
+    with open("Output.txt", "a") as text_file:
+        print('----------------------', file=text_file)
+    for row in table:
+        with open("Output.txt", "a") as text_file:
+            print(row, file=text_file)
+
+    return
+
+
 # finds largest value
 def find_largest_value(data):
     maximum = 0
