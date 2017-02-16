@@ -204,21 +204,32 @@ def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, paramet
     tableu = simplex_multi(simplex_matrix, image_matrixes, k1_value, k2_value)
 
     printTableu(tableu)
-    print('++++++++++++++++++++++++++++')
-    printTableu(image_matrixes[0][0])
-    print('****************************')
+    print('+++++++++++++ 0  1 +++++++++++++++')
+    printTableu(image_matrixes[0][1])
+    print('***************  [1][0] *************')
     printTableu(image_matrixes[1][0])
+
+    rows = len(s_matrix)
+
+    parametric_array = [0 for x in range(rows)]
 
     function_max_parametric = 0
     for k1 in range(0, k1_value + 1):
         for k2 in range(0, k2_value + 1):
             current_image_table = image_matrixes[k1][k2]
+            table_len = len(current_image_table[0])
+            for i in range(rows):
+                indice = int((table_len - 1) / 2) + 1
+                parametric_array[i] += current_image_table[0][indice + i]*((t-t_value)**k1)*((d-d_value)**k2)
+
             f_image = current_image_table[0][0]
             function_max_parametric += f_image*((t-t_value)**k1)*((d-d_value)**k2)
 
     print(' parametric F max = ', function_max_parametric)
     game_value = 1/function_max_parametric
     print(' parametric Game value = ', game_value)
+
+    print('parametric array = ', parametric_array)
 
     return game_value
 
@@ -255,3 +266,9 @@ p_item2 = 0.0034*((t-0.2)**1)*((d-0.5)**2) + 0.0085*((t-0.2)**2)*((d-0.5)**1)
 result = p_item + p_item1 + p_item2
 #print(result)
 #print(result.evalf(subs={t: 0.5, d: 0.2}))
+
+rows = len(R_matrix)
+parametric_array = [0 for x in range(rows)]
+v_recovered = 0
+strategies_recovered = [0 for x in range(rows)]
+initiate_simplex_matrix(R_matrix, v_recovered, strategies_recovered, parametric_array, 2, 2, 0.02, 1.55)
