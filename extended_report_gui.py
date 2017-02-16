@@ -44,7 +44,7 @@ def report_window(root, matrix, vector, k_value, t_value):
                     s_item += x_b_image_matrix[k][j]
                 Label(report_root, text=str(s_item)).grid(row=(s+1)*k + 1, column=app + 1)
 
-            parametric_array = get_parametric_array(x_b_image_matrix, len(vector), k)
+            parametric_array = get_parametric_array(x_b_image_matrix, len(vector), k, t_value)
             v = 1/sum(parametric_array)
             Label(report_root, text=str(v)).grid(row=(s+1)*k + 2, column=app + 1)
             Label(report_root, text=str(parametric_array[0])).grid(row=(s+1)*k + 3, column=app + 1)

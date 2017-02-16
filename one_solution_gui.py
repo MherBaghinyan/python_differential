@@ -33,6 +33,7 @@ def one_window(root, matrix, vector, k_value, t_value):
         parameter_start = each_step[0]
         parameter_end = each_step[1]
         x_b_image_matrix = each_step[2]
+        basis_vector = each_step[3]
 
         for k in range(0, k_value + 1):
             s_item = 0
@@ -40,7 +41,7 @@ def one_window(root, matrix, vector, k_value, t_value):
                 s_item += x_b_image_matrix[k][j]
             Label(one_root, text=str(s_item)).grid(row=step + k + 1, column=0 + 1)
 
-        parametric_array = get_parametric_array(x_b_image_matrix, len(vector), k)
+        parametric_array = get_parametric_array(x_b_image_matrix, len(vector), k, t_value, basis_vector)
         v = 1/sum(parametric_array)
         Label(one_root, text=str(v)).grid(row=step + k + 2, column=0 + 1)
         Label(one_root, text=str(parametric_array[0])).grid(row=step + k + 3, column=0 + 1)
