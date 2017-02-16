@@ -26,7 +26,6 @@ def report_window(root, matrix, vector, k_value, t_value):
     Label(report_root, text=' R2( t ) ').grid(row=k + 4, column=0)
     Label(report_root, text=' R3( t ) ').grid(row=k + 5, column=0)
 
-    v = 0
     length = len(approx_centers)
     for app in range(length):
 
@@ -37,6 +36,7 @@ def report_window(root, matrix, vector, k_value, t_value):
             parameter_start = each_step[0]
             parameter_end = each_step[1]
             x_b_image_matrix = each_step[2]
+            basis_vector = each_step[3]
 
             for k in range(0, k_value + 1):
                 s_item = 0
@@ -44,7 +44,12 @@ def report_window(root, matrix, vector, k_value, t_value):
                     s_item += x_b_image_matrix[k][j]
                 Label(report_root, text=str(s_item)).grid(row=(s+1)*k + 1, column=app + 1)
 
-            parametric_array = get_parametric_array(x_b_image_matrix, len(vector), k, t_value)
+            parametric_array = get_parametric_array(x_b_image_matrix, len(vector), k, t_value, basis_vector)
+            f_max = 0
+            for b in range(len(basis_vector)):
+                if basis_vector[b] <= len(basis_vector):
+                    f_max += basis_vector[b]
+
             v = 1/sum(parametric_array)
             Label(report_root, text=str(v)).grid(row=(s+1)*k + 2, column=app + 1)
             Label(report_root, text=str(parametric_array[0])).grid(row=(s+1)*k + 3, column=app + 1)

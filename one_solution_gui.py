@@ -4,7 +4,7 @@ from simplex_parametric_right import *
 from graph_gui import *
 
 
-def one_window(root, matrix, vector, k_value, t_value):
+def one_window(root, matrix, vector, z_array, k_value, t_value):
     one_root = Toplevel(root)
     one_root.title("game model solution")
     one_root.geometry("1200x800")
@@ -22,9 +22,7 @@ def one_window(root, matrix, vector, k_value, t_value):
     Label(one_root, text=' R2( t ) ').grid(row=k + 4, column=0)
     Label(one_root, text=' R3( t ) ').grid(row=k + 5, column=0)
 
-    v = 0
-
-    solution_matrix = parametric_simplex_solution(matrix, vector, k_value, t_value)
+    solution_matrix = parametric_simplex_solution(matrix, vector, z_array, k_value, t_value)
 
     step = 0
 
@@ -42,7 +40,16 @@ def one_window(root, matrix, vector, k_value, t_value):
             Label(one_root, text=str(s_item)).grid(row=step + k + 1, column=0 + 1)
 
         parametric_array = get_parametric_array(x_b_image_matrix, len(vector), k, t_value, basis_vector)
-        v = 1/sum(parametric_array)
+
+        for b in range(len(basis_vector)):
+            if basis_vector[b] > len(basis_vector):
+                parametric_array[b] = 0
+                basis_vector[b] = 1
+
+        v = 0
+        for i in range(len(basis_vector)):
+            v += parametric_array[i]*z_array[basis_vector[i] - 1]
+
         Label(one_root, text=str(v)).grid(row=step + k + 2, column=0 + 1)
         Label(one_root, text=str(parametric_array[0])).grid(row=step + k + 3, column=0 + 1)
         Label(one_root, text=str(parametric_array[1])).grid(row=step + k + 4, column=0 + 1)
@@ -50,7 +57,7 @@ def one_window(root, matrix, vector, k_value, t_value):
 
         with open("Output.txt", "a") as text_file:
             print("----------------------", file=text_file)
-            print("Game Value = {}".format(str(v)), file=text_file)
+            print("F max = {}".format(str(v)), file=text_file)
             print("X1 = {}".format(str(parametric_array[0])), file=text_file)
             print("X2 = {}".format(str(parametric_array[1])), file=text_file)
             print("X3 = {}".format(str(parametric_array[2])), file=text_file)
