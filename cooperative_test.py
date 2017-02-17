@@ -2,9 +2,139 @@
 from tkinter import *
 from sympy import *
 from sympy.parsing.sympy_parser import parse_expr
-from cooperative_report_gui import *
-import numpy as np
 
+t = Symbol('t')
+
+
+def exponential_matrix(matrix_a, matrix_b, k, t_value, sympathy):
+    rows = len(matrix_a)
+    columns = len(matrix_a[0])
+    e_matrix = [[0] * columns for x in range(rows)]
+    for i in range(0, rows):
+        for j in range(0, columns):
+            item1 = matrix_a[i][j]
+            item2 = matrix_b[i][j]
+            if is_number(item1):
+                multiplied = float(item1*exp(-sympathy*(item1 - item2)))
+                # formatted = float("{0:.5f}".format(multiplied))
+                e_matrix[i][j] = multiplied
+            else:
+                e_matrix[i][j] = recover_exponential_image_values(item1, exp(-sympathy*(item1 - item2)), k, t_value)
+    return e_matrix
+
+
+# def multiply_image_matrix(matrix, k):
+#     _length = len(matrix)
+#     z_matrix = [[0] * _length for x in range(_length)]
+#     for l in range(0, k + 1):
+#         z_matrix += np.dot(differential_transform(matrix, l), differential_transform(matrix, k - l))
+#     return z_matrix
+
+
+def item_transformation(item, level, t_value):
+    derivative = diff(item, t, level)
+    expr_with_value = derivative.evalf(subs={t: t_value})
+    return expr_with_value / factorial(level)
+
+
+def multiply_images(value1, value2, k_value, t_value):
+    value = 0
+    for l in range(0, k_value + 1):
+        value += item_transformation(value1, k_value - l, t_value) * item_transformation(value2, k_value, t_value)
+    return value
+
+
+def exponential_c_values(image1, image2, k_value, t_value):
+    item = 0
+    if k_value == 0:
+        return 1/multiply_images(image1, image2, 0, t_value)
+    for k in range(0, k_value):
+        item += exponential_c_values(image1, image2, k, t_value)*multiply_images(image1, image2, k_value - k, t_value)
+    return (1/multiply_images(image1, image2, 0, t_value))*(1/factorial(k_value) - item)
+
+
+def recover_exponential_image_values(image1, image2, k_value, t_value):
+    item = 0
+    for k in range(0, k_value + 1):
+        item += (t-t_value) ** k * exponential_c_values(image1, image2, k, t_value)
+    return exp(t-t_value)/item
+
+
+def set_value_to_matrix(matrix, t_value):
+    rows = len(matrix)
+    columns = len(matrix[0])
+    e_matrix = [[0] * columns for x in range(rows)]
+    for i in range(0, rows):
+        for j in range(0, columns):
+            item = matrix[i][j]
+            if is_number(item):
+                e_matrix[i][j] = item
+            else:
+                e_matrix[i][j] = item.evalf(subs={t: t_value})
+    print(e_matrix)
+    return e_matrix
+
+
+def get_matrix_b(matrix_a):
+    rows = len(matrix_a)
+    columns = len(matrix_a[0])
+    b_matrix = [[0] * columns for x in range(rows)]
+    for i in range(0, rows):
+        for j in range(0, columns):
+            item = matrix_a[i][j]
+            if i == j:
+                b_matrix[i][j] = item
+            else:
+                b_matrix[i][j] = -item
+    return b_matrix
+
+
+def cooperative_matrix(matrix, iterations, k, t_value_, sympathy):
+    t_value = t_value_
+    for iteration in range(0, iterations):
+        matrix_a = matrix
+        matrix_b = get_matrix_b(matrix_a)
+        matrix = exponential_matrix(matrix_a, matrix_b, k, t_value, sympathy)
+        print(matrix)
+
+    return matrix
+
+
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except TypeError:
+        return False
+
+
+def graph_c_window(root, matrix, t_value):
+    graph_c_root = Toplevel(root)
+    graph_c_root.title("cooperative game report")
+    graph_c_root.geometry("900x700")
+
+    xf = Frame(graph_c_root, relief=GROOVE, borderwidth=2)
+    Label(graph_c_root, text='parametric values of cooperation matrix ').place(relx=0.1, rely=0.10, anchor=NW)
+    xf.place(relx=0.1, rely=0.145, anchor=NW)
+
+
+    # enter matrix
+    for i in range(len(matrix)):
+        for j in range(len(matrix)):
+            Label(xf, text=str(matrix[i][j]), relief=GROOVE).grid(row=i + 1, column=j + 1, padx=10, pady=10)
+
+    pf = Frame(graph_c_root, relief=GROOVE, borderwidth=2)
+    pf.place(relx=0.1, rely=0.325, anchor=NW)
+
+    Label(graph_c_root, text='numerical values of cooperation matrix in  t = ' + str(t_value) + '').place(relx=0.1, rely=0.29, anchor=NW)
+
+    value_matrix = set_value_to_matrix(matrix, t_value)
+
+    for i in range(len(value_matrix)):
+        for j in range(len(value_matrix)):
+            Label(pf, text=str(value_matrix[i][j]), relief=RAISED, anchor=W).grid(row=i + 2 + len(matrix), column=j + 1, padx=10, pady=10)
+
+    graph_c_root.mainloop()
 
 
 def cooperative_window(root, n_value, m_value):
@@ -114,142 +244,8 @@ Button(root, text='Cooperative game', command=create_cooperative_window).grid(pa
 root.mainloop()
 
 
-def graph_c_window(root, matrix, t_value):
-    graph_c_root = Toplevel(root)
-    graph_c_root.title("cooperative game report")
-    graph_c_root.geometry("900x700")
-
-    xf = Frame(graph_c_root, relief=GROOVE, borderwidth=2)
-    Label(graph_c_root, text='parametric values of cooperation matrix ').place(relx=0.1, rely=0.10, anchor=NW)
-    xf.place(relx=0.1, rely=0.145, anchor=NW)
-
-
-    # enter matrix
-    for i in range(len(matrix)):
-        for j in range(len(matrix)):
-            Label(xf, text=str(matrix[i][j]), relief=GROOVE).grid(row=i + 1, column=j + 1, padx=10, pady=10)
-
-    pf = Frame(graph_c_root, relief=GROOVE, borderwidth=2)
-    pf.place(relx=0.1, rely=0.325, anchor=NW)
-
-    Label(graph_c_root, text='numerical values of cooperation matrix in  t = ' + str(t_value) + '').place(relx=0.1, rely=0.29, anchor=NW)
-
-    value_matrix = set_value_to_matrix(matrix, t_value)
-
-    for i in range(len(value_matrix)):
-        for j in range(len(value_matrix)):
-            Label(pf, text=str(value_matrix[i][j]), relief=RAISED, anchor=W).grid(row=i + 2 + len(matrix), column=j + 1, padx=10, pady=10)
-
-    graph_c_root.mainloop()
 
 
 
 
 
-t = Symbol('t')
-t_value = 1.55
-k = 5
-S_matrix = [[1, -t], [t, 0]]
-print(S_matrix)
-
-
-def exponential_matrix(matrix_a, matrix_b, k, t_value, sympathy):
-    rows = len(matrix_a)
-    columns = len(matrix_a[0])
-    e_matrix = [[0] * columns for x in range(rows)]
-    for i in range(0, rows):
-        for j in range(0, columns):
-            item1 = matrix_a[i][j]
-            item2 = matrix_b[i][j]
-            if is_number(item1):
-                multiplied = float(item1*exp(-sympathy*(item1 - item2)))
-                # formatted = float("{0:.5f}".format(multiplied))
-                e_matrix[i][j] = multiplied
-            else:
-                e_matrix[i][j] = recover_exponential_image_values(item1, exp(-sympathy*(item1 - item2)), k, t_value)
-    return e_matrix
-
-
-# def multiply_image_matrix(matrix, k):
-#     _length = len(matrix)
-#     z_matrix = [[0] * _length for x in range(_length)]
-#     for l in range(0, k + 1):
-#         z_matrix += np.dot(differential_transform(matrix, l), differential_transform(matrix, k - l))
-#     return z_matrix
-
-
-def item_transformation(item, level, t_value):
-    derivative = diff(item, t, level)
-    expr_with_value = derivative.evalf(subs={t: t_value})
-    return expr_with_value / factorial(level)
-
-
-def multiply_images(value1, value2, k_value, t_value):
-    value = 0
-    for l in range(0, k_value + 1):
-        value += item_transformation(value1, k_value - l, t_value) * item_transformation(value2, k_value, t_value)
-    return value
-
-
-def exponential_c_values(image1, image2, k_value, t_value):
-    item = 0
-    if k_value == 0:
-        return 1/multiply_images(image1, image2, 0, t_value)
-    for k in range(0, k_value):
-        item += exponential_c_values(image1, image2, k, t_value)*multiply_images(image1, image2, k_value - k, t_value)
-    return (1/multiply_images(image1, image2, 0, t_value))*(1/factorial(k_value) - item)
-
-
-def recover_exponential_image_values(image1, image2, k_value, t_value):
-    item = 0
-    for k in range(0, k_value + 1):
-        item += (t-t_value) ** k * exponential_c_values(image1, image2, k, t_value)
-    return exp(t-t_value)/item
-
-
-def set_value_to_matrix(matrix, t_value):
-    rows = len(matrix)
-    columns = len(matrix[0])
-    e_matrix = [[0] * columns for x in range(rows)]
-    for i in range(0, rows):
-        for j in range(0, columns):
-            item = matrix[i][j]
-            if is_number(item):
-                e_matrix[i][j] = item
-            else:
-                e_matrix[i][j] = item.evalf(subs={t: t_value})
-    print(e_matrix)
-    return e_matrix
-
-
-def get_matrix_b(matrix_a):
-    rows = len(matrix_a)
-    columns = len(matrix_a[0])
-    b_matrix = [[0] * columns for x in range(rows)]
-    for i in range(0, rows):
-        for j in range(0, columns):
-            item = matrix_a[i][j]
-            if i == j:
-                b_matrix[i][j] = item
-            else:
-                b_matrix[i][j] = -item
-    return b_matrix
-
-
-def cooperative_matrix(matrix, iterations, k, t_value_, sympathy):
-    t_value = t_value_
-    for iteration in range(0, iterations):
-        matrix_a = matrix
-        matrix_b = get_matrix_b(matrix_a)
-        matrix = exponential_matrix(matrix_a, matrix_b, k, t_value, sympathy)
-        print(matrix)
-
-    return matrix
-
-
-def is_number(s):
-    try:
-        float(s)
-        return True
-    except TypeError:
-        return False
