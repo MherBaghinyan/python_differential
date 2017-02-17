@@ -28,13 +28,13 @@ def optimality_matrix_for_simplex(s_matrix):
     return simplex_matrix
 
 
-def prepare_matrix_for_simplex(s_matrix, right_vector, i, t_value):
+def prepare_matrix_for_simplex(s_matrix, right_vector, z_array, i, t_value):
     simplex_matrix = []
     _length = len(s_matrix)
     z = []
     z.append(0.0)
     for z_i in range(0, _length):
-        z.append(-1.0)
+        z.append(-z_array[z_i])
     for z_i in range(0, _length):
         z.append(0.0)
     simplex_matrix.append(z)
@@ -93,7 +93,7 @@ def next_image_table(table, x_image, pivot_row, pivot_column):
 
 
 #main simplex method
-def parametric_simplex(table, x_image):
+def parametric_simplex(table, x_image, basis_vector):
 
     columns = len(table[0])
     rows = len(table) - 1
@@ -112,6 +112,8 @@ def parametric_simplex(table, x_image):
         printTableu(table)
         write_table_file(table)
 
+        basis_vector[pivot_row - 1] = pivot_column
+
         if not any([n for n in array if n < 0]):
             break
 
@@ -122,7 +124,7 @@ def parametric_simplex(table, x_image):
     return table
 
 
-def get_parametric_array(x_b_image_matrix, vec_len, k_):
+def get_parametric_array(x_b_image_matrix, vec_len, k_, t_value, basis_vector):
     parametric_array = [0 for x in range(vec_len)]
     for i in range(0, k + 1):
         for j in range(0, vec_len):
@@ -130,21 +132,24 @@ def get_parametric_array(x_b_image_matrix, vec_len, k_):
             parametric_array[j] += s_item
 
     printTableu(x_b_image_matrix)
-    game_parametric = 1/sum(parametric_array)
+    # game_parametric = 1/sum(parametric_array)
 
     print(parametric_array)
-    print(game_parametric)
+    # print(game_parametric)
 
     return parametric_array
 
 
-def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_):
+def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
     k = k_
     t_value = t_value_
 
     solution = []
     step_array = []
     has_solution = true
+
+    with open("Output.txt", "w") as text_file:
+        print('--------- GAME MODEL SOLUTION -------------', file=text_file)
 
     while has_solution:
 
@@ -154,8 +159,13 @@ def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_):
                 image_vec = differential_vector(right_vector, i, t_value)
                 x_b_image_matrix[i][j] = image_vec[j]
 
-        simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, 0, t_value)
-        tableu = parametric_simplex(simplex_matrix, x_b_image_matrix)
+        right_len = len(right_vector)
+        basis_vector = [0 for x in range(right_len)]
+        for j in range(right_len):
+            basis_vector[j] = right_len + j + 1
+
+        simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, z_array, 0, t_value)
+        tableu = parametric_simplex(simplex_matrix, x_b_image_matrix, basis_vector)
 
         try:
             new_max = nonlinear_optimality(x_b_image_matrix, k, len(right_vector), t_value)
@@ -165,7 +175,9 @@ def parametric_simplex_solution(s_matrix, right_vector, k_, t_value_):
                 step_array.append(t_value)
                 step_array.append(new_max)
                 step_array.append(x_b_image_matrix)
+                step_array.append(basis_vector)
                 solution.append(step_array)
+                step_array = []
                 t_value = new_max
             else:
                 break
