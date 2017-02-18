@@ -34,13 +34,13 @@ def parametric_window(root, n_value, m_value):
     t1.insert(END, t_value)
 
     # x_1 = [[179.95, 156.12, 90],
-    #       [89.95, 179.87, 155],
-    #       [180, 156, 177]]
+    #        [89.95, 179.87, 155],
+    #        [180, 156, 177]]
 
     x_1 = [
-        [1.0, 2.0, 1.0],
-        [3.0, 0.0, 2.0],
-        [1.0, 4.0, 0.0]
+        [1.0 + t, 2.0, 1.0],
+        [3.0 - 2.0*t, 0.0, 2.0],
+        [1.0 + 3.0*t, 4.0, 0.0]
     ]
 
     # enter matrix
@@ -59,6 +59,7 @@ def parametric_window(root, n_value, m_value):
         Label(parametric_root, text='< =').grid(row=i + 4, column=8)
 
     right_vector = [40 - t, 60 + 2*t, 30 - 7*t]
+    # right_vector = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
     # enter right side constraint vector
     vec_rows = []
     for i in range(n_value):
@@ -69,7 +70,7 @@ def parametric_window(root, n_value, m_value):
 
     Label(parametric_root, text='right side vector').grid(row=3, column=9)
     z_indice = i + 5
-    Label(parametric_root, text='right side vector').grid(row=z_indice, column=0)
+    Label(parametric_root, text='z vector').grid(row=z_indice, column=0)
 
     # enter z function vector
     z_init = [3, 2, 5]
