@@ -9,8 +9,8 @@ root = Tk()
 root.title("Parametric game model solver")
 root.geometry("360x300")
 
-n_value = 2
-m_value = 2
+n_value = 3
+m_value = 3
 
 Label(root, text='Enter payoff matrix metrics').grid(row=1, column=0)
 

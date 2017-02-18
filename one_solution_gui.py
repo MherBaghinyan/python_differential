@@ -35,7 +35,7 @@ def one_window(root, matrix, vector, z_array, k_value, t_value):
 
         for k in range(0, k_value + 1):
             image_matrix = image_matrixes[k]
-            columns = len(image_matrix[0])
+            printTableu(image_matrix)
             rows = len(image_matrix)
             s_item = 0
             for i in range(1, rows):
