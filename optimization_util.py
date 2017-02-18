@@ -10,14 +10,16 @@ def func(x, sign=1.0):
         return sign * x[0]
 
 
-def nonlinear_optimality(x_b_image_matrix, k, vector_len, t_value):
+def nonlinear_optimality(image_matrixes, k, vector_len, t_value):
 
     parametric_array = [0 for x in range(vector_len)]
 
     for i in range(0, k + 1):
-        for j in range(0, vector_len):
-            s_item = x_b_image_matrix[i][j] * ((t-t_value)**i)
-            parametric_array[j] += s_item
+        image_matrix = image_matrixes[i]
+        rows = len(image_matrix)
+        for j in range(1, rows):
+            s_item = image_matrix[j][0] * ((t-t_value)**i)
+            parametric_array[j - 1] += s_item
 
     cons = []
     for i in range(len(parametric_array)):

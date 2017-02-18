@@ -57,7 +57,7 @@ def prepare_matrix_for_simplex(s_matrix, right_vector, z_array, k_value, t_value
 
 
 # generate next image table
-def next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column):
+def next_image_table(table, image_matrixes, pivot_row, pivot_column):
 
     columns = len(table[0])
     rows = len(table)
@@ -106,7 +106,7 @@ def next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column):
 
 
 #main simplex method
-def parametric_simplex(table, image_matrixes, x_image, basis_vector):
+def parametric_simplex(table, image_matrixes, basis_vector):
 
     array = table[0]
     pivot_column = find_entering_column(array)
@@ -118,7 +118,7 @@ def parametric_simplex(table, image_matrixes, x_image, basis_vector):
     write_table_file(table)
 
     while pivot_column >= 0:
-        table = next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column)
+        table = next_image_table(table, image_matrixes, pivot_row, pivot_column)
         printTableu(table)
         write_table_file(table)
 
@@ -205,9 +205,9 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
         try:
             image_matrixes = get_image_matrixes(s_matrix, right_vector, z_array, k, t_value)
             simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, z_array, 0, t_value)
-            tableu = parametric_simplex(simplex_matrix, image_matrixes, x_b_image_matrix, basis_vector)
+            tableu = parametric_simplex(simplex_matrix, image_matrixes, basis_vector)
 
-            new_max = nonlinear_optimality(x_b_image_matrix, k, len(right_vector), t_value)
+            new_max = nonlinear_optimality(image_matrixes, k, len(right_vector), t_value)
             if math.isnan(float(new_max)):
                 break
             if new_max > t_value:
