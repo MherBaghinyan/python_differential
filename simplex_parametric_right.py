@@ -191,12 +191,6 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
 
     while has_solution:
 
-        x_b_image_matrix = [[0] * len(right_vector) for x in range(k + 1)]
-        for i in range(0, k + 1):
-            for j in range(0, len(right_vector)):
-                image_vec = differential_vector(right_vector, i, t_value)
-                x_b_image_matrix[i][j] = image_vec[j]
-
         right_len = len(right_vector)
         basis_vector = [0 for x in range(right_len)]
         for j in range(right_len):
