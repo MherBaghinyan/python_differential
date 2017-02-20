@@ -207,16 +207,28 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
 
             z_max = z_nonlinear_optimality(image_matrixes, x_b_image_matrix, k, len(right_vector), t_value)
 
-            if math.isnan(float(new_max)):
+            if math.isnan(float(new_max)) and math.isnan(float(z_max)):
                 break
-            if new_max > t_value:
+
+            compare_value = t_value
+
+            if not math.isnan(float(new_max)):
+                compare_value = new_max
+
+            if not math.isnan(float(z_max)):
+                compare_value = z_max
+
+            if (not math.isnan(float(z_max))) and (not math.isnan(float(new_max))) and new_max > z_max > t_value:
+                compare_value = z_max
+
+            if compare_value > t_value:
                 step_array.append(t_value)
-                step_array.append(new_max)
+                step_array.append(compare_value)
                 step_array.append(image_matrixes)
                 step_array.append(basis_vector)
                 solution.append(step_array)
                 step_array = []
-                t_value = new_max
+                t_value = compare_value
             else:
                 break
         except TypeError:
