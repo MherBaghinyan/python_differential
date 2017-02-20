@@ -58,7 +58,7 @@ def parametric_window(root, n_value, m_value):
     for i in range(n_value):
         Label(parametric_root, text='< =').grid(row=i + 4, column=8)
 
-    right_vector = [40 - t, 60 + 2*t, 30 - 7*t]
+    right_vector = [40, 60 , 30 ]
     # right_vector = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
     # enter right side constraint vector
     vec_rows = []
@@ -110,7 +110,7 @@ def parametric_window(root, n_value, m_value):
                 x1[i][j] = parse_expr(col.get())
                 j += 1
             i += 1
-        return x_1
+        return x1
 
     def get_x_b():
         v = 0
