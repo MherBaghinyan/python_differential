@@ -69,16 +69,10 @@ def next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column):
         pivot_vector[j] = table[pivot_row][j] / pivot_value
         table[pivot_row][j] = pivot_vector[j]
 
-    # Xb images pivot row values
-    k_count = len(x_image)
-    for k in range(0, k_count):
-        x_image[k][pivot_row - 1] /= pivot_value
-
-    ratios = [0 for x in range(rows - 1)]
+    ratios = [0 for x in range(rows)]
     for i in range(0, rows):
         ratio = table[i][pivot_column]
-        if i != 0:
-            ratios[i - 1] = ratio
+        ratios[i] = ratio
 
         if i == pivot_row:
             continue
@@ -87,9 +81,6 @@ def next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column):
             table[i][j] -= multiplier
 
     k_count = len(image_matrixes)
-    for k in range(0, k_count):
-        s_image = image_matrixes[k]
-
     # images pivot row values
     for k in range(0, k_count):
         s_image = image_matrixes[k]
@@ -104,15 +95,8 @@ def next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column):
             if i == pivot_row:
                 continue
             for j in range(0, columns):
-                s_image[i][j] -= pivot_image[j] * ratios[i - 1]
+                s_image[i][j] -= pivot_image[j] * ratios[i]
         image_matrixes[k] = s_image
-
-    # Xb images pivot row values
-    for k in range(0, k_count):
-        for i in range(0, rows - 1):
-            if i == pivot_row - 1:
-                continue
-            x_image[k][i] -= x_image[k][pivot_row - 1] * ratios[i]
 
     return table
 
@@ -218,8 +202,11 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
             image_matrixes = get_image_matrixes(s_matrix, right_vector, z_array, k, t_value)
             simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, z_array, 0, t_value)
             tableu = parametric_simplex(simplex_matrix, image_matrixes, x_b_image_matrix, basis_vector)
+            image_matrixes[0] = tableu
+            new_max = x_b_nonlinear_optimality(image_matrixes, x_b_image_matrix, k, len(right_vector), t_value)
 
-            new_max = nonlinear_optimality(image_matrixes, x_b_image_matrix, k, len(right_vector), t_value)
+            z_max = z_nonlinear_optimality(image_matrixes, x_b_image_matrix, k, len(right_vector), t_value)
+
             if math.isnan(float(new_max)):
                 break
             if new_max > t_value:
