@@ -8,20 +8,10 @@ def one_window(root, matrix, vector, z_array, k_value, t_value):
     one_root = Toplevel(root)
     one_root.title("game model solution")
     one_root.geometry("1200x800")
+
     # top level bar
     Label(one_root, text=' K ').grid(row=0, column=0)
-    # Label(one_root, text=' t = ' + str(approx_centers[0]) + ' ').grid(row=0, column=1, sticky="nsew")
-
-    # left side bar
-    for k in range(k_value + 1):
-        value = " V( " + str(k) + " ) "
-        Label(one_root, text=value).grid(row=k + 1, column=0)
-
-    Label(one_root, text=' V( t ) ').grid(row=k + 2, column=0)
-    Label(one_root, text=' R1( t ) ').grid(row=k + 3, column=0)
-    Label(one_root, text=' R2( t ) ').grid(row=k + 4, column=0)
-    Label(one_root, text=' R3( t ) ').grid(row=k + 5, column=0)
-
+    Label(one_root, text=' V( t ) ').grid(row=k_value + 2, column=0)
     solution_matrix = parametric_simplex_solution(matrix, vector, z_array, k_value, t_value)
 
     step = 0
@@ -34,6 +24,10 @@ def one_window(root, matrix, vector, z_array, k_value, t_value):
         basis_vector = each_step[3]
 
         for k in range(0, k_value + 1):
+
+            value = " V( " + str(k) + " ) "
+            Label(one_root, text=value).grid(row=k + 1, column=0)
+
             image_matrix = image_matrixes[k]
             printTableu(image_matrix)
             rows = len(image_matrix)
@@ -51,20 +45,20 @@ def one_window(root, matrix, vector, z_array, k_value, t_value):
 
         v = 0
         for i in range(len(basis_vector)):
+            label_indice = " R" + str(basis_vector[i]) + " ( t ) "
+            Label(one_root, text=label_indice).grid(row=k_value + 3 + i, column=0)
             v += parametric_array[i]*z_array[basis_vector[i] - 1]
 
         v = 1 / v
         Label(one_root, text=str(v)).grid(row=step + k + 2, column=0 + 1)
-        Label(one_root, text=str(parametric_array[0])).grid(row=step + k + 3, column=0 + 1)
-        Label(one_root, text=str(parametric_array[1])).grid(row=step + k + 4, column=0 + 1)
-        Label(one_root, text=str(parametric_array[2])).grid(row=step + k + 5, column=0 + 1)
+        for i in range(len(parametric_array)):
+            Label(one_root, text=str(parametric_array[i])).grid(row=step + k + 3 + i, column=0 + 1)
 
         with open("Output.txt", "a") as text_file:
             print("----------------------", file=text_file)
             print("F max = {}".format(str(v)), file=text_file)
-            print("X1 = {}".format(str(parametric_array[0])), file=text_file)
-            print("X2 = {}".format(str(parametric_array[1])), file=text_file)
-            print("X3 = {}".format(str(parametric_array[2])), file=text_file)
+            for i in range(len(parametric_array)):
+                print("X1 = {}".format(str(parametric_array[i])), file=text_file)
 
         parametric_array = [0 for x in range(len(vector))]
 
