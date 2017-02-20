@@ -57,7 +57,7 @@ def prepare_matrix_for_simplex(s_matrix, right_vector, z_array, k_value, t_value
 
 
 # generate next image table
-def next_image_table(table, image_matrixes, pivot_row, pivot_column):
+def next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column):
 
     columns = len(table[0])
     rows = len(table)
@@ -68,6 +68,11 @@ def next_image_table(table, image_matrixes, pivot_row, pivot_column):
     for j in range(0, columns):
         pivot_vector[j] = table[pivot_row][j] / pivot_value
         table[pivot_row][j] = pivot_vector[j]
+
+    # Xb images pivot row values
+    k_count = len(x_image)
+    for k in range(0, k_count):
+        x_image[k][pivot_row - 1] /= pivot_value
 
     ratios = [0 for x in range(rows - 1)]
     for i in range(0, rows):
@@ -102,11 +107,18 @@ def next_image_table(table, image_matrixes, pivot_row, pivot_column):
                 s_image[i][j] -= pivot_image[j] * ratios[i - 1]
         image_matrixes[k] = s_image
 
+    # Xb images pivot row values
+    for k in range(0, k_count):
+        for i in range(0, rows - 1):
+            if i == pivot_row - 1:
+                continue
+            x_image[k][i] -= x_image[k][pivot_row - 1] * ratios[i]
+
     return table
 
 
 #main simplex method
-def parametric_simplex(table, image_matrixes, basis_vector):
+def parametric_simplex(table, image_matrixes, x_image, basis_vector):
 
     array = table[0]
     pivot_column = find_entering_column(array)
@@ -118,7 +130,7 @@ def parametric_simplex(table, image_matrixes, basis_vector):
     write_table_file(table)
 
     while pivot_column >= 0:
-        table = next_image_table(table, image_matrixes, pivot_row, pivot_column)
+        table = next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column)
         printTableu(table)
         write_table_file(table)
 
@@ -191,6 +203,12 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
 
     while has_solution:
 
+        x_b_image_matrix = [[0] * len(right_vector) for x in range(k + 1)]
+        for i in range(0, k + 1):
+            for j in range(0, len(right_vector)):
+                image_vec = differential_vector(right_vector, i, t_value)
+                x_b_image_matrix[i][j] = image_vec[j]
+
         right_len = len(right_vector)
         basis_vector = [0 for x in range(right_len)]
         for j in range(right_len):
@@ -199,9 +217,9 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
         try:
             image_matrixes = get_image_matrixes(s_matrix, right_vector, z_array, k, t_value)
             simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, z_array, 0, t_value)
-            tableu = parametric_simplex(simplex_matrix, image_matrixes, basis_vector)
+            tableu = parametric_simplex(simplex_matrix, image_matrixes, x_b_image_matrix, basis_vector)
 
-            new_max = nonlinear_optimality(image_matrixes, k, len(right_vector), t_value)
+            new_max = nonlinear_optimality(image_matrixes, x_b_image_matrix, k, len(right_vector), t_value)
             if math.isnan(float(new_max)):
                 break
             if new_max > t_value:
