@@ -4,7 +4,6 @@ t = Symbol('t')
 t_value = 1.55
 k = 5
 S_matrix = [[1, -t], [t, 0]]
-print(S_matrix)
 
 
 def exponential_matrix(matrix_a, matrix_b, k, t_value, sympathy):

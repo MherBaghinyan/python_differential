@@ -27,7 +27,7 @@ def multi_window(root, n_value, m_value):
     Label(multi_root, text='approximation center d=').grid(row=2, column=2)
     d = Entry(multi_root, relief=RIDGE)
     d.grid(row=2, column=3, sticky=NSEW, padx=5, pady=5)
-    d.insert(END, 0.02)
+    d.insert(END, 2.5)
 
     Label(multi_root, text='approximation center t=').grid(row=3, column=2)
     t = Entry(multi_root, relief=RIDGE)
