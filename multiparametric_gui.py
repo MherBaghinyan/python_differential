@@ -1,5 +1,5 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
-from multiparametric import *
+from multiparametric_result_gui import *
 from tkinter import *
 from sympy.parsing.sympy_parser import parse_expr
 
@@ -32,7 +32,7 @@ def multi_window(root, n_value, m_value):
     Label(multi_root, text='approximation center t=').grid(row=3, column=2)
     t = Entry(multi_root, relief=RIDGE)
     t.grid(row=3, column=3, sticky=NSEW, padx=5, pady=5)
-    t.insert(END, 1.55)
+    t.insert(END, 10)
 
     Label(multi_root, text='Enter parametric game model below').grid(row=4, column=0)
 
@@ -68,10 +68,7 @@ def multi_window(root, n_value, m_value):
         k2_value = parse_expr(k2.get())
         d_value = parse_expr(d.get())
         t_value = parse_expr(t.get())
-        return_v = initiate_simplex_matrix(z_matrix, recover_value, strategies_recovered, parametric_array, k1_value, k2_value, d_value, t_value)
-
-        #set label values
-        v_recovered.set(strategies_recovered)
+        multy_window(multi_root, z_matrix, k1_value, k2_value, d_value, t_value)
 
     Button(multi_root, text='Solve', command=on_press).grid()
     multi_root.mainloop()
