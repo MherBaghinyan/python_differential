@@ -8,9 +8,9 @@ t = Symbol('t')
 # d_value = 0.5
 # t_value = 1.55
 
-w1 = 0.1
-w2 = 0.9
-w3 = 0
+w1 = 1
+w2 = 1
+w3 = 1
 
 
 R_matrix = [[(w1 * ((5/d) ** 2) + w2 * ((0.7/t) ** 2) + w3 * ((7.1/d) ** 2)) ** -1/2,
@@ -198,38 +198,14 @@ def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, paramet
     image_matrixes = get_image_matrixes(s_matrix, k1_value, k2_value, t_value, d_value)
     simplex_matrix = prepare_matrix_for_simplex(s_matrix, 0, 0, t_value, d_value)
     tableu = simplex_multi(simplex_matrix, image_matrixes, k1_value, k2_value)
+    image_matrixes[0][0] = tableu
 
     print('+++++++++++++ 0  1 +++++++++++++++')
     printTableu(image_matrixes[2][2])
     print('***************  [1][1] *************')
     printTableu(image_matrixes[1][1])
 
-    rows = len(s_matrix)
-
-    parametric_array = [0 for x in range(rows)]
-
-    function_max_parametric = 0
-    for k1 in range(0, k1_value + 1):
-        for k2 in range(0, k2_value + 1):
-            current_image_table = image_matrixes[k1][k2]
-            table_len = len(current_image_table[0])
-            for i in range(rows):
-                indice = int((table_len - 1) / 2) + 1
-                parametric_array[i] += current_image_table[0][indice + i]*((t-t_value)**k1)*((d-d_value)**k2)
-
-            f_image = current_image_table[0][0]
-            function_max_parametric += f_image*((t-t_value)**k1)*((d-d_value)**k2)
-
-    print(' parametric F max = ', function_max_parametric)
-    game_value = 1/function_max_parametric
-    print(' parametric Game value = ', game_value)
-
-    print('parametric array = ', parametric_array)
-
-    probability_aray = [x * game_value for x in parametric_array]
-    print('probabilities array = ', probability_aray)
-
-    return game_value
+    return image_matrixes
 
 
 #print(R_matrix)
@@ -269,4 +245,4 @@ rows = len(R_matrix)
 parametric_array = [0 for x in range(rows)]
 v_recovered = 0
 strategies_recovered = [0 for x in range(rows)]
-initiate_simplex_matrix(R_matrix, v_recovered, strategies_recovered, parametric_array, 2, 2, 0.5, 10)
+# initiate_simplex_matrix(R_matrix, v_recovered, strategies_recovered, parametric_array, 2, 2, 0.5, 10)
