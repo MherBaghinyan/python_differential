@@ -10,6 +10,33 @@ def func(x, sign=1.0):
         return sign * x[0]
 
 
+def mul_func(x, sign=1.0):
+    """ Objective function """
+    return sign * (x[0] + x[1])
+
+
+def multy_nonlinear_optimality(z_parametric_array, d_value, t_value):
+
+    f_array = z_parametric_array
+
+    f_cons = []
+    solo_item = 0
+    for i in range(len(f_array)):
+        if not is_number(f_array[i]):
+            solo_item = f_array[i]
+            f_cons.append({'type': 'ineq', 'fun': lambda x: np.array([f_array[i].evalf(subs={t: x[0], d: x[1]})])})
+
+    if len(f_cons) == 1:
+        f_cons = [{'type': 'ineq', 'fun': lambda x: np.array([solo_item.evalf(subs={t: x[0]})])}]
+
+    if len(f_cons) > 0:
+        f_res = minimize(mul_func, [0.0, 0.0], args=(-1.0,), constraints=f_cons, method='SLSQP')
+        print(f_res.x)
+        return f_res.x[0]
+
+    return math.nan
+
+
 def z_nonlinear_optimality(image_matrixes, x_b_image_matrix, k_value, vector_len, t_value):
 
     columns = len(image_matrixes[0][0])
