@@ -45,20 +45,20 @@ def one_window(root, matrix, vector, z_array, k_value, t_value):
 
         v = 0
         for i in range(len(basis_vector)):
-            label_indice = " R" + str(basis_vector[i]) + " ( t ) "
+            label_indice = " X" + str(basis_vector[i]) + " ( t ) "
             Label(one_root, text=label_indice).grid(row=k_value + 3 + i, column=0)
             v += parametric_array[i]*z_array[basis_vector[i] - 1]
 
         v = 1 / v
         Label(one_root, text=str(v)).grid(row=step + k + 2, column=0 + 1)
         for i in range(len(parametric_array)):
-            Label(one_root, text=str(parametric_array[i])).grid(row=step + k + 3 + i, column=0 + 1)
+            Label(one_root, text=str(parametric_array[i] * v)).grid(row=step + k + 3 + i, column=0 + 1)
 
         with open("Output.txt", "a") as text_file:
             print("----------------------", file=text_file)
             print("F max = {}".format(str(v)), file=text_file)
             for i in range(len(parametric_array)):
-                print("X1 = {}".format(str(parametric_array[i])), file=text_file)
+                print("X1 = {}".format(str(parametric_array[i] * v)), file=text_file)
 
         parametric_array = [0 for x in range(len(vector))]
 
