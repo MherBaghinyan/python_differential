@@ -34,7 +34,8 @@ def multi_window(root, n_value, m_value):
     t.grid(row=3, column=3, sticky=NSEW, padx=5, pady=5)
     t.insert(END, 10)
 
-    Label(multi_root, text='Enter parametric game model below').grid(row=4, column=0)
+    Label(multi_root, text='Enter parametric ').grid(row=4, column=0)
+    Label(multi_root, text='game model below').grid(row=4, column=1)
 
     rows = []
     for i in range(n_value):
