@@ -97,6 +97,8 @@ def next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column):
             for j in range(0, columns):
                 s_image[i][j] -= pivot_image[j] * ratios[i]
         image_matrixes[k] = s_image
+        print("k = ", k)
+        printTableu(s_image)
 
     return table
 

@@ -48,6 +48,7 @@ def z_nonlinear_optimality(image_matrixes, x_b_image_matrix, k_value, vector_len
             f_item = image_matrix[0][i] * ((t-t_value)**k)
             f_array[i - 1] += f_item
 
+    print("f_array = ", f_array)
     f_cons = []
     solo_item = 0
     for i in range(len(f_array)):
@@ -75,6 +76,7 @@ def x_b_nonlinear_optimality(image_matrixes, x_b_image_matrix, k_value, vector_l
         for j in range(0, vector_len):
             x_b_array[j] += image_matrix[j + 1][0] * ((t-t_value)**i)
 
+    print("x_b = ", x_b_array)
     x_b_cons = []
     for i in range(len(x_b_array)):
         if not is_number(x_b_array[i]):
