@@ -93,11 +93,17 @@ def lamb(x):
     return np.array([-(2*x - 10)])
 
 
+def func_test(x, sign=1.0):
+        """ Objective function """
+        return sign * x[0]
+
+
 def test_optimize():
 
-    cons = [{'type': 'ineq', 'fun': lambda x: np.array([(4 - 3*x[0])])}]
+    #0.0738944793606666*t**4 - 0.665858*t**2
+    cons = [{'type': 'ineq', 'fun': lambda x: np.array([(0.07389*x[0]**4 - 0.665858*x[0]**2)])}]
 
-    res = minimize(func, 0.0, args=(-1.0,), constraints=cons, method='SLSQP')
+    res = minimize(func_test, 0.0, args=(-1.0,), constraints=cons, method='SLSQP', options={'disp': True})
     print(res.x)
 
 # test_optimize()
