@@ -361,4 +361,4 @@ rows = len(R_matrix)
 parametric_array = [0 for x in range(rows)]
 v_recovered = 0
 strategies_recovered = [0 for x in range(rows)]
-initiate_simplex_matrix(R_matrix_5, v_recovered, strategies_recovered, parametric_array, 2, 2, 0.5, 10)
+# initiate_simplex_matrix(R_matrix_5, v_recovered, strategies_recovered, parametric_array, 2, 2, 0.5, 10)
