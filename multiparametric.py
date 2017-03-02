@@ -274,6 +274,7 @@ def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, paramet
 
     image_matrixes = get_image_matrixes(s_matrix, k1_value, k2_value, t_value, d_value)
     simplex_matrix = prepare_matrix_for_simplex(s_matrix, 0, 0, t_value, d_value)
+    printTableu(simplex_matrix)
     tableu = simplex_multi(simplex_matrix, image_matrixes, k1_value, k2_value)
     image_matrixes[0][0] = tableu
 
