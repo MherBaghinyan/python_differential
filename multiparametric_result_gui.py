@@ -11,8 +11,7 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     mul_root.geometry("1200x800")
 
     # top level bar
-    Label(mul_root, text=' K ').grid(row=0, column=0)
-    Label(mul_root, text=' V( t ) ').grid(row=k1_value + 2, column=0)
+    # Label(mul_root, text=' K ').grid(row=0, column=0)
     solution_matrix = initiate_simplex_matrix(R_matrix, [], [], [], k1_value, k2_value, d_value, t_value)
 
     rows = len(s_matrix)
@@ -56,10 +55,9 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     res = multy_nonlinear_optimality(z_parametric_array, d_value, t_value)
     print("optimality = ", res)
 
-    Label(mul_root, text=" X probabilities").grid(row=k1_value + 3, column=1)
-    Label(mul_root, text=" X probabilities" + str(x_parametric_array)).grid(row=k1_value + 3, column=2)
-    Label(mul_root, text=" X probabilities").grid(row=k1_value + 4, column=1)
-    Label(mul_root, text=" Y probabilities" + str(x_parametric_array)).grid(row=k1_value + 4, column=2)
+    Label(mul_root, text=" Game Value = "+ str(game_value)).grid(row=k1_value + 2, column=1)
+    Label(mul_root, text=" X probabilities = " + str(x_probability)).grid(row=k1_value + 3, column=1)
+    Label(mul_root, text=" Y probabilities = " + str(y_probability)).grid(row=k1_value + 4, column=1)
 
     # for i in range(len(x_probability)):
     #     label_indice = " X probabilities"
