@@ -33,15 +33,15 @@ def parametric_window(root, n_value, m_value):
     t1.grid(row=3, column=3, sticky=NSEW, padx=5, pady=5)
     t1.insert(END, t_value)
 
-    # x_1 = [[179.95, 156.12, 90],
-    #        [89.95, 179.87, 155],
-    #        [180, 156, 177]]
+    x_1 = [[179.95, 156.12, 90],
+           [89.95, 179.87, 155],
+           [180, 156, 177]]
 
-    x_1 = [
-        [1.0 + t, 2.0, 1.0],
-        [3.0 - 2.0*t, 0.0, 2.0],
-        [1.0 + 3.0*t, 4.0, 0.0]
-    ]
+    # x_1 = [
+    #     [1.0 + t, 2.0, 1.0],
+    #     [3.0 - 2.0*t, 0.0, 2.0],
+    #     [1.0 + 3.0*t, 4.0, 0.0]
+    # ]
 
     # enter matrix
     rows = []
@@ -58,8 +58,8 @@ def parametric_window(root, n_value, m_value):
     for i in range(n_value):
         Label(parametric_root, text='< =').grid(row=i + 4, column=8)
 
-    right_vector = [40, 60 , 30 ]
-    # right_vector = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
+    # right_vector = [40, 60 , 30 ]
+    right_vector = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
     # enter right side constraint vector
     vec_rows = []
     for i in range(n_value):
@@ -73,14 +73,14 @@ def parametric_window(root, n_value, m_value):
     Label(parametric_root, text='z vector').grid(row=z_indice, column=0)
 
     # enter z function vector
-    z_init = [3, 2, 5]
-    # z_init = [1, 1, 1]
-    z_rows = []
-    for j in range(m_value):
-        e = Entry(parametric_root, relief=RIDGE)
-        e.grid(row=z_indice + 1, column=j, sticky=NSEW, padx=5, pady=5)
-        e.insert(END, z_init[j])
-        z_rows.append(e)
+    # z_init = [3, 2, 5]
+    z_init = [1, 1, 1]
+    # z_rows = []
+    # for j in range(m_value):
+    #     e = Entry(parametric_root, relief=RIDGE)
+    #     e.grid(row=z_indice + 1, column=j, sticky=NSEW, padx=5, pady=5)
+    #     e.insert(END, z_init[j])
+    #     z_rows.append(e)
 
     x1 = [[0] * len(rows) for x in range(len(rows))]
     x_b = [0 for x in range(len(rows))]
@@ -120,11 +120,11 @@ def parametric_window(root, n_value, m_value):
         return x_b
 
     def get_z_init():
-        v = 0
-        for vec in z_rows:
-            z_array[v] = parse_expr(vec.get())
-            v += 1
-        return z_array
+        # v = 0
+        # for vec in z_rows:
+        #     z_array[v] = parse_expr(vec.get())
+        #     v += 1
+        return z_init
 
     def on_press():
         k = parse_expr(k1.get())
