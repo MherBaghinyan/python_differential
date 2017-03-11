@@ -141,6 +141,6 @@ def parametric_window(root, n_value, m_value):
 
     Button(parametric_root, text='Solve', command=on_press).grid(row=30, column=9, padx=10, pady=10)
 
-    Button(parametric_root, text='Get extended report', command=on_extended_press).grid(row=33, column=9, padx=10, pady=10)
+    # Button(parametric_root, text='Get extended report', command=on_extended_press).grid(row=33, column=9, padx=10, pady=10)
 
     parametric_root.mainloop()
