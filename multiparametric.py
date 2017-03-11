@@ -278,11 +278,6 @@ def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, paramet
     tableu = simplex_multi(simplex_matrix, image_matrixes, k1_value, k2_value)
     image_matrixes[0][0] = tableu
 
-    print('+++++++++++++ 0  1 +++++++++++++++')
-    printTableu(image_matrixes[2][2])
-    print('***************  [1][1] *************')
-    printTableu(image_matrixes[1][1])
-
     return image_matrixes
 
 
