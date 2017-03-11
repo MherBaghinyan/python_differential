@@ -1,7 +1,9 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
-from multiparametric_result_gui import *
 from tkinter import *
+
 from sympy.parsing.sympy_parser import parse_expr
+
+from project_files.multy_parametric.multiparametric_result_gui import *
 
 
 def multi_window(root, n_value, m_value):
