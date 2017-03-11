@@ -1,7 +1,8 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
 # http://www.java2s.com/Code/Python/GUI-Tk/LabelborderRAISEDSUNKENFLATRIDGEGROOVESOLID.htm
 from tkinter import *
-from cooperative import *
+
+from project_files.cooperative import *
 
 
 def graph_c_window(root, matrix, t_value):

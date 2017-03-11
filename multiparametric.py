@@ -1,6 +1,5 @@
-from transformation_util import *
-from simplex_basic import *
-
+from project_files.services.simplex_basic import *
+from project_files.services.transformation_util import *
 
 d = Symbol('d')
 t = Symbol('t')

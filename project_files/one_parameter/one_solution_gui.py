@@ -1,7 +1,6 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
-from tkinter import *
+from project_files.one_parameter.graph_gui import *
 from simplex_parametric_right import *
-from graph_gui import *
 
 
 def one_window(root, matrix, vector, z_array, k_value, t_value):

@@ -1,8 +1,7 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
-from tkinter import *
 from multiparametric import *
-from graph_gui import *
-from optimization_util import *
+from project_files.one_parameter.graph_gui import *
+from project_files.services.optimization_util import *
 
 
 def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):

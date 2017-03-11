@@ -1,8 +1,7 @@
 # https://docs.scipy.org/doc/scipy-0.18.1/reference/tutorial/optimize.html#constrained-minimization-of-multivariate-scalar-functions-minimize
-import math
-import numpy as np
 from scipy.optimize import minimize
-from transformation_util import *
+
+from project_files.services.transformation_util import *
 
 
 def func(x, sign=1.0):

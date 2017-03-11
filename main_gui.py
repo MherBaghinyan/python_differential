@@ -1,9 +1,8 @@
 #http://www.python-course.eu/tkinter_entry_widgets.php
-from tkinter import *
-from cooperative_gui import *
-from parametric_right_part_gui import *
 from multiparametric_gui import *
-from help_gui import *
+from project_files.cooperative_gui import *
+from project_files.help_gui import *
+from project_files.one_parameter.parametric_right_part_gui import *
 
 root = Tk()
 root.title("Parametric game model solver")

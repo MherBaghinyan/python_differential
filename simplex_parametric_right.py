@@ -1,7 +1,7 @@
 # https://docs.scipy.org/doc/scipy-0.18.1/reference/tutorial/optimize.html#constrained-minimization-of-multivariate-scalar-functions-minimize
-from simplex_basic import *
-from transformation_util import *
-from optimization_util import *
+from project_files.services.optimization_util import *
+from project_files.services.simplex_basic import *
+
 t = Symbol('t')
 k = 2
 t_value = 0

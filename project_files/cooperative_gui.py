@@ -1,8 +1,7 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
-from cooperative import *
-from tkinter import *
 from sympy.parsing.sympy_parser import parse_expr
-from cooperative_report_gui import *
+
+from project_files.cooperative_report_gui import *
 
 
 def cooperative_window(root, n_value, m_value):
