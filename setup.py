@@ -8,7 +8,7 @@ base = None
 if sys.platform == 'win32':
     base = "Win32GUI"
 
-executables = [cx_Freeze.Executable("cooperative_test.py", base=base, icon="clienticon.ico")]
+executables = [cx_Freeze.Executable("main_gui.py", base=base, icon="clienticon.ico")]
 
 cx_Freeze.setup(
     name = "SeaofBTC-Client",
