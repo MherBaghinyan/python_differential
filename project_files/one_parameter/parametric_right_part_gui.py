@@ -35,11 +35,8 @@ def parametric_window(root, n_value, m_value):
            [89.95, 179.87, 155],
            [180, 156, 177]]
 
-    # x_1 = [
-    #     [1.0 + t, 2.0, 1.0],
-    #     [3.0 - 2.0*t, 0.0, 2.0],
-    #     [1.0 + 3.0*t, 4.0, 0.0]
-    # ]
+    if n_value > 3:
+        x_1 = [[0] * n_value for x in range(m_value)]
 
     # enter matrix
     rows = []
@@ -56,8 +53,10 @@ def parametric_window(root, n_value, m_value):
     for i in range(n_value):
         Label(parametric_root, text='< =').grid(row=i + 4, column=8)
 
-    # right_vector = [40, 60 , 30 ]
     right_vector = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
+
+    if n_value > 3:
+        right_vector = [0 for x in range(n_value)]
     # enter right side constraint vector
     vec_rows = []
     for i in range(n_value):
@@ -67,12 +66,13 @@ def parametric_window(root, n_value, m_value):
         vec_rows.append(e)
 
     Label(parametric_root, text='right side vector').grid(row=3, column=9)
-    z_indice = i + 5
-    Label(parametric_root, text='z vector').grid(row=z_indice, column=0)
 
     # enter z function vector
-    # z_init = [3, 2, 5]
+
     z_init = [1, 1, 1]
+
+    if n_value > 3:
+        z_init = [0 for x in range(m_value)]
     # z_rows = []
     # for j in range(m_value):
     #     e = Entry(parametric_root, relief=RIDGE)
