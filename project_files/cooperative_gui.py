@@ -27,7 +27,7 @@ def cooperative_window(root, n_value, m_value):
     Label(cooperative_root, text='Sympathy parameter = ').grid(row=4, column=2)
     s1 = Entry(cooperative_root, relief=RIDGE)
     s1.grid(row=4, column=3, sticky=NSEW, padx=5, pady=5)
-    s1.insert(END, 0.1)
+    s1.insert(END, 0.002)
 
     Label(cooperative_root, text='enter parametric game matrix').grid(row=5, column=0)
 
