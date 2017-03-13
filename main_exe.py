@@ -2,8 +2,21 @@
 from tkinter import *
 from sympy import *
 from sympy.parsing.sympy_parser import parse_expr
+import math
+import numpy as np
+
+############# DIFFERENTIAL UTILS #####################################
 
 t = Symbol('t')
+d = Symbol('d')
+
+
+
+############# OPTIMIZE #####################################
+
+
+
+#######################   SIMPLEX ############################
 
 # finds largest value
 def find_largest_value(data):

@@ -2,7 +2,7 @@
 # http://docs.sympy.org/dev/modules/parsing.html
 from sympy.parsing.sympy_parser import parse_expr
 
-from extended_report_gui import *
+# from extended_report_gui import *
 from project_files.one_parameter.one_solution_gui import *
 
 
@@ -134,10 +134,10 @@ def parametric_window(root, n_value, m_value):
         #     p_recovered[p].set(parametric_array[p])
         one_window(parametric_root, get_x_1(), get_x_b(), get_z_init(), k, t_value)
 
-    def on_extended_press():
-        k = parse_expr(k1.get())
-        t_value = parse_expr(t1.get())
-        report_window(parametric_root, get_x_1(), get_x_b(), k, t_value)
+    # def on_extended_press():
+    #     k = parse_expr(k1.get())
+    #     t_value = parse_expr(t1.get())
+    #     report_window(parametric_root, get_x_1(), get_x_b(), k, t_value)
 
     Button(parametric_root, text='Solve', command=on_press).grid(row=30, column=9, padx=10, pady=10)
 

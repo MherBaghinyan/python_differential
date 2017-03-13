@@ -2,6 +2,8 @@ import cx_Freeze
 import sys
 from tkinter import *
 from sympy import *
+import numpy as np
+import math
 
 base = None
 
