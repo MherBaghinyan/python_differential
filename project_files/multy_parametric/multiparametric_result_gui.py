@@ -11,7 +11,7 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
 
     # top level bar
     # Label(mul_root, text=' K ').grid(row=0, column=0)
-    solution_matrix = initiate_simplex_matrix(R_matrix, [], [], [], k1_value, k2_value, d_value, t_value)
+    solution_matrix = initiate_simplex_matrix(s_matrix, [], [], [], k1_value, k2_value, d_value, t_value)
 
     rows = len(s_matrix)
 
