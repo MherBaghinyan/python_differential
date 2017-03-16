@@ -23,7 +23,7 @@ def graph_c_window(root, matrix, t_value):
     pf = Frame(graph_c_root, relief=GROOVE, borderwidth=2)
     pf.place(relx=0.1, rely=0.325, anchor=NW)
 
-    Label(graph_c_root, text='numerical values of cooperation matrix in  t = ' + str(t_value) + '').place(relx=0.1, rely=0.29, anchor=NW)
+    Label(graph_c_root, text='numerical values of cooperation matrix for approximation = ' + str(t_value) + '').place(relx=0.1, rely=0.29, anchor=NW)
 
     value_matrix = set_value_to_matrix(matrix, t_value)
 

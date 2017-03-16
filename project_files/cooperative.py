@@ -1,12 +1,12 @@
 from project_files.services.transformation_util import *
 
 t = Symbol('t')
-t_value = 1.55
-k = 5
-S_matrix = [[1, -t], [t, 0]]
+# t_value = 1.55
+# k = 5
+# S_matrix = [[1, -t], [t, 0]]
 
 
-def exponential_matrix(matrix_a, matrix_b, k, t_value, sympathy):
+def exponential_matrix(matrix_a, matrix_b, k, t_value):
     rows = len(matrix_a)
     columns = len(matrix_a[0])
     e_matrix = [[0] * columns for x in range(rows)]
@@ -15,11 +15,12 @@ def exponential_matrix(matrix_a, matrix_b, k, t_value, sympathy):
             item1 = matrix_a[i][j]
             item2 = matrix_b[i][j]
             if is_number(item1):
-                multiplied = float(item1*exp(-sympathy*(item1 - item2)))
+                print("i = " + str(i) + "j = " + str(j))
+                mul1 = item1 * exp(-(item1 - item2))
+                multiplied = recover_exponential_image_values(mul1, exp(t), k, t_value)
                 # formatted = float("{0:.5f}".format(multiplied))
                 e_matrix[i][j] = multiplied
-            else:
-                e_matrix[i][j] = recover_exponential_image_values(item1, exp(-sympathy*(item1 - item2)), k, t_value)
+
     return e_matrix
 
 
@@ -34,29 +35,29 @@ def exponential_matrix(matrix_a, matrix_b, k, t_value, sympathy):
 def item_transformation(item, level, t_value):
     derivative = diff(item, t, level)
     expr_with_value = derivative.evalf(subs={t: t_value})
-    return expr_with_value / factorial(level)
+    return (t_value ** level) / factorial(level)
 
 
-def multiply_images(value1, value2, k_value, t_value):
-    value = 0
-    for l in range(0, k_value + 1):
-        value += item_transformation(value1, k_value - l, t_value) * item_transformation(value2, k_value, t_value)
-    return value
+# def multiply_images(value, k_value, t_value):
+#     return item_transformation(value, k_value, t_value) / factorial(k_value)
 
 
-def exponential_c_values(image1, image2, k_value, t_value):
+def exponential_c_values(mul1, image, k_value, t_value):
     item = 0
     if k_value == 0:
-        return 1/multiply_images(image1, image2, 0, t_value)
+        return 1/(mul1 * item_transformation(image, 0, t_value))
     for k in range(0, k_value):
-        item += exponential_c_values(image1, image2, k, t_value)*multiply_images(image1, image2, k_value - k, t_value)
-    return (1/multiply_images(image1, image2, 0, t_value))*(1/factorial(k_value) - item)
+        item += exponential_c_values(mul1, image, k, t_value) * mul1 * item_transformation(image, k_value, t_value)
+    return (1/(mul1 * item_transformation(image, 0, t_value)))*(1/factorial(k_value) - item)
 
 
-def recover_exponential_image_values(image1, image2, k_value, t_value):
+def recover_exponential_image_values(mul1, image, k_value, t_value):
     item = 0
     for k in range(0, k_value + 1):
-        item += (t-t_value) ** k * exponential_c_values(image1, image2, k, t_value)
+        exp_value = exponential_c_values(mul1, image, k, t_value)
+        item += (t-t_value) ** k * exp_value
+        print("exp (" + str(k) + ")" + str(exp_value))
+        print("X (" + str(k) + ")" + str(mul1 * item_transformation(image, k, t_value)))
     return exp(t-t_value)/item
 
 
@@ -89,28 +90,14 @@ def get_matrix_b(matrix_a):
     return b_matrix
 
 
-def cooperative_matrix(matrix, iterations, k, t_value_, sympathy):
+def cooperative_matrix(matrix_a, matrix_b, iterations, k, t_value_):
+    matrix = [[0] * len(matrix_a) for x in range(len(matrix_a))]
     t_value = t_value_
     for iteration in range(0, iterations):
-        matrix_a = matrix
-        matrix_b = get_matrix_b(matrix_a)
-        matrix = exponential_matrix(matrix_a, matrix_b, k, t_value, sympathy)
+        # matrix_a = matrix
+        # matrix_b = get_matrix_b(matrix_a)
+        matrix = exponential_matrix(matrix_a, matrix_b, k, t_value)
         print(matrix)
 
     return matrix
-
-
-# item1 = t
-# # print(multiply_images(item1, exp(-0.1*(item1-item2)), 2))
-# result = recover_exponential_image_values(item1, exp(-0.8*(item1-(-item1))), k)
-# # recover_exponential_image_values(item1, exp(-sympathy*(item1 + item2)), k)
-# print(result)
-# #
-# print(result.evalf(subs={t: t_value}))
-
-iterated_matrix = S_matrix
-# cooperative_matrix(iterated_matrix)
-
-# for iteration in range(0, 3):
-#     print(item_transformation(exp(-0.8*(item1-item2)), iteration))
 
