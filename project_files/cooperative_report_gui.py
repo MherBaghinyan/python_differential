@@ -20,16 +20,16 @@ def graph_c_window(root, matrix, t_value):
             Label(xf, text=str(matrix[i][j]), relief=GROOVE).grid(row=i + 1, column=j + 1, padx=10, pady=10)
 
     pf = Frame(graph_c_root, relief=GROOVE, borderwidth=2)
-    pf.place(relx=0.1, rely=0.325, anchor=NW)
+    pf.place(relx=0.1, rely=0.4, anchor=NW)
 
-    Label(graph_c_root, text='graphical representation of matrix functions').place(relx=0.1, rely=0.40, anchor=NW)
+    Label(graph_c_root, text='graphical representation of matrix functions').place(relx=0.1, rely=0.37, anchor=NW)
 
     def create_graph_window():
-        graph_window(graph_c_root, matrix[0][0], 0, 1)
+        graph_window(graph_c_root, matrix[0][0], 0, 1.1)
 
-    step = i + 3
+    step = len(matrix) + 7
     for i in range(len(matrix)):
         for j in range(len(matrix)):
-            Button(graph_c_root, text='draw item graph', command=create_graph_window).grid(row=step + i, column=j, padx=10, pady=10)
+            Button(pf, text='draw item graph', command=create_graph_window).grid(row=step + i, column=j + 1, padx=10, pady=10)
 
     graph_c_root.mainloop()
