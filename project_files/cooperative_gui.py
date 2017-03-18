@@ -29,7 +29,7 @@ def cooperative_window(root, n_value, m_value):
     s1.grid(row=4, column=3, sticky=NSEW, padx=5, pady=5)
     s1.insert(END, 0.8)
 
-    Label(cooperative_root, text='enter first player game matrix').grid(row=5, column=0)
+    Label(cooperative_root, text='Enter first player game matrix').grid(row=5, column=0)
 
     # enter matrix
     rows_a = []
@@ -45,7 +45,7 @@ def cooperative_window(root, n_value, m_value):
     a_matrix = [[0] * len(rows_a) for x in range(len(rows_a))]
 
     next_matrix_i = i + 7
-    Label(cooperative_root, text='enter second player game matrix').grid(row=next_matrix_i, column=0)
+    Label(cooperative_root, text='Enter second player game matrix').grid(row=next_matrix_i, column=0)
 
     # enter matrix
     rows_b = []

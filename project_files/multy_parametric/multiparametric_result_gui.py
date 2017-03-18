@@ -1,6 +1,6 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
 from project_files.multy_parametric.multiparametric import *
-from project_files.one_parameter.graph_gui import *
+from project_files.services.graph_gui import *
 from project_files.services.optimization_util import *
 
 

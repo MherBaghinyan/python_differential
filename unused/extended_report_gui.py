@@ -1,6 +1,6 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
-from project_files.one_parameter.graph_gui import *
 from project_files.one_parameter.simplex_parametric_right import *
+from project_files.services.graph_gui import *
 
 
 def report_window(root, matrix, vector, k_value, t_value):
