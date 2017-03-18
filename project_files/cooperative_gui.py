@@ -7,7 +7,7 @@ from project_files.cooperative_report_gui import *
 def cooperative_window(root, n_value, m_value):
     cooperative_root = Toplevel(root)
     cooperative_root.title("Cooperative game model solver")
-    cooperative_root.geometry("800x600")
+    cooperative_root.geometry("700x400")
 
     Label(cooperative_root, text='N = ').grid(row=0, column=0)
     Label(cooperative_root, text=n_value).grid(row=0, column=1)
@@ -100,5 +100,5 @@ def cooperative_window(root, n_value, m_value):
 
         graph_c_window(cooperative_root, result, sympathy)
 
-    Button(cooperative_root, text='Solve', command=on_press).grid(row=20, column=4)
+    Button(cooperative_root, text='Solve', command=on_press).grid(row=20, column=6)
     cooperative_root.mainloop()

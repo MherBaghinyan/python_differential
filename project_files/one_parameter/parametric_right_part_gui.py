@@ -9,7 +9,7 @@ from project_files.one_parameter.one_solution_gui import *
 def parametric_window(root, n_value, m_value):
     parametric_root = Toplevel(root)
     parametric_root.title("Parametric game model solver")
-    parametric_root.geometry("1200x600")
+    parametric_root.geometry("800x400")
 
     k = 2
     t_value = 0
