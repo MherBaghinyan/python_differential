@@ -8,7 +8,7 @@ from project_files.cooperative import *
 def graph_c_window(root, matrix, t_value):
     graph_c_root = Toplevel(root)
     graph_c_root.title("cooperative game report")
-    graph_c_root.geometry("900x700")
+    graph_c_root.geometry("800x400")
 
     xf = Frame(graph_c_root, relief=GROOVE, borderwidth=2)
     Label(graph_c_root, text='parametric values of cooperation matrix ').place(relx=0.1, rely=0.10, anchor=NW)

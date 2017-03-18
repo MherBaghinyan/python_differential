@@ -7,7 +7,7 @@ from project_files.services.optimization_util import *
 def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     mul_root = Toplevel(root)
     mul_root.title("game model solution")
-    mul_root.geometry("1200x800")
+    mul_root.geometry("800x400")
 
     # top level bar
     # Label(mul_root, text=' K ').grid(row=0, column=0)
