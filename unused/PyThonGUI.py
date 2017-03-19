@@ -56,11 +56,13 @@ b.pack()
 
 fields = 'm =', 'n ='
 
+
 def fetch(entries):
    for entry in entries:
       field = entry[0]
       text  = entry[1].get()
       print('%s: "%s"' % (field, text))
+
 
 def makeform(root, fields):
    entries = []
