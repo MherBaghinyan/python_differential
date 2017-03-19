@@ -66,7 +66,7 @@ def z_nonlinear_optimality(image_matrixes, x_b_image_matrix, k_value, vector_len
     return math.nan
 
 
-def x_b_nonlinear_optimality(image_matrixes, x_b_image_matrix, k_value, vector_len, t_value):
+def x_b_nonlinear_optimality(image_matrixes, k_value, vector_len, t_value):
 
     x_b_array = [0 for x in range(vector_len)]
 

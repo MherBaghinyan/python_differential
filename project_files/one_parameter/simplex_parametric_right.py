@@ -205,7 +205,7 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
             simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, z_array, 0, t_value)
             tableu = parametric_simplex(simplex_matrix, image_matrixes, x_b_image_matrix, basis_vector)
             image_matrixes[0] = tableu
-            new_max = x_b_nonlinear_optimality(image_matrixes, x_b_image_matrix, k, len(right_vector), t_value)
+            new_max = x_b_nonlinear_optimality(image_matrixes, k, len(right_vector), t_value)
 
             z_max = z_nonlinear_optimality(image_matrixes, x_b_image_matrix, k, len(right_vector), t_value)
 
