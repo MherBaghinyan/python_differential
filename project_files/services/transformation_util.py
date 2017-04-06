@@ -72,6 +72,21 @@ def divide_image_values(value1, value2, k_value):
     return (item_transform(value1, k_value, 0) - mul) / item_transform(value2, 0, 0)
 
 
+def item_multi_transform(item, t_level, d_level, t_value, d_value):
+    if t_level == 0 and d_level == 0:
+        return item.evalf(subs={t: t_value, d: d_value})
+    if t_level == 0:
+        d_derive = diff(item, d, d_level)
+        return d_derive.evalf(subs={t: t_value, d: d_value})
+    if d_level == 0:
+        d_derive = diff(item, t, t_level)
+        return d_derive.evalf(subs={t: t_value, d: d_value})
+    derivative = diff(item, t, t_level)
+    d_derive = diff(derivative, d, d_level)
+    expr_with_value = d_derive.evalf(subs={t: t_value, d: d_value})
+    return expr_with_value
+
+
 #####################################################################
 #                   SIMPLEX TRANSFORMATIONS
 #####################################################################

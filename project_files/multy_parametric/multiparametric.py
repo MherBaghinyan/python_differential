@@ -123,21 +123,6 @@ R_matrix = [[(0.4 * ((7/d) ** 2) + 0.4 * ((0.7/t) ** 2) + 0.4 * ((7.1/d) ** 2)) 
              (0.4 * ((6/d) ** 2) + 0.4 * ((0.6/t) ** 2) + 0.4 * ((7.3/d) ** 2)) ** -0.5 ]]
 
 
-def item_multi_transform(item, t_level, d_level, t_value, d_value):
-    if t_level == 0 and d_level == 0:
-        return item.evalf(subs={t: t_value, d: d_value})
-    if t_level == 0:
-        d_derive = diff(item, d, d_level)
-        return d_derive.evalf(subs={t: t_value, d: d_value})
-    if d_level == 0:
-        d_derive = diff(item, t, t_level)
-        return d_derive.evalf(subs={t: t_value, d: d_value})
-    derivative = diff(item, t, t_level)
-    d_derive = diff(derivative, d, d_level)
-    expr_with_value = d_derive.evalf(subs={t: t_value, d: d_value})
-    return expr_with_value
-
-
 def matrix_multi_differential(matrix, t_level, d_level, t_value, d_value):
     "returns a differential of given matrix"
     _length = len(matrix)

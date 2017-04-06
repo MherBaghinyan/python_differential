@@ -31,6 +31,7 @@ def cooperative_window(root, n_value, m_value):
 
     Label(cooperative_root, text='Enter first player game matrix').grid(row=5, column=0)
 
+    a_ = [[40, 10], [50, 15]]
     # enter matrix
     rows_a = []
     for i in range(n_value):
@@ -47,6 +48,7 @@ def cooperative_window(root, n_value, m_value):
     next_matrix_i = i + 7
     Label(cooperative_root, text='Enter second player game matrix').grid(row=next_matrix_i, column=0)
 
+    b_ = [[40, 50], [10, 15]]
     # enter matrix
     rows_b = []
     for i in range(n_value):
@@ -94,9 +96,6 @@ def cooperative_window(root, n_value, m_value):
             sympathy = parse_expr(s1.get())
 
         result = cooperative_matrix(a_matrix, b_matrix, 1, k, sympathy)
-
-        # [[3, 1], [4, 2]]
-        # [[3, 4], [1, 2]]
 
         graph_c_window(cooperative_root, result, sympathy)
 

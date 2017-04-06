@@ -56,8 +56,9 @@ def recover_exponential_image_values(mul1, image, k_value, t_value):
     for k in range(0, k_value + 1):
         exp_value = exponential_c_values(mul1, image, k, t_value)
         item += (t-t_value) ** k * exp_value
-        print("exp (" + str(k) + ")" + str(exp_value))
-        print("X (" + str(k) + ")" + str(mul1 * item_transformation(image, k, t_value)))
+        print("K = " + str(k))
+        print("C_ (" + str(k) + ") = " + str(exp_value))
+        print("X (" + str(k) + ") = " + str(mul1 * item_transformation(image, k, t_value)))
     return exp(t-t_value)/item
 
 
@@ -100,4 +101,16 @@ def cooperative_matrix(matrix_a, matrix_b, iterations, k, t_value_):
         print(matrix)
 
     return matrix
+
+
+# matrix_a = [[40, 10], [50, 15]]
+# matrix_b = [[40, 50], [10, 15]]
+#
+# iterations = 1
+#
+# k = 3
+#
+# t_value_ = 0.8
+#
+# cooperative_matrix(matrix_a, matrix_b, 1, k, t_value_)
 
