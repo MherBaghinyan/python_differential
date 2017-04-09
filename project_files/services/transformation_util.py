@@ -87,6 +87,36 @@ def item_multi_transform(item, t_level, d_level, t_value, d_value):
     return expr_with_value
 
 
+def e_image(item, level, t_value):
+    derivative = diff(item, t, level)
+    expr_with_value = derivative.evalf(subs={t: t_value})
+    return (t_value ** level) / factorial(level)
+
+
+def exponential_c_values(mul1, image, k_value, t_value):
+    item = 0
+    if k_value == 0:
+        return 1/(mul1 * e_image(image, 0, t_value))
+    for k in range(0, k_value):
+        item += exponential_c_values(mul1, image, k, t_value) * mul1 * e_image(image, k_value, t_value)
+    return (1/(mul1 * e_image(image, 0, t_value)))*(1/factorial(k_value) - item)
+
+
+def recover_exponential_image_values(mul1, image, k_value, t_value):
+    item = 0
+    for k in range(0, k_value + 1):
+        exp_value = exponential_c_values(mul1, image, k, t_value)
+        item += (t-t_value) ** k * exp_value
+        print("K = " + str(k))
+        print("C_ (" + str(k) + ") = " + str(exp_value))
+        print("X (" + str(k) + ") = " + str(mul1 * e_image(image, k, t_value)))
+        with open("Output.txt", "a") as text_file:
+            print("K = " + str(k), file=text_file)
+            print("C_ (" + str(k) + ") = " + str(exp_value), file=text_file)
+            print("X (" + str(k) + ") = " + str(mul1 * e_image(image, k, t_value)), file=text_file)
+
+    return exp(t-t_value)/item
+
 #####################################################################
 #                   SIMPLEX TRANSFORMATIONS
 #####################################################################

@@ -31,37 +31,6 @@ def exponential_matrix(matrix_a, matrix_b, k, t_value):
 #         z_matrix += np.dot(differential_transform(matrix, l), differential_transform(matrix, k - l))
 #     return z_matrix
 
-
-def item_transformation(item, level, t_value):
-    derivative = diff(item, t, level)
-    expr_with_value = derivative.evalf(subs={t: t_value})
-    return (t_value ** level) / factorial(level)
-
-
-# def multiply_images(value, k_value, t_value):
-#     return item_transformation(value, k_value, t_value) / factorial(k_value)
-
-
-def exponential_c_values(mul1, image, k_value, t_value):
-    item = 0
-    if k_value == 0:
-        return 1/(mul1 * item_transformation(image, 0, t_value))
-    for k in range(0, k_value):
-        item += exponential_c_values(mul1, image, k, t_value) * mul1 * item_transformation(image, k_value, t_value)
-    return (1/(mul1 * item_transformation(image, 0, t_value)))*(1/factorial(k_value) - item)
-
-
-def recover_exponential_image_values(mul1, image, k_value, t_value):
-    item = 0
-    for k in range(0, k_value + 1):
-        exp_value = exponential_c_values(mul1, image, k, t_value)
-        item += (t-t_value) ** k * exp_value
-        print("K = " + str(k))
-        print("C_ (" + str(k) + ") = " + str(exp_value))
-        print("X (" + str(k) + ") = " + str(mul1 * item_transformation(image, k, t_value)))
-    return exp(t-t_value)/item
-
-
 def set_value_to_matrix(matrix, t_value):
     rows = len(matrix)
     columns = len(matrix[0])
@@ -92,6 +61,10 @@ def get_matrix_b(matrix_a):
 
 
 def cooperative_matrix(matrix_a, matrix_b, iterations, k, t_value_):
+
+    with open("Output.txt", "w") as text_file:
+        print('--------- COOPERATIVE GAME MODEL SOLUTION -------------', file=text_file)
+
     matrix = [[0] * len(matrix_a) for x in range(len(matrix_a))]
     t_value = t_value_
     for iteration in range(0, iterations):

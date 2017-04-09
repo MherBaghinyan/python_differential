@@ -33,6 +33,11 @@ def graph_c_window(root, matrix, t_value):
             Button(xf, text='draw item graph', command= lambda f_index=f_index: create_graph_window(f_index)).grid(row=1 + f_index, column=2, padx=10, pady=10)
             f_index += 1
 
+    with open("Output.txt", "a") as text_file:
+        print(" ----------------------", file=text_file)
+        for i in range(len(f_vec)):
+            print(str(f_vec[i]), file=text_file)
+
     # pf = Frame(graph_c_root, relief=GROOVE, borderwidth=2)
     # pf.place(relx=0.1, rely=0.4, anchor=NW)
     #
