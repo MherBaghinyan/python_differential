@@ -87,7 +87,7 @@ def form_next_table(table, pivot_row, pivot_column):
 
 
 # main simplex method
-def simplex_mher(table):
+def simplex_main(table):
 
     columns = len(table[0])
     rows = len(table) - 1
