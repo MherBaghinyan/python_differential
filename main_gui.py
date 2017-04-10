@@ -11,7 +11,7 @@ root.geometry("360x300")
 n_value = 3
 m_value = 3
 
-Label(root, text='Enter payoff matrix metrics').grid(row=1, column=0)
+Label(root, text='Enter payoff matrix sizes').grid(row=1, column=0)
 
 Label(root, text='N=').grid(row=2, column=0)
 n = Entry(root, relief=RIDGE)
