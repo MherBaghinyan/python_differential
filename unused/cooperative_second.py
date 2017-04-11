@@ -11,13 +11,6 @@ def e_image_2(mul1, level, t_value):
     return expr_with_value * mul1
 
 
-def e_image_vec(mul1, k_value, t_value):
-    x_item = [0 for x in range(k_value)]
-    for k in range(0, k_value):
-        x_item[k] = factorial(k) * e_image_2(mul1, k, t_value)
-    return x_item
-
-
 def exponential_c_2(mul1, image, k_value, t_value):
     item = 0
     for k in range(0, k_value):

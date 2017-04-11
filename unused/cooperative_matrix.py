@@ -1,4 +1,4 @@
-from project_files.services.transformation_util import *
+from unused.d_transforms import *
 
 t = Symbol('t')
 # t_value = 1.55
@@ -9,6 +9,13 @@ t = Symbol('t')
 def e_image_2(mul1, level, t_value):
     expr_with_value = (t_value ** level) / factorial(level)
     return expr_with_value * mul1
+
+
+def e_image_vec(mul1, k_value, t_value):
+    x_item = [0 for x in range(k_value)]
+    for k in range(0, k_value):
+        x_item[k] = factorial(k) * e_image_2(mul1, k, t_value)
+    return x_item
 
 
 def exponential_c_2(mul1, image, k_value, t_value):
