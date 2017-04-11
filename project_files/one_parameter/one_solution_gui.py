@@ -9,7 +9,7 @@ def one_window(root, matrix, vector, z_array, k_value, t_value):
     one_root.geometry("800x400")
 
     # top level bar
-    Label(one_root, text=' K ').grid(row=0, column=0)
+    #Label(one_root, text=' K ').grid(row=0, column=0)
     Label(one_root, text=' V( t ) ').grid(row=k_value + 2, column=0)
     solution_matrix = parametric_simplex_solution(matrix, vector, z_array, k_value, t_value)
 
@@ -25,7 +25,7 @@ def one_window(root, matrix, vector, z_array, k_value, t_value):
         for k in range(0, k_value + 1):
 
             value = " V( " + str(k) + " ) "
-            Label(one_root, text=value).grid(row=k + 1, column=0)
+            #Label(one_root, text=value).grid(row=k + 1, column=0)
 
             image_matrix = image_matrixes[k]
             printTableu(image_matrix)
@@ -33,7 +33,7 @@ def one_window(root, matrix, vector, z_array, k_value, t_value):
             s_item = 0
             for i in range(1, rows):
                 s_item += image_matrix[i][0]
-            Label(one_root, text=str(s_item)).grid(row=step + k + 1, column=0 + 1)
+            #Label(one_root, text=str(s_item)).grid(row=step + k + 1, column=0 + 1)
 
         parametric_array = get_parametric_array(image_matrixes, len(vector), k, t_value, basis_vector)
 
@@ -55,7 +55,7 @@ def one_window(root, matrix, vector, z_array, k_value, t_value):
 
         with open("Output.txt", "a") as text_file:
             print("----------------------", file=text_file)
-            print("F max = {}".format(str(v)), file=text_file)
+            print("V max = {}".format(str(v)), file=text_file)
             for i in range(len(parametric_array)):
                 print("X1 = {}".format(str(parametric_array[i] * v)), file=text_file)
 
