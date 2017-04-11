@@ -49,8 +49,9 @@ def calculateTransform(k_max):
         print(x_item[k])
     return x_item
 
-k_max = get_max_k(A_matrix)
-print(calculateTransform(k_max))
+
+# k_max = get_max_k(A_matrix)
+# print(calculateTransform(k_max))
 
 
 # print(np.dot(A_matrix, A_matrix))
