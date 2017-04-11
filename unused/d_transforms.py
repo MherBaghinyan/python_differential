@@ -7,6 +7,7 @@ C_vector = [-2*(t ** 2), t*(t ** 3 + t ** 2 + 2), t*(t ** 2 + t - 1)]
 
 print(A_matrix)
 
+
 def a_image_transform(matrix, k):
     "returns X image vector"
     _length = len(matrix)
@@ -16,6 +17,7 @@ def a_image_transform(matrix, k):
             matrix_image[i][j] = transform_and_inverse(matrix, 0) * a_addition(matrix, k)
     return matrix_image
 
+
 def a_addition(matrix, k):
     _length = len(matrix)
     result = [[0] * _length for x in range(_length)]
@@ -24,8 +26,10 @@ def a_addition(matrix, k):
             result += differential_transform(matrix, p) * a_addition(matrix, k - p)
     return result
 
+
 def x_image_transform(matrix, vector, index):
     return a_addition(matrix, index) * differential_vector(vector, index, 0)
+
 
 def last_part(matrix, vector, k):
     _length = len(matrix)
