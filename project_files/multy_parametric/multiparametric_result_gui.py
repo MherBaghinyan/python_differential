@@ -54,9 +54,14 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     res = multy_nonlinear_optimality(z_parametric_array, d_value, t_value)
     print("optimality = ", res)
 
-    Label(mul_root, text=" Game Value = "+ str(game_value)).grid(row=k1_value + 2, column=1)
-    Label(mul_root, text=" X probabilities = " + str(x_probability)).grid(row=k1_value + 3, column=1)
-    Label(mul_root, text=" Y probabilities = " + str(y_probability)).grid(row=k1_value + 4, column=1)
+    Label(mul_root, text=" - ").grid(row=k1_value + 1, column=1)
+    Label(mul_root, text=" Game Value = " + str(game_value)).grid(row=k1_value + 2, column=2)
+    Label(mul_root, text=" - ").grid(row=k1_value + 3, column=1)
+    Label(mul_root, text=" X probabilities  ").grid(row=k1_value + 4, column=1)
+    Label(mul_root, text=" Y probabilities ").grid(row=k1_value + 4, column=2)
+    for k1 in range(0, len(x_probability)):
+        Label(mul_root, text=str(x_probability[k1])).grid(row=k1_value + k1 + 5, column=1)
+        Label(mul_root, text=str(y_probability[k1])).grid(row=k1_value + k1 + 5, column=2)
 
     with open("Output.txt", "w") as text_file:
         print('--------- Multiparametric GAME MODEL SOLUTION -------------', file=text_file)
