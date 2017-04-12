@@ -41,7 +41,7 @@ def recover_e_image_values(mul1, image, k_value, t_value):
         print("C_ (" + str(k) + ") = " + str(c_value))
         print("X (" + str(k) + ") = " + str(e_image_2(mul1, k, t_value)))
 
-    return exp(-(t-t_value)) * item
+    return item
 
 
 def exponential_matrix(matrix_a, matrix_b, k, t_value):
