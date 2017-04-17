@@ -6,9 +6,12 @@ t = Symbol('t')
 # S_matrix = [[1, -t], [t, 0]]
 
 
-def e_image_2(mul1, level, t_value):
-    expr_with_value = (t_value ** level) / factorial(level)
-    return expr_with_value * mul1
+def e_image_2(item, level, t_value):
+    if level == 0:
+        item.evalf(subs={t: t_value})
+    derivative = diff(item, t, level)
+    expr_with_value = derivative.evalf(subs={t: t_value})
+    return expr_with_value / factorial(level)
 
 
 def return_vander_array(k_value):
@@ -18,28 +21,29 @@ def return_vander_array(k_value):
     return np.vander(x_vec, k_value, increasing=True)
 
 
-def e_image_vec(mul1, k_value, t_value):
+def e_image_vec(item, k_value, t_value):
     x_item = [0 for x in range(k_value)]
     for k in range(0, k_value):
-        x_item[k] = factorial(k) * e_image_2(mul1, k, t_value)
+        x_item[k] = factorial(k) * e_image_2(item, k, t_value)
     return x_item
 
 
-def exponential_c_2(mul1, image, k_value, t_value):
-    c_vec = inverse_matrix(return_vander_array(k_value)).dot(e_image_vec(mul1, k_value, t_value))
+def exponential_c_2(image, k_value, t_value):
+    c_vec = inverse_matrix(return_vander_array(k_value)).dot(e_image_vec(image, k_value, t_value))
     return c_vec
 
 
-def recover_e_image_values(mul1, image, k_value, t_value):
+def recover_e_image_values(image, k_value, t_value):
     item = 0
 
-    c_vec = exponential_c_2(mul1, image, k_value + 1, t_value)
+    c_vec = exponential_c_2(image, k_value + 1, t_value)
+
     for k in range(0, k_value + 1):
         c_value = c_vec[k]
         item += exp(k * (t-t_value)) * c_value
         print("K = " + str(k))
         print("C_ (" + str(k) + ") = " + str(c_value))
-        print("X (" + str(k) + ") = " + str(e_image_2(mul1, k, t_value)))
+        print("X (" + str(k) + ") = " + str(e_image_2(image, k, t_value)))
 
     return item
 
@@ -54,8 +58,8 @@ def exponential_matrix(matrix_a, matrix_b, k, t_value):
             item2 = matrix_b[i][j]
             if is_number(item1):
                 print("i = " + str(i) + "j = " + str(j))
-                mul1 = item1 * exp(-(item1 - item2))
-                multiplied = recover_e_image_values(mul1, exp(t), k, t_value)
+                derive = item1 * exp(-(item1 - item2) * t)
+                multiplied = recover_e_image_values(derive, k, t_value)
 
                 e_matrix[i][j] = multiplied
 

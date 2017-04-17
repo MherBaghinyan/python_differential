@@ -16,8 +16,8 @@ def exponential_matrix(matrix_a, matrix_b, k, t_value):
             item2 = matrix_b[i][j]
             if is_number(item1):
                 print("i = " + str(i) + "j = " + str(j))
-                mul1 = item1 * exp(-(item1 - item2))
-                multiplied = recover_exponential_image_values(mul1, exp(t), k, t_value)
+                derive = item1 * exp(-(item1 - item2)*t)
+                multiplied = recover_exponential_image_values(derive, k, t_value)
                 # formatted = float("{0:.5f}".format(multiplied))
                 e_matrix[i][j] = multiplied
 
@@ -76,14 +76,14 @@ def cooperative_matrix(matrix_a, matrix_b, iterations, k, t_value_):
     return matrix
 
 
-# matrix_a = [[40, 10], [50, 15]]
-# matrix_b = [[40, 50], [10, 15]]
-#
-# iterations = 1
-#
-# k = 3
-#
-# t_value_ = 0.8
-#
-# cooperative_matrix(matrix_a, matrix_b, 1, k, t_value_)
+matrix_a = [[40, 10], [50, 15]]
+matrix_b = [[40, 50], [10, 15]]
+
+iterations = 1
+
+k = 3
+
+t_value_ = 0.8
+
+cooperative_matrix(matrix_a, matrix_b, 1, k, t_value_)
 

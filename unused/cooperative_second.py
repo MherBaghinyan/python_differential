@@ -6,15 +6,16 @@ t = Symbol('t')
 # S_matrix = [[1, -t], [t, 0]]
 
 
-def e_image_2(mul1, level, t_value):
-    expr_with_value = (t_value ** level) / factorial(level)
-    return expr_with_value * mul1
+def e_image_2(item, level, t_value):
+    derivative = diff(item, t, level)
+    expr_with_value = derivative.evalf(subs={t: t_value})
+    return expr_with_value / factorial(level)
 
 
 def exponential_c_2(mul1, image, k_value, t_value):
     item = 0
     for k in range(0, k_value):
-        item += (1/factorial(k_value - k)) * e_image_2(mul1, k, t_value)
+        item += (1/factorial(k_value - k)) * mul1 * e_image_2(image, k, t_value)
     return item
 
 
@@ -40,8 +41,8 @@ def exponential_matrix(matrix_a, matrix_b, k, t_value):
             item2 = matrix_b[i][j]
             if is_number(item1):
                 print("i = " + str(i) + "j = " + str(j))
-                mul1 = item1 * exp(-(item1 - item2))
-                multiplied = recover_e_image_values(mul1, exp(t), k, t_value)
+                derive = item1 * exp(-(item1 - item2) * t)
+                multiplied = recover_e_image_values(item1, derive, k, t_value)
 
                 e_matrix[i][j] = multiplied
 
@@ -88,8 +89,8 @@ def cooperative_matrix(matrix_a, matrix_b, k, t_value_):
     return matrix
 
 
-matrix_a = [[40, 10], [50, 15]]
-matrix_b = [[40, 50], [10, 15]]
+matrix_a = [[3, 0], [5, 1]]
+matrix_b = [[3, 5], [0, 1]]
 
 
 k = 3
