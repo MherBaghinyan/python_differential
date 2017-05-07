@@ -14,7 +14,7 @@ def e_image_2(item, level, t_value):
 
 def exponential_c_2(mul1, image, k_value, t_value):
     item = 0
-    for k in range(0, k_value):
+    for k in range(0, k_value + 1):
         item += (1/factorial(k_value - k)) * mul1 * e_image_2(image, k, t_value)
     return item
 

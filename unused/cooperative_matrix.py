@@ -17,7 +17,7 @@ def e_image_2(item, level, t_value):
 def return_vander_array(k_value):
     x_vec = [0 for x in range(k_value)]
     for k in range(0, k_value):
-        x_vec[k] = k+1
+        x_vec[k] = k + 1
     return np.vander(x_vec, k_value, increasing=True)
 
 
@@ -36,10 +36,10 @@ def exponential_c_2(image, k_value, t_value):
 def recover_e_image_values(image, k_value, t_value):
     item = 0
 
-    c_vec = exponential_c_2(image, k_value + 1, t_value)
+    c_vec = exponential_c_2(image, k_value, t_value)
 
-    for k in range(0, k_value + 1):
-        c_value = c_vec[k]
+    for k in range(1, k_value + 1):
+        c_value = c_vec[k - 1]
         item += exp(k * (t-t_value)) * c_value
         print("K = " + str(k))
         print("C_ (" + str(k) + ") = " + str(c_value))
