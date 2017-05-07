@@ -2,6 +2,8 @@
 
 for my PhD thesis calculations
 
+total size of the files used 120 KB
+
 ##########################################################
 for graphic library installation
 
