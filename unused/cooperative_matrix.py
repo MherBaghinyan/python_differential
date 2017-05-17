@@ -28,7 +28,7 @@ def e_image_vec(item, k_value, t_value):
     return x_item
 
 
-def exponential_c_2(image, k_value, t_value):
+def exponential_c_dirichlea(image, k_value, t_value):
     c_vec = inverse_matrix(return_vander_array(k_value)).dot(e_image_vec(image, k_value, t_value))
     return c_vec
 
@@ -36,7 +36,7 @@ def exponential_c_2(image, k_value, t_value):
 def recover_e_image_values(image, k_value, t_value):
     item = 0
 
-    c_vec = exponential_c_2(image, k_value, t_value)
+    c_vec = exponential_c_dirichlea(image, k_value, t_value)
 
     for k in range(1, k_value + 1):
         c_value = c_vec[k - 1]
