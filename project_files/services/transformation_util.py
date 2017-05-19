@@ -109,13 +109,9 @@ def recover_exponential_image_values(image, k_value, t_value):
     for k in range(0, k_value + 1):
         exp_value = exponential_c_values(image, k, t_value)
         item += (t-t_value) ** k * exp_value
-        print("K = " + str(k))
-        print("C_ (" + str(k) + ") = " + str(exp_value))
-        print("X (" + str(k) + ") = " + str(e_image(image, k, t_value)))
+        print("K = " + str(k) + " C_ (" + str(k) + ") = " + str(exp_value) + " X (" + str(k) + ") = " + str(e_image(image, k, t_value)))
         with open("Output.txt", "a") as text_file:
-            print("K = " + str(k), file=text_file)
-            print("C_ (" + str(k) + ") = " + str(exp_value), file=text_file)
-            print("X (" + str(k) + ") = " + str(e_image(image, k, t_value)), file=text_file)
+            print("K = " + str(k) + " C_ (" + str(k) + ") = " + str(exp_value) + " X (" + str(k) + ") = " + str(e_image(image, k, t_value)), file=text_file)
 
     return exp(t-t_value)/item
 
