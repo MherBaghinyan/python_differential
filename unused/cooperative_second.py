@@ -27,6 +27,8 @@ def recover_e_image_values(mul1, image, k_value, t_value):
         print("K = " + str(k))
         print("C_ (" + str(k) + ") = " + str(exp_value))
         print("X (" + str(k) + ") = " + str(e_image_2(mul1, k, t_value)))
+        with open("Output.txt", "a") as text_file:
+            print("K = " + str(k) + " C_ (" + str(k) + ") = " + str(exp_value) + " X (" + str(k) + ") = " + str(e_image_2(mul1, k, t_value)), file=text_file)
 
     return exp(-(t-t_value)) * item
 
@@ -80,11 +82,21 @@ def get_matrix_b(matrix_a):
 
 def cooperative_matrix(matrix_a, matrix_b, k, t_value_):
 
+    with open("Output.txt", "w") as text_file:
+        print('--------- COOPERATIVE GAME MODEL SOLUTION -------------', file=text_file)
+
     matrix = [[0] * len(matrix_a) for x in range(len(matrix_a))]
     t_value = t_value_
 
     matrix = exponential_matrix(matrix_a, matrix_b, k, t_value)
     print(matrix)
+
+    with open("Output.txt", "a") as text_file:
+        print(" ----------------------", file=text_file)
+        for i in range(len(matrix)):
+            for j in range(len(matrix)):
+                print(str(matrix[i][j]), file=text_file)
+
 
     return matrix
 
