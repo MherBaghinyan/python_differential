@@ -63,10 +63,9 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
         Label(mul_root, text=str(x_probability[k1])).grid(row=k1_value + k1 + 5, column=1)
         Label(mul_root, text=str(y_probability[k1])).grid(row=k1_value + k1 + 5, column=2)
 
-    with open("Output.txt", "w") as text_file:
-        print('--------- Multiparametric GAME MODEL SOLUTION -------------', file=text_file)
+    with open("Output.txt", "a") as text_file:
         print(' parametric Game value = ' + str(game_value), file=text_file)
         print(' X probabilities = ' + str(x_probability), file=text_file)
-        print('  Y probabilities = ' + str(y_probability), file=text_file)
+        print(' Y probabilities = ' + str(y_probability), file=text_file)
 
     mul_root.mainloop()
