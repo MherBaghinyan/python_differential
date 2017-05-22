@@ -224,7 +224,7 @@ def simplex_multi(table, image_matrixes, k1_value, k2_value):
                 image_matrix = image_matrixes[k1][k2]
                 image_matrixes[k1][k2] = next_image_table(image_matrix, pivot_row, pivot_column, pivot_value, ratio_vec)
                 with open("Output.txt", "a") as text_file:
-                    print('--------- ITERATION STARTED  -------------', file=text_file)
+                    print("- k1 = " + str(k1) + "  -- k2 = " + str(k2) + " -", file=text_file)
                 write_table_file(table)
                 
         printTableu(table)
