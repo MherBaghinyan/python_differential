@@ -262,7 +262,7 @@ def next_image_table(table, pivot_row, pivot_column, pivot_value, ratio_vec):
 
 def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, parametric_array, k1_value, k2_value, d_value, t_value):
 
-      with open("Output.txt", "w") as text_file:
+    with open("Output.txt", "w") as text_file:
         print('--------- Multiparametric GAME MODEL SOLUTION -------------', file=text_file)
   
     image_matrixes = get_image_matrixes(s_matrix, k1_value, k2_value, t_value, d_value)
