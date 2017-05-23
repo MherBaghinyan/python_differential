@@ -9,21 +9,19 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     mul_root.title("game model solution")
     mul_root.geometry("800x400")
 
-    
-    
-    k1_value = 3
-    k2_value = 3
-    d_value = 10
-    t_value = 1
-
-    s_matrix = [[sin(t), 1/(t**2), d**3, d*(1-0.2*t) + 1],
-                [(2*t / (d + 1) ** 3) ** -0.5, 90*t/2 + d, acos(1/t), exp(t + d)],
-                [4/(d+t), 5 + d, 155*t, sqrt(d**2 + t) + 4],
-                [t**3, acos(t) + atan(d), (d**3)/cos(2 * t), tanh(4*exp(d))]]    
-    
-    
     # top level bar
     # Label(mul_root, text=' K ').grid(row=0, column=0)
+
+    k1_value = 3
+    k2_value = 3
+    d_value = 1
+    t_value = 1
+
+    s_matrix = [[sin(t), 1/(t**2), 0.8 + d**3, d*(1-0.2*t) + 1],
+                [2*t / ((d + 1) ** 3) ** -0.5, 90*t/2 + d, acos(1/t), exp(t + d)],
+                [4/(d+t), 5 + d, 155*t, sqrt(d**2 + t) + 4],
+                [t**3, acos(t) + atan(d), (d**3)/cos(2 * t), tanh(4*exp(d))]]
+
     solution_matrix = initiate_simplex_matrix(s_matrix, [], [], [], k1_value, k2_value, d_value, t_value)
 
     rows = len(s_matrix)
@@ -55,12 +53,20 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     game_value = 1/function_max_parametric
     print(' parametric Game value = ', game_value)
 
+    x_probability = [x * game_value for x in x_parametric_array]
+    y_probability = [x * game_value for x in y_parametric_array]
+
+    for j in range(0, len(x_probability)):
+        if x_probability[j] > 1:
+            x_probability[j] = 0
+            x_parametric_array[j] = 0
+        if y_probability[j] > 1:
+            y_probability[j] = 0
+            y_parametric_array[j] = 0
+
     print(' y_parametric array = ', y_parametric_array)
     print(' x_parametric array = ', x_parametric_array)
     print(' z_parametric_array array = ', z_parametric_array)
-
-    x_probability = [x * game_value for x in x_parametric_array]
-    y_probability = [x * game_value for x in y_parametric_array]
     print('x_probability array = ', x_probability)
     print('y_probability array = ', y_probability)
 
@@ -77,6 +83,7 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
         Label(mul_root, text=str(y_probability[k1])).grid(row=k1_value + k1 + 5, column=2)
 
     with open("Output.txt", "a") as text_file:
+        print(' ----------------------------------', file=text_file)
         print(' x_parametric array  = ', x_parametric_array, file=text_file)
         print(' y_parametric array = ', y_parametric_array, file=text_file)
         print(' z_parametric_array array = ', z_parametric_array, file=text_file)
