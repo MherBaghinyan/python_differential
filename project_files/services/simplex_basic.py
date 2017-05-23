@@ -1,3 +1,5 @@
+from project_files.services.transformation_util import *
+
 def printTableu(tableu):
      print('----------------------')
      for row in tableu:
@@ -113,18 +115,31 @@ def simplex_main(table):
     return table
 
 
+
+# s_matrix = [[sin(t), 1/(t**2), 0.8 + d**3, d*(1-0.2*t) + 1],
+#             [2*t / ((d + 1) ** 3) ** -0.5, 90*t/2 + d, acos(1/t), exp(t + d)],
+#             [4/(d+t), 5 + d, 155*t, sqrt(d**2 + t) + 4],
+#             [t**3, acos(t) + atan(d), (d**3)/cos(2 * t), tanh(4*exp(d))]]
+
 tableu = []
-z = [0.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0]
-x1 = [1.1504, 179.95,  156.12, 90,  1.0,  0.0,  0.0]
-x2 = [1.1504, 89.95, 179.87, 155,   0.0,  1.0,  0.0]
-x3 = [1.1504, 180,  156, 177,  0.0,  0.0,  1.0]
+z = [0.0, -1.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0,  0.0]
+x1 = [1, sin(1), 1/(1**2), 0.8 + 1**3, 1*(1-0.2*1) + 1,  1.0,  0.0,  0.0,  0.0]
+x2 = [1, 2*1 / ((1 + 1) ** 3) ** -0.5, 90*1/2 + 1, acos(1/1), exp(1 + 1),   0.0,  1.0,  0.0, 0.0]
+x3 = [1, 4/(1 + 1), 5 + 1, 155*1, sqrt(1**2 + 1) + 4,  0.0,  0.0,  1.0, 0.0]
+x4 = [1, 1**3, acos(1) + atan(1), (1**3)/cos(2 * 1), tanh(4*exp(1)),  0.0,  0.0, 0.0,  1.0]
 
 tableu.append(z)
 tableu.append(x1)
 tableu.append(x2)
 tableu.append(x3)
+tableu.append(x4)
 
-# tableu = simplex_mher(tableu)
+tableu = simplex_main(tableu)
+
+print("Fmax = ", tableu[0][0])
+print("V = ", 1/tableu[0][0])
+
+
 
 # z = [0.0, -3.0, -2.0, -5.0, 0.0,  0.0,  0.0]
 # x_b = [40.0, 60.0, 30.0]
