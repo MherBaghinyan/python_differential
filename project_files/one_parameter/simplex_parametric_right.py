@@ -98,8 +98,9 @@ def b_item_image(k_value, column, row, pivot_row, pivot_column, image_matrixes):
 
 
 # generate next image table
-def next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column):
+def next_image_table(image_matrixes, x_image, pivot_row, pivot_column):
 
+    table = image_matrixes[0]
     columns = len(table[0])
     rows = len(table)
 
@@ -122,7 +123,6 @@ def next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column):
             table[i][j] -= multiplier
 
     k_count = len(image_matrixes)
-
 
     new_image_matrix = []
 
@@ -163,7 +163,7 @@ def parametric_simplex(table, image_matrixes, x_image, basis_vector):
     write_table_file(table)
 
     while pivot_column >= 0:
-        image_matrixes = next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column)
+        image_matrixes = next_image_table(image_matrixes, x_image, pivot_row, pivot_column)
 
         basis_vector[pivot_row - 1] = pivot_column
 
