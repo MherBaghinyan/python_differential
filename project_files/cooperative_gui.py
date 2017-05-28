@@ -39,7 +39,7 @@ def cooperative_window(root, n_value, m_value):
         for j in range(m_value):
             e = Entry(cooperative_root, relief=RIDGE)
             e.grid(row=i + 6, column=j, sticky=NSEW, padx=5, pady=5)
-            e.insert(END, 0.0)
+            e.insert(END, a_[i][j])
             cols.append(e)
         rows_a.append(cols)
 
@@ -56,7 +56,7 @@ def cooperative_window(root, n_value, m_value):
         for j in range(m_value):
             e = Entry(cooperative_root, relief=RIDGE)
             e.grid(row=i + next_matrix_i + 1, column=j, sticky=NSEW, padx=5, pady=5)
-            e.insert(END, 0.0)
+            e.insert(END, b_[i][j])
             cols.append(e)
         rows_b.append(cols)
 

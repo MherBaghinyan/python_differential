@@ -136,8 +136,8 @@ tableu.append(x4)
 
 # tableu = simplex_main(tableu)
 
-print("Fmax = ", tableu[0][0])
-print("V = ", 1/tableu[0][0])
+# print("Fmax = ", tableu[0][0])
+# print("V = ", 1/tableu[0][0])
 
 
 

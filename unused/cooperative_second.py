@@ -101,12 +101,12 @@ def cooperative_matrix(matrix_a, matrix_b, k, t_value_):
     return matrix
 
 
-matrix_a = [[3, 0], [5, 1]]
-matrix_b = [[3, 5], [0, 1]]
+matrix_a = [[40, 10], [50, 15]]
+matrix_b = [[40, 50], [10, 15]]
 
 
 k = 3
 
 t_value_ = 0.8
 
-cooperative_matrix(matrix_a, matrix_b, k, t_value_)
+# cooperative_matrix(matrix_a, matrix_b, k, t_value_)

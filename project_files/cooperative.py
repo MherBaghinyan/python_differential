@@ -85,5 +85,5 @@ k = 3
 
 t_value_ = 0.8
 
-cooperative_matrix(matrix_a, matrix_b, 1, k, t_value_)
+# cooperative_matrix(matrix_a, matrix_b, 1, k, t_value_)
 
