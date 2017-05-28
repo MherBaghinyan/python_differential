@@ -66,7 +66,7 @@ def get_div_image(k_value, j, pivot_row, pivot_column, image_matrixes):
     if k_value == 0:
         return image_matrixes[0][pivot_row][j] / a_i_0_j_0
 
-    for p in range(1, k_value):
+    for p in range(1, k_value + 1):
         pivot_value = image_matrixes[p][pivot_row][pivot_column]
         item += get_div_image(k_value - p, j, pivot_row, pivot_column, image_matrixes) * pivot_value
 
@@ -76,7 +76,7 @@ def get_div_image(k_value, j, pivot_row, pivot_column, image_matrixes):
 def d_item_image(k_value, column, row, pivot_row, pivot_column, image_matrixes):
     d_item = 0
 
-    for p in range(1, k_value):
+    for p in range(1, k_value + 1):
         row_0 = image_matrixes[k_value - p][pivot_row][column]
         col_0 = image_matrixes[p][row][pivot_column]
         d_item += row_0 * col_0
@@ -87,14 +87,15 @@ def d_item_image(k_value, column, row, pivot_row, pivot_column, image_matrixes):
 def b_item_image(k_value, column, row, pivot_row, pivot_column, image_matrixes):
     item = 0
 
-    if k_value == 0:
-        return d_item_image(0, column, row, pivot_row, pivot_column, image_matrixes) / image_matrixes[0][pivot_row][pivot_column]
+    a_i_0_j_0 = image_matrixes[0][pivot_row][pivot_column]
 
-    for p in range(1, k_value):
+    if k_value == 0:
+        return d_item_image(0, column, row, pivot_row, pivot_column, image_matrixes) / a_i_0_j_0
+    for p in range(1, k_value + 1):
         pivot_value = image_matrixes[p][pivot_row][pivot_column]
         item += b_item_image(k_value - p, column, row, pivot_row, pivot_column, image_matrixes) * pivot_value
 
-    return (d_item_image(k_value, column, row, pivot_row, pivot_column, image_matrixes) - item) / image_matrixes[0][pivot_row][pivot_column]
+    return (d_item_image(k_value, column, row, pivot_row, pivot_column, image_matrixes) - item) / a_i_0_j_0
 
 
 # generate next image table
