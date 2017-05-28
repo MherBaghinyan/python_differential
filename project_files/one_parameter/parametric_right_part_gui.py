@@ -31,9 +31,9 @@ def parametric_window(root, n_value, m_value):
     t1.grid(row=3, column=3, sticky=NSEW, padx=5, pady=5)
     t1.insert(END, t_value)
 
-    x_1 = [[179.95, 156.12, 90],
-           [89.95, 179.87, 155],
-           [180, 156, 177]]
+    x_1 = [[1 + t, 2, 1],
+           [3 - 2*t, 0, 2],
+           [1 + 3*t, 4, 0]]
 
     if n_value > 3:
         x_1 = [[0] * n_value for x in range(m_value)]
@@ -53,7 +53,7 @@ def parametric_window(root, n_value, m_value):
     for i in range(n_value):
         Label(parametric_root, text='< =').grid(row=i + 4, column=8)
 
-    right_vector = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
+    right_vector = [40, 60, 30]
 
     if n_value > 3:
         right_vector = [0 for x in range(n_value)]
@@ -69,7 +69,7 @@ def parametric_window(root, n_value, m_value):
 
     # enter z function vector
 
-    z_init = [1, 1, 1]
+    z_init = [3, 2, 5]
 
     if n_value > 3:
         z_init = [0 for x in range(m_value)]

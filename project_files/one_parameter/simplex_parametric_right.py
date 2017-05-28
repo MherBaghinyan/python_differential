@@ -1,6 +1,7 @@
 # https://docs.scipy.org/doc/scipy-0.18.1/reference/tutorial/optimize.html#constrained-minimization-of-multivariate-scalar-functions-minimize
 from project_files.services.optimization_util import *
 from project_files.services.simplex_basic import *
+from copy import copy, deepcopy
 
 t = Symbol('t')
 k = 2
@@ -56,6 +57,46 @@ def prepare_matrix_for_simplex(s_matrix, right_vector, z_array, k_value, t_value
     return simplex_matrix
 
 
+# get division image value
+def get_div_image(k_value, j, pivot_row, pivot_column, image_matrixes):
+    item = 0
+
+    a_i_0_j_0 = image_matrixes[0][pivot_row][pivot_column]
+
+    if k_value == 0:
+        return image_matrixes[0][pivot_row][j] / a_i_0_j_0
+
+    for p in range(1, k_value):
+        pivot_value = image_matrixes[p][pivot_row][pivot_column]
+        item += get_div_image(k_value - p, j, pivot_row, pivot_column, image_matrixes) * pivot_value
+
+    return (image_matrixes[k_value][pivot_row][j] - item) / a_i_0_j_0
+
+
+def d_item_image(k_value, column, row, pivot_row, pivot_column, image_matrixes):
+    d_item = 0
+
+    for p in range(1, k_value):
+        row_0 = image_matrixes[k_value - p][pivot_row][column]
+        col_0 = image_matrixes[p][row][pivot_column]
+        d_item += row_0 * col_0
+
+    return d_item
+
+
+def b_item_image(k_value, column, row, pivot_row, pivot_column, image_matrixes):
+    item = 0
+
+    if k_value == 0:
+        return d_item_image(0, column, row, pivot_row, pivot_column, image_matrixes) / image_matrixes[0][pivot_row][pivot_column]
+
+    for p in range(1, k_value):
+        pivot_value = image_matrixes[p][pivot_row][pivot_column]
+        item += b_item_image(k_value - p, column, row, pivot_row, pivot_column, image_matrixes) * pivot_value
+
+    return (d_item_image(k_value, column, row, pivot_row, pivot_column, image_matrixes) - item) / image_matrixes[0][pivot_row][pivot_column]
+
+
 # generate next image table
 def next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column):
 
@@ -81,26 +122,32 @@ def next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column):
             table[i][j] -= multiplier
 
     k_count = len(image_matrixes)
+
+
+    new_image_matrix = []
+
     # images pivot row values
     for k in range(0, k_count):
-        s_image = image_matrixes[k]
+        s_image = deepcopy(image_matrixes[k])
 
         pivot_image = [0 for x in range(columns)]
         for j in range(0, columns):
-            pivot_image[j] = s_image[pivot_row][j] / pivot_value
+            pivot_image[j] = get_div_image(k, j, pivot_row, pivot_column, image_matrixes)
+            # s_image[pivot_row][j] / pivot_value
             s_image[pivot_row][j] = pivot_image[j]
-        image_matrixes[k] = s_image
+        # image_matrixes[k] = s_image
 
         for i in range(0, rows):
             if i == pivot_row:
                 continue
             for j in range(0, columns):
-                s_image[i][j] -= pivot_image[j] * ratios[i]
-        image_matrixes[k] = s_image
+                s_image[i][j] -= b_item_image(k, j, i, pivot_row, pivot_column, image_matrixes)
+                # pivot_image[j] * ratios[i]
+        new_image_matrix.append(s_image)
         print("k = ", k)
         printTableu(s_image)
-
-    return table
+    image_matrixes = new_image_matrix
+    return image_matrixes
 
 
 #main simplex method
@@ -116,20 +163,19 @@ def parametric_simplex(table, image_matrixes, x_image, basis_vector):
     write_table_file(table)
 
     while pivot_column >= 0:
-        table = next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column)
-        printTableu(table)
-        write_table_file(table)
+        image_matrixes = next_image_table(table, image_matrixes, x_image, pivot_row, pivot_column)
 
         basis_vector[pivot_row - 1] = pivot_column
 
         if not any([n for n in array if n < 0]):
             break
 
+        table = image_matrixes[0]
         array = table[0]
         pivot_column = find_entering_column(array)
         pivot_row = find_departing_row(table, pivot_column)
 
-    return table
+    return image_matrixes
 
 
 def get_parametric_array(image_matrixes, vec_len, k_value, t_value, basis_vector):
@@ -203,8 +249,8 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
         try:
             image_matrixes = get_image_matrixes(s_matrix, right_vector, z_array, k, t_value)
             simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, z_array, 0, t_value)
-            tableu = parametric_simplex(simplex_matrix, image_matrixes, x_b_image_matrix, basis_vector)
-            image_matrixes[0] = tableu
+            image_matrixes = parametric_simplex(simplex_matrix, image_matrixes, x_b_image_matrix, basis_vector)
+            # image_matrixes[0] = tableu
             new_max = x_b_nonlinear_optimality(image_matrixes, k, len(right_vector), t_value)
 
             z_max = z_nonlinear_optimality(image_matrixes, x_b_image_matrix, k, len(right_vector), t_value)
