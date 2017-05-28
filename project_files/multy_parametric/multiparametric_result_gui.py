@@ -17,10 +17,14 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     d_value = 1
     t_value = 1
 
-    s_matrix = [[sin(t), 1/(t**2), 0.8 + d**3, d*(1-0.2*t) + 1],
-                [2*t / ((d + 1) ** 3) ** -0.5, 90*t/2 + d, acos(1/t), exp(t + d)],
-                [4/(d+t), 5 + d, 155*t, sqrt(d**2 + t) + 4],
-                [t**3, acos(t) + atan(d), (d**3)/cos(2 * t), tanh(4*exp(d))]]
+# x1 = [179.95 ,  156.12 , 90 ,  1.0,  0.0,  0.0]
+# x2 = [89.95 , 179.87 , 155 ,   0.0,  1.0,  0.0]
+# x3 = [180,  156 , 177 ,  0.0,  0.0,  1.0]
+
+    s_matrix = [[179.95 + sin(t), 156.12 + 1/(t**2), 90 + d**3, d*(1-0.2*t) + 1],
+                [89.95 + 2*t / ((d + 1) ** 3) ** -0.5, 179.87 + 90*t/2 + d, acos(1/t), exp(t + d)],
+                [180 + 4/(d+t), 156 + 5 + d, 155 + 155*t, sqrt(d**2 + t) + 4],
+                [77 + t**3, 90.4 + acos(t) + atan(d), 177 + (d**3)/cos(2 * t), tanh(4*exp(d))]]
 
     solution_matrix = initiate_simplex_matrix(s_matrix, [], [], [], k1_value, k2_value, d_value, t_value)
 
