@@ -12,15 +12,13 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     # top level bar
     # Label(mul_root, text=' K ').grid(row=0, column=0)
 
-    # k1_value = 2
-    # k2_value = 2
-    # d_value = 1
-    # t_value = 1
-    #
-    # s_matrix = [[179.95 + sin(t), 156.12 + 1/(t**2), 90 + d**3, d*(1-0.2*t) + 1],
-    #             [89.95 + 2*t / ((d + 1) ** 3) ** -0.5, 179.87 + 90*t/2 + d, acos(1/t), exp(t + d)],
-    #             [180 + 4/(d+t), 156 + 5 + d, 155 + 155*t, sqrt(d**2 + t) + 4],
-    #             [77 + t**3, 90.4 + acos(t) + atan(d), 177 + (d**3)/cos(2 * t), tanh(4*exp(d))]]
+    k1_value = 2
+    k2_value = 2
+    d_value = 1
+    t_value = 1
+
+    s_matrix = [[179.95 + t, 156.12*d + t**2],
+                [180*t + (d+t), 156 + 5 + d]]
 
     solution_matrix = initiate_simplex_matrix(s_matrix, [], [], [], k1_value, k2_value, d_value, t_value)
 
@@ -52,7 +50,7 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     print(' parametric F max = ', function_max_parametric)
     game_value = 1/function_max_parametric
     print(' parametric Game value = ', game_value)
-    # print(' parametric Game value = ', game_value.evalf(subs={t: t_value, d: d_value}))
+    print(' parametric Game value = ', game_value.evalf(subs={t: t_value, d: d_value}))
 
     x_probability = [x * game_value for x in x_parametric_array]
     y_probability = [x * game_value for x in y_parametric_array]
@@ -69,6 +67,8 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     print(' x_parametric array = ', x_parametric_array)
     print(' z_parametric_array array = ', z_parametric_array)
     print('x_probability array = ', x_probability)
+    print('x_probability array = ', x_probability)
+    print('y_probability array = ', y_probability)
     print('y_probability array = ', y_probability)
 
     res = multy_nonlinear_optimality(z_parametric_array, d_value, t_value)

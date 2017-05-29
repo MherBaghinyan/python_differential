@@ -45,7 +45,7 @@ def multi_window(root, n_value, m_value):
         for j in range(m_value):
             e = Entry(multi_root, relief=RIDGE)
             e.grid(row=i + 5, column=j, sticky=NSEW, padx=5, pady=5)
-            e.insert(END, R_matrix[i][j])
+            e.insert(END, 0.0)
             cols.append(e)
         rows.append(cols)
 

@@ -236,6 +236,18 @@ def get_div_image(k1_value, k2_value, j, pivot_row, pivot_column, image_matrixes
     if k1_value == 0 and k2_value == 0:
         return image_matrixes[0][0][pivot_row][j] / a_i_0_j_0
 
+    if k1_value == 0 and k2_value != 0:
+        for p2 in range(1, k2_value + 1):
+            pivot_value = image_matrixes[0][p2][pivot_row][pivot_column]
+            item += get_div_image(0, k2_value - p2, j, pivot_row, pivot_column, image_matrixes) * pivot_value
+        return (image_matrixes[0][k2_value][pivot_row][j] - item) / a_i_0_j_0
+
+    if k1_value != 0 and k2_value == 0:
+        for p1 in range(1, k1_value + 1):
+            pivot_value = image_matrixes[p1][0][pivot_row][pivot_column]
+            item += get_div_image(k1_value - p1, 0, j, pivot_row, pivot_column, image_matrixes) * pivot_value
+        return (image_matrixes[k1_value][0][pivot_row][j] - item) / a_i_0_j_0
+
     for p1 in range(1, k1_value + 1):
         for p2 in range(1, k2_value + 1):
             pivot_value = image_matrixes[p1][p2][pivot_row][pivot_column]
@@ -268,13 +280,13 @@ def b_item_image(k1_value, k2_value, column, row, pivot_row, pivot_column, image
         for p2 in range(1, k2_value + 1):
             pivot_value = image_matrixes[0][p2][pivot_row][pivot_column]
             item += b_item_image(0, k2_value - p2, column, row, pivot_row, pivot_column, image_matrixes) * pivot_value
-        return (d_item_image(k1_value, k2_value, column, row, pivot_row, pivot_column, image_matrixes) - item) / a_i_0_j_0
+        return (d_item_image(0, k2_value, column, row, pivot_row, pivot_column, image_matrixes) - item) / a_i_0_j_0
 
     if k1_value != 0 and k2_value == 0:
         for p1 in range(1, k1_value + 1):
             pivot_value = image_matrixes[p1][0][pivot_row][pivot_column]
             item += b_item_image(k1_value - p1, 0, column, row, pivot_row, pivot_column, image_matrixes) * pivot_value
-        return (d_item_image(k1_value, k2_value, column, row, pivot_row, pivot_column, image_matrixes) - item) / a_i_0_j_0
+        return (d_item_image(k1_value, 0, column, row, pivot_row, pivot_column, image_matrixes) - item) / a_i_0_j_0
 
     for p1 in range(1, k1_value + 1):
         for p2 in range(1, k2_value + 1):
@@ -313,8 +325,8 @@ def next_image_table(image_matrixes, pivot_row, pivot_column, k1_value, k2_value
     # [[0][0] * (k1_value + 1) for x in range(k2_value + 1)]
 
     # images pivot row values
-    for k1 in range(0, k1_value):
-        for k2 in range(0, k2_value):
+    for k1 in range(0, k1_value + 1):
+        for k2 in range(0, k2_value + 1):
             s_image = [[0.0] * columns for x in range(rows)]
 
             pivot_image = [0 for x in range(columns)]

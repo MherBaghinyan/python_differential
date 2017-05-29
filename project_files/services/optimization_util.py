@@ -100,7 +100,7 @@ def func_test(x, sign=1.0):
 def test_optimize():
 
     #0.0738944793606666*t**4 - 0.665858*t**2
-    cons = [{'type': 'ineq', 'fun': lambda x: np.array([(0.07389*x[0]**4 - 0.665858*x[0]**2)])}]
+    cons = [{'type': 'ineq', 'fun': lambda x: np.array([(3.32929*x[0]**2 + 5)])}]
 
     res = minimize(func_test, 0.0, args=(-1.0,), constraints=cons, method='SLSQP', options={'disp': True})
     print(res.x)
