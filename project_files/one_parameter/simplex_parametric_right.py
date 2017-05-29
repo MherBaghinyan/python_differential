@@ -2,7 +2,7 @@
 from project_files.services.optimization_util import *
 from project_files.services.simplex_basic import *
 from copy import copy, deepcopy
-
+import logging
 t = Symbol('t')
 k = 2
 t_value = 0
@@ -130,7 +130,7 @@ def next_image_table(image_matrixes, x_image, pivot_row, pivot_column):
 
     # images pivot row values
     for k in range(0, k_count):
-        s_image = [[0] * columns for x in range(rows)]
+        s_image = [[0.0] * columns for x in range(rows)]
 
         pivot_image = [0 for x in range(columns)]
         for j in range(0, columns):
@@ -169,11 +169,12 @@ def parametric_simplex(table, image_matrixes, x_image, basis_vector):
 
         basis_vector[pivot_row - 1] = pivot_column
 
+        table = image_matrixes[0]
+        array = table[0]
+
         if not any([n for n in array if n < 0]):
             break
 
-        table = image_matrixes[0]
-        array = table[0]
         pivot_column = find_entering_column(array)
         pivot_row = find_departing_row(table, pivot_column)
 
@@ -283,7 +284,9 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
                 break
         except TypeError:
             has_solution = false
+            logging.exception("message")
         except ValueError:
+            logging.exception("message")
             has_solution = false
 
     image_matrixes = []
