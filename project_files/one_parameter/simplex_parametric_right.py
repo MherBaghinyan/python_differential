@@ -100,7 +100,7 @@ def b_item_image(k_value, column, row, pivot_row, pivot_column, image_matrixes):
 
 
 # generate next image table
-def next_image_table(image_matrixes, x_image, pivot_row, pivot_column):
+def next_image_table(image_matrixes, pivot_row, pivot_column):
 
     table = deepcopy(image_matrixes[0])
     columns = len(table[0])
@@ -165,7 +165,7 @@ def parametric_simplex(table, image_matrixes, x_image, basis_vector):
     write_table_file(table)
 
     while pivot_column >= 0:
-        image_matrixes = next_image_table(image_matrixes, x_image, pivot_row, pivot_column)
+        image_matrixes = next_image_table(image_matrixes, pivot_row, pivot_column)
 
         basis_vector[pivot_row - 1] = pivot_column
 
@@ -269,8 +269,8 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
             if not math.isnan(float(z_max)):
                 compare_value = z_max
 
-            if (not math.isnan(float(z_max))) and (not math.isnan(float(new_max))) and new_max > z_max > t_value:
-                compare_value = z_max
+            if (not math.isnan(float(z_max))) and (not math.isnan(float(new_max))) and z_max > new_max > t_value:
+                compare_value = new_max
 
             if compare_value > t_value:
                 step_array.append(t_value)

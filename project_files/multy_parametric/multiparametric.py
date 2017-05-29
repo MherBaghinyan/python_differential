@@ -1,5 +1,6 @@
 from project_files.services.simplex_basic import *
 from project_files.services.transformation_util import *
+from copy import copy, deepcopy
 
 d = Symbol('d')
 t = Symbol('t')
@@ -129,7 +130,10 @@ def matrix_multi_differential(matrix, t_level, d_level, t_value, d_value):
     z_matrix = [[0] * _length for x in range(_length)]
     for i in range(0, _length):
         for j in range(0, _length):
-            z_matrix[i][j] = item_multi_transform(matrix[i][j], t_level, d_level, t_value, d_value)
+            if is_number(matrix[i][j]):
+                z_matrix[i][j] = matrix[i][j]
+            else:
+                z_matrix[i][j] = item_multi_transform(matrix[i][j], t_level, d_level, t_value, d_value)
     return z_matrix
 
 
@@ -199,9 +203,6 @@ def next_simplex_table(table, pivot_row, pivot_column, pivot_value, ratio_vec):
 
 def simplex_multi(table, image_matrixes, k1_value, k2_value):
 
-    columns = len(table[0])
-    rows = len(table)
-
     array = table[0]
     pivot_column = find_entering_column(array)
     pivot_row = find_departing_row(table, pivot_column)
@@ -209,55 +210,131 @@ def simplex_multi(table, image_matrixes, k1_value, k2_value):
     print("pivot column", pivot_column)
     print("pivot row", pivot_row)
 
+    write_table_file(table)
+
     while pivot_column >= 0:
+        image_matrixes = next_image_table(image_matrixes, pivot_row, pivot_column, k1_value, k2_value)
 
-        pivot_value = table[pivot_row][pivot_column]
-        ratio_vec = [0 for x in range(rows)]
-        table = next_simplex_table(table, pivot_row, pivot_column, pivot_value, ratio_vec)
-        
-        with open("Output.txt", "a") as text_file:
-            print('--------- ITERATION STARTED  -------------', file=text_file)
-
-        for k1 in range(0, k1_value + 1):
-            for k2 in range(0, k2_value + 1):
-                # pivot image row
-                image_matrix = image_matrixes[k1][k2]
-                image_matrixes[k1][k2] = next_image_table(image_matrix, pivot_row, pivot_column, pivot_value, ratio_vec)
-                with open("Output.txt", "a") as text_file:
-                    print("- k1 = " + str(k1) + "  -- k2 = " + str(k2) + " -", file=text_file)
-                write_table_file(image_matrixes[k1][k2])
-                
-        printTableu(table)
+        table = image_matrixes[0][0]
+        array = table[0]
 
         if not any([n for n in array if n < 0]):
             break
 
-        array = table[0]
         pivot_column = find_entering_column(array)
         pivot_row = find_departing_row(table, pivot_column)
 
-    return table
+    return image_matrixes
 
 
-def next_image_table(table, pivot_row, pivot_column, pivot_value, ratio_vec):
+# get division image value
+def get_div_image(k1_value, k2_value, j, pivot_row, pivot_column, image_matrixes):
+    item = 0
 
+    a_i_0_j_0 = image_matrixes[0][0][pivot_row][pivot_column]
+
+    if k1_value == 0 and k2_value == 0:
+        return image_matrixes[0][0][pivot_row][j] / a_i_0_j_0
+
+    for p1 in range(1, k1_value + 1):
+        for p2 in range(1, k2_value + 1):
+            pivot_value = image_matrixes[p1][p2][pivot_row][pivot_column]
+            item += get_div_image(k1_value - p1, k2_value - p2, j, pivot_row, pivot_column, image_matrixes) * pivot_value
+
+    return (image_matrixes[k1_value][k2_value][pivot_row][j] - item) / a_i_0_j_0
+
+
+def d_item_image(k1_value, k2_value, column, row, pivot_row, pivot_column, image_matrixes):
+    d_item = 0
+
+    for p1 in range(0, k1_value + 1):
+        for p2 in range(0, k2_value + 1):
+            row_0 = image_matrixes[k1_value - p1][k2_value - p2][pivot_row][column]
+            col_0 = image_matrixes[p1][p2][row][pivot_column]
+            d_item += row_0 * col_0
+
+    return d_item
+
+
+def b_item_image(k1_value, k2_value, column, row, pivot_row, pivot_column, image_matrixes):
+    item = 0
+
+    a_i_0_j_0 = image_matrixes[0][0][pivot_row][pivot_column]
+
+    if k1_value == 0 and k2_value == 0:
+        return d_item_image(0, 0, column, row, pivot_row, pivot_column, image_matrixes) / a_i_0_j_0
+
+    if k1_value == 0 and k2_value != 0:
+        for p2 in range(1, k2_value + 1):
+            pivot_value = image_matrixes[0][p2][pivot_row][pivot_column]
+            item += b_item_image(0, k2_value - p2, column, row, pivot_row, pivot_column, image_matrixes) * pivot_value
+        return (d_item_image(k1_value, k2_value, column, row, pivot_row, pivot_column, image_matrixes) - item) / a_i_0_j_0
+
+    if k1_value != 0 and k2_value == 0:
+        for p1 in range(1, k1_value + 1):
+            pivot_value = image_matrixes[p1][0][pivot_row][pivot_column]
+            item += b_item_image(k1_value - p1, 0, column, row, pivot_row, pivot_column, image_matrixes) * pivot_value
+        return (d_item_image(k1_value, k2_value, column, row, pivot_row, pivot_column, image_matrixes) - item) / a_i_0_j_0
+
+    for p1 in range(1, k1_value + 1):
+        for p2 in range(1, k2_value + 1):
+            pivot_value = image_matrixes[p1][p2][pivot_row][pivot_column]
+            item += b_item_image(k1_value - p1, k2_value - p2, column, row, pivot_row, pivot_column, image_matrixes) * pivot_value
+
+    return (d_item_image(k1_value, k2_value, column, row, pivot_row, pivot_column, image_matrixes) - item) / a_i_0_j_0
+
+
+# generate next image table
+def next_image_table(image_matrixes, pivot_row, pivot_column, k1_value, k2_value):
+
+    table = deepcopy(image_matrixes[0][0])
     columns = len(table[0])
     rows = len(table)
 
-    # pivot row
+    pivot_value = table[pivot_row][pivot_column]
+
     pivot_vector = [0 for x in range(columns)]
     for j in range(0, columns):
         pivot_vector[j] = table[pivot_row][j] / pivot_value
         table[pivot_row][j] = pivot_vector[j]
 
+    ratios = [0 for x in range(rows)]
     for i in range(0, rows):
+        ratio = table[i][pivot_column]
+        ratios[i] = ratio
+
         if i == pivot_row:
             continue
         for j in range(0, columns):
-            multiplier = pivot_vector[j] * ratio_vec[i]
+            multiplier = pivot_vector[j] * ratio
             table[i][j] -= multiplier
 
-    return table
+    new_image_matrix = deepcopy(image_matrixes)
+    # [[0][0] * (k1_value + 1) for x in range(k2_value + 1)]
+
+    # images pivot row values
+    for k1 in range(0, k1_value):
+        for k2 in range(0, k2_value):
+            s_image = [[0.0] * columns for x in range(rows)]
+
+            pivot_image = [0 for x in range(columns)]
+            for j in range(0, columns):
+                s_image[pivot_row][j] = get_div_image(k1, k2, j, pivot_row, pivot_column, image_matrixes)
+                # s_image[pivot_row][j] / pivot_value
+            # image_matrixes[k] = s_image
+
+            for i in range(0, rows):
+                if i == pivot_row:
+                    continue
+                for j in range(0, columns):
+                    item = (image_matrixes[k1][k2][i][j] - b_item_image(k1, k2, j, i, pivot_row, pivot_column, image_matrixes))
+                    s_image[i][j] = item
+                    # pivot_image[j] * ratios[i]
+            new_image_matrix[k1][k2] = s_image
+            print("k1 ======= ", k1, "k2 ======= ", k2)
+            printTableu(s_image)
+
+    return new_image_matrix
 
 
 def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, parametric_array, k1_value, k2_value, d_value, t_value):
@@ -268,8 +345,7 @@ def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, paramet
     image_matrixes = get_image_matrixes(s_matrix, k1_value, k2_value, t_value, d_value)
     simplex_matrix = prepare_matrix_for_simplex(s_matrix, 0, 0, t_value, d_value)
     printTableu(simplex_matrix)
-    tableu = simplex_multi(simplex_matrix, image_matrixes, k1_value, k2_value)
-    image_matrixes[0][0] = tableu
+    image_matrixes = simplex_multi(simplex_matrix, image_matrixes, k1_value, k2_value)
 
     return image_matrixes
 

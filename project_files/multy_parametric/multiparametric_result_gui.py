@@ -12,8 +12,8 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     # top level bar
     # Label(mul_root, text=' K ').grid(row=0, column=0)
 
-    # k1_value = 3
-    # k2_value = 3
+    # k1_value = 2
+    # k2_value = 2
     # d_value = 1
     # t_value = 1
     #
@@ -52,17 +52,18 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     print(' parametric F max = ', function_max_parametric)
     game_value = 1/function_max_parametric
     print(' parametric Game value = ', game_value)
+    # print(' parametric Game value = ', game_value.evalf(subs={t: t_value, d: d_value}))
 
     x_probability = [x * game_value for x in x_parametric_array]
     y_probability = [x * game_value for x in y_parametric_array]
 
-    for j in range(0, len(x_probability)):
-        if x_probability[j] > 1:
-            x_probability[j] = 0
-            x_parametric_array[j] = 0
-        if y_probability[j] > 1:
-            y_probability[j] = 0
-            y_parametric_array[j] = 0
+    # for j in range(0, len(x_probability)):
+    #     if x_probability[j] > 1:
+    #         x_probability[j] = 0
+    #         x_parametric_array[j] = 0
+    #     if y_probability[j] > 1:
+    #         y_probability[j] = 0
+    #         y_parametric_array[j] = 0
 
     print(' y_parametric array = ', y_parametric_array)
     print(' x_parametric array = ', x_parametric_array)
@@ -73,8 +74,8 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     res = multy_nonlinear_optimality(z_parametric_array, d_value, t_value)
     print("optimality = ", res)
 
-    Label(mul_root, text=" - ").grid(row=k1_value + 1, column=1)
-    Label(mul_root, text=" Game Value = " + str(game_value)).grid(row=k1_value + 2, column=2)
+    # Label(mul_root, text=" - ").grid(row=k1_value + 1, column=1)
+    Label(mul_root, text=" Game Value = " + str(game_value)).grid(row=k1_value + 2, column=1)
     Label(mul_root, text=" - ").grid(row=k1_value + 3, column=1)
     Label(mul_root, text=" X probabilities  ").grid(row=k1_value + 4, column=1)
     Label(mul_root, text=" Y probabilities ").grid(row=k1_value + 4, column=2)
