@@ -76,7 +76,7 @@ def get_div_image(k_value, j, pivot_row, pivot_column, image_matrixes):
 def d_item_image(k_value, column, row, pivot_row, pivot_column, image_matrixes):
     d_item = 0
 
-    for p in range(1, k_value + 1):
+    for p in range(0, k_value + 1):
         row_0 = image_matrixes[k_value - p][pivot_row][column]
         col_0 = image_matrixes[p][row][pivot_column]
         d_item += row_0 * col_0
@@ -91,6 +91,7 @@ def b_item_image(k_value, column, row, pivot_row, pivot_column, image_matrixes):
 
     if k_value == 0:
         return d_item_image(0, column, row, pivot_row, pivot_column, image_matrixes) / a_i_0_j_0
+
     for p in range(1, k_value + 1):
         pivot_value = image_matrixes[p][pivot_row][pivot_column]
         item += b_item_image(k_value - p, column, row, pivot_row, pivot_column, image_matrixes) * pivot_value
@@ -101,7 +102,7 @@ def b_item_image(k_value, column, row, pivot_row, pivot_column, image_matrixes):
 # generate next image table
 def next_image_table(image_matrixes, x_image, pivot_row, pivot_column):
 
-    table = image_matrixes[0]
+    table = deepcopy(image_matrixes[0])
     columns = len(table[0])
     rows = len(table)
 
@@ -129,26 +130,26 @@ def next_image_table(image_matrixes, x_image, pivot_row, pivot_column):
 
     # images pivot row values
     for k in range(0, k_count):
-        s_image = deepcopy(image_matrixes[k])
+        s_image = [[0] * columns for x in range(rows)]
 
         pivot_image = [0 for x in range(columns)]
         for j in range(0, columns):
-            pivot_image[j] = get_div_image(k, j, pivot_row, pivot_column, image_matrixes)
+            s_image[pivot_row][j] = get_div_image(k, j, pivot_row, pivot_column, image_matrixes)
             # s_image[pivot_row][j] / pivot_value
-            s_image[pivot_row][j] = pivot_image[j]
         # image_matrixes[k] = s_image
 
         for i in range(0, rows):
             if i == pivot_row:
                 continue
             for j in range(0, columns):
-                s_image[i][j] -= b_item_image(k, j, i, pivot_row, pivot_column, image_matrixes)
+                item = (image_matrixes[k][i][j] - b_item_image(k, j, i, pivot_row, pivot_column, image_matrixes))
+                s_image[i][j] = item
                 # pivot_image[j] * ratios[i]
         new_image_matrix.append(s_image)
-        print("k = ", k)
+        print("k ======= ", k)
         printTableu(s_image)
-    image_matrixes = new_image_matrix
-    return image_matrixes
+
+    return new_image_matrix
 
 
 #main simplex method
