@@ -34,7 +34,7 @@ def multi_window(root, n_value, m_value):
     Label(multi_root, text='approximation center t=').grid(row=3, column=2)
     t = Entry(multi_root, relief=RIDGE)
     t.grid(row=3, column=3, sticky=NSEW, padx=5, pady=5)
-    t.insert(END, 106)
+    t.insert(END, 25)
 
     Label(multi_root, text='Enter parametric ').grid(row=4, column=0)
     Label(multi_root, text='game model below').grid(row=4, column=1)

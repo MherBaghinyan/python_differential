@@ -148,6 +148,9 @@ def next_image_table(image_matrixes, pivot_row, pivot_column):
         new_image_matrix.append(s_image)
         print("k ======= ", k)
         printTableu(s_image)
+        with open("Output.txt", "a") as text_file:
+            print("k ======= ", str(k), file=text_file)
+        write_table_file(s_image)
 
     return new_image_matrix
 

@@ -69,33 +69,33 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     #         y_parametric_array[j] = 0
 
     print(' x_parametric array = ', y_parametric_array)
-    print(' y_parametric array = ', x_parametric_array)
+    # print(' y_parametric array = ', x_parametric_array)
     print(' z_parametric_array array = ', z_parametric_array)
-    print(' y_probability array = ', x_probability)
+    # print(' y_probability array = ', x_probability)
     print(' x_probability array = ', y_probability)
 
     # res = multy_nonlinear_optimality(z_parametric_array, d_value, t_value)
     # print("optimality = ", res)
 
     # Label(mul_root, text=" - ").grid(row=k1_value + 1, column=1)
-    Label(mul_root, text=" Game Value = " + str(game_value)).grid(row=k1_value + 2, column=2)
+    Label(mul_root, text=" Game Value = " + str(game_value)).grid(row=k1_value + 2, column=1)
     Label(mul_root, text=" - ").grid(row=k1_value + 3, column=1)
-    Label(mul_root, text=" X probabilities  ").grid(row=k1_value + 4, column=1)
-    Label(mul_root, text=" Y probabilities ").grid(row=k1_value + 4, column=2)
+    Label(mul_root, text=" X probabilities  ").grid(row=k1_value + 4, column=0)
+    # Label(mul_root, text=" Y probabilities ").grid(row=k1_value + 4, column=2)
     for k1 in range(0, len(x_probability)):
-        print('y_probability values ', x_probability[k1].evalf(subs={t: t_value, d: d_value}))
+        # print('y_probability values ', x_probability[k1].evalf(subs={t: t_value, d: d_value}))
         print('x_probability values = ', y_probability[k1].evalf(subs={t: t_value, d: d_value}))
-        Label(mul_root, text=str(x_probability[k1])).grid(row=k1_value + k1 + 5, column=1)
-        Label(mul_root, text=str(y_probability[k1])).grid(row=k1_value + k1 + 5, column=2)
+        Label(mul_root, text=str(y_probability[k1])).grid(row=k1_value + k1 + 5, column=1)
+        # Label(mul_root, text=str(y_probability[k1])).grid(row=k1_value + k1 + 5, column=2)
 
     with open("Output.txt", "a") as text_file:
         print(' ----------------------------------', file=text_file)
-        print(' y_parametric array = ', x_parametric_array, file=text_file)
-        print(' x_parametric array = ', y_parametric_array, file=text_file)
-        print(' z_parametric_array array = ', z_parametric_array, file=text_file)
+        # print(' y_parametric array = ', x_parametric_array, file=text_file)
+        # print(' x_parametric array = ', y_parametric_array, file=text_file)
+        # print(' z_parametric_array array = ', z_parametric_array, file=text_file)
         print(' ----------------------------------', file=text_file)
         print(' parametric Game value = ' + str(game_value), file=text_file)
         print(' X probabilities = ' + str(y_probability), file=text_file)
-        print(' Y probabilities = ' + str(x_probability), file=text_file)
+        # print(' Y probabilities = ' + str(x_probability), file=text_file)
 
     mul_root.mainloop()

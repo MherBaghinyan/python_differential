@@ -345,6 +345,9 @@ def next_image_table(image_matrixes, pivot_row, pivot_column, k1_value, k2_value
             new_image_matrix[k1][k2] = s_image
             print("k1 ======= ", k1, "k2 ======= ", k2)
             printTableu(s_image)
+            with open("Output.txt", "a") as text_file:
+                print("k1 ======= ", str(k1), "k2 ======= ", str(k2), file=text_file)
+            write_table_file(s_image)
 
     return new_image_matrix
 
