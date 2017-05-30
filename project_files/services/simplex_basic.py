@@ -143,18 +143,20 @@ tableu.append(x2)
 tableu.append(x3)
 tableu.append(x4)
 
-# tableu = simplex_main(tableu)
+tableu = simplex_main(tableu)
 
-# print("Fmax = ", tableu[0][0])
-# V = 1/tableu[0][0]
-# print("V = ", V)
-#
-# print("X1 = ", V * tableu[1][0])
-# print("X2= ", V * tableu[2][0])
-# print("X3= ", V * tableu[3][0])
-# print("X4= ", V * tableu[4][0])
-# print("Y3= ", V * tableu[0][7])
-# print("Y4= ", V * tableu[0][8])
+print("Fmax = ", tableu[0][0])
+V = 1/tableu[0][0]
+print("V = ", V)
+
+print("X1 = ", V * tableu[0][5])
+print("X2= ", V * tableu[0][6])
+print("X3= ", V * tableu[0][7])
+print("X4= ", V * tableu[0][8])
+print("Y1= ", V * tableu[1][0])
+print("Y2= ", V * tableu[2][0])
+print("Y3= ", V * tableu[3][0])
+print("Y4= ", V * tableu[4][0])
 
 
 print("=-------------")
