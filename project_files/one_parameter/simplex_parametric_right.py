@@ -190,11 +190,10 @@ def get_parametric_array(image_matrixes, vec_len, k_value, t_value, basis_vector
             s_item = image_matrix[j][0] * ((t-t_value)**k)
             parametric_array[j - 1] += s_item
 
-    # printTableu(x_b_image_matrix)
-    # game_parametric = 1/sum(parametric_array)
+    game_value = 1/sum(parametric_array)
 
     print(parametric_array)
-    # print(game_parametric)
+    print(game_value)
 
     return parametric_array
 

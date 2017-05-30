@@ -12,13 +12,19 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     # top level bar
     # Label(mul_root, text=' K ').grid(row=0, column=0)
 
-    k1_value = 2
-    k2_value = 2
-    d_value = 1
-    t_value = 1
+    # k1_value = 2
+    # k2_value = 2
+    # d_value = 1
+    # t_value = 1
+    #
+    # s_matrix = [[179.95 + t, 156.12*d + t**2, d*(1-0.2*t), 60*t + 5*d],
+    #             [89.95 + (d**2 + 1)/2, 160 + 1/d, 90*t + d, 7/t + 58.7],
+    #             [155, 120 + 1/(2*t + d), 184 + (d - 1)**2, 120],
+    #             [180*t + (d + t), 156 + 5 + d, 77*t**3, 162 + t/(d-7)]]
 
-    s_matrix = [[179.95 + t, 156.12*d + t**2],
-                [180*t + (d+t), 156 + 5 + d]]
+    # s_matrix = [[179.95 + t, 156.12*d + t**2, d*(1-0.2*t)],
+    #             [89.95 + sqrt(d + 1), 160 + 1/d, 90*t + d],
+    #             [180*t + (d + t), 156 + 5 + d, 77*t**3]]
 
     solution_matrix = initiate_simplex_matrix(s_matrix, [], [], [], k1_value, k2_value, d_value, t_value)
 
@@ -38,8 +44,7 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
                 indice = int((table_len - 1) / 2) + 1
                 y_parametric_array[i] += current_image_table[0][indice + i]*((t-t_value)**k1)*((d-d_value)**k2)
                 item = current_image_table[i][0]
-                if item > 0 and i > 0:
-                    x_parametric_array[i - 1] += item*((t-t_value)**k1)*((d-d_value)**k2)
+                x_parametric_array[i - 1] += item*((t-t_value)**k1)*((d-d_value)**k2)
 
             for j in range(1, table_len):
                 z_parametric_array[j - 1] += current_image_table[0][j]*((t-t_value)**k1)*((d-d_value)**k2)
@@ -67,19 +72,19 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     print(' x_parametric array = ', x_parametric_array)
     print(' z_parametric_array array = ', z_parametric_array)
     print('x_probability array = ', x_probability)
-    print('x_probability array = ', x_probability)
-    print('y_probability array = ', y_probability)
     print('y_probability array = ', y_probability)
 
-    res = multy_nonlinear_optimality(z_parametric_array, d_value, t_value)
-    print("optimality = ", res)
+    # res = multy_nonlinear_optimality(z_parametric_array, d_value, t_value)
+    # print("optimality = ", res)
 
     # Label(mul_root, text=" - ").grid(row=k1_value + 1, column=1)
-    Label(mul_root, text=" Game Value = " + str(game_value)).grid(row=k1_value + 2, column=1)
+    Label(mul_root, text=" Game Value = " + str(game_value)).grid(row=k1_value + 2, column=2)
     Label(mul_root, text=" - ").grid(row=k1_value + 3, column=1)
     Label(mul_root, text=" X probabilities  ").grid(row=k1_value + 4, column=1)
     Label(mul_root, text=" Y probabilities ").grid(row=k1_value + 4, column=2)
     for k1 in range(0, len(x_probability)):
+        print('x_probability values ', x_probability[k1].evalf(subs={t: t_value, d: d_value}))
+        print('y_probability values = ', y_probability[k1].evalf(subs={t: t_value, d: d_value}))
         Label(mul_root, text=str(x_probability[k1])).grid(row=k1_value + k1 + 5, column=1)
         Label(mul_root, text=str(y_probability[k1])).grid(row=k1_value + k1 + 5, column=2)
 
