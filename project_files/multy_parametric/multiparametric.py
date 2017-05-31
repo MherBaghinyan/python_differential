@@ -130,9 +130,6 @@ def matrix_multi_differential(matrix, t_level, d_level, t_value, d_value):
     z_matrix = [[0] * _length for x in range(_length)]
     for i in range(0, _length):
         for j in range(0, _length):
-            if is_number(matrix[i][j]):
-                z_matrix[i][j] = matrix[i][j]
-            else:
                 z_matrix[i][j] = item_multi_transform(matrix[i][j], t_level, d_level, t_value, d_value)
     return z_matrix
 
@@ -152,6 +149,8 @@ def prepare_matrix_for_simplex(s_matrix, k1, k2, t_value, d_value):
         z.append(0.0)
     simplex_matrix.append(z)
     base_matrix = matrix_multi_differential(s_matrix, k1, k2, t_value, d_value)
+    print("k1 ======= ", k1, "k2 ======= ", k2)
+    printTableu(base_matrix)
     for m_i in range(0, _length):
         m_array = [0 for var in range(_length * 2 + 1)]
         for m_j in range(0, _length):
@@ -177,28 +176,6 @@ def get_image_matrixes(s_matrix, k1_value, k2_value, d_value, t_value):
         for j in range(0, k2_value + 1):
             image_matrixes[i][j] = prepare_matrix_for_simplex(s_matrix, i, j, t_value, d_value)
     return image_matrixes
-
-
-def next_simplex_table(table, pivot_row, pivot_column, pivot_value, ratio_vec):
-
-    columns = len(table[0])
-    rows = len(table)
-
-    pivot_vector = [0 for x in range(columns)]
-    for j in range(0, columns):
-        pivot_vector[j] = table[pivot_row][j] / pivot_value
-        table[pivot_row][j] = pivot_vector[j]
-
-    for i in range(0, rows):
-        ratio = table[i][pivot_column]
-        ratio_vec[i] = ratio
-        if i == pivot_row:
-            continue
-        for j in range(0, columns):
-            multiplier = pivot_vector[j] * ratio
-            table[i][j] -= multiplier
-
-    return table
 
 
 def simplex_multi(table, image_matrixes, k1_value, k2_value):

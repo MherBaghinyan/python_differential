@@ -74,17 +74,19 @@ def divide_image_values(value1, value2, k_value):
 
 def item_multi_transform(item, t_level, d_level, t_value, d_value):
     if t_level == 0 and d_level == 0:
+        if is_number(item):
+            return item
         return item.evalf(subs={t: t_value, d: d_value})
     if t_level == 0:
         d_derive = diff(item, d, d_level)
-        return d_derive.evalf(subs={t: t_value, d: d_value})
+        return d_derive.evalf(subs={t: t_value, d: d_value}) / factorial(d_level)
     if d_level == 0:
         d_derive = diff(item, t, t_level)
-        return d_derive.evalf(subs={t: t_value, d: d_value})
+        return d_derive.evalf(subs={t: t_value, d: d_value}) / factorial(t_level)
     derivative = diff(item, t, t_level)
     d_derive = diff(derivative, d, d_level)
     expr_with_value = d_derive.evalf(subs={t: t_value, d: d_value})
-    return expr_with_value
+    return expr_with_value / (factorial(d_level) * factorial(t_level))
 
 
 def e_image(item, level, t_value):
