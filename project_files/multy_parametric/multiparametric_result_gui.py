@@ -9,14 +9,11 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     mul_root.title("game model solution")
     mul_root.geometry("800x400")
 
-    # top level bar
-    # Label(mul_root, text=' K ').grid(row=0, column=0)
+    k1_value = 2
+    k2_value = 2
+    d_value = 0
+    t_value = 0
 
-    # k1_value = 2
-    # k2_value = 2
-    # d_value = 1
-    # t_value = 1
-    #
     # s_matrix = [[179.95 + t, 156.12*d + t**2, d*(1-0.2*t), 60*t + 5*d],
     #             [89.95 + (d**2 + 1)/2, 160 + 1/d, 90*t + d, 7/t + 58.7],
     #             [155, 120 + 1/(2*t + d), 184 + (d - 1)**2, 120],
@@ -25,6 +22,10 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     # s_matrix = [[179.95 + t, 156.12*d + t**2, d*(1-0.2*t)],
     #             [89.95 + sqrt(d + 1), 160 + 1/d, 90*t + d],
     #             [180*t + (d + t), 156 + 5 + d, 77*t**3]]
+
+    s_matrix = [[1 + t, 2*d, 1],
+           [3 - 2*t, d, 2],
+           [1 + 3*t, 4, d]]
 
     solution_matrix = initiate_simplex_matrix(s_matrix, [], [], [], k1_value, k2_value, d_value, t_value)
 
