@@ -45,9 +45,9 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
         for k2 in range(0, k2_value + 1):
             current_image_table = solution_matrix[k1][k2]
             table_len = len(current_image_table[0])
-            for i in range(rows):
-                indice = int((table_len - 1) / 2) + 1
-                y_parametric_array[i] += current_image_table[0][indice + i]*((t-t_value)**k1)*((d-d_value)**k2)
+            for i in range(1, rows + 1):
+                # indice = int((table_len - 1) / 2) + 1
+                # y_parametric_array[i] += current_image_table[0][indice + i]*((t-t_value)**k1)*((d-d_value)**k2)
                 item = current_image_table[i][0]
                 x_parametric_array[i - 1] += item*((t-t_value)**k1)*((d-d_value)**k2)
 
@@ -100,6 +100,7 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
         # print('y_probability values ', y_probability[k1].evalf(subs={t: t_value, d: d_value}))
         print('x_probability values = ', x_probability[k1].evalf(subs={t: t_value, d: d_value}))
         sum += x_probability[k1].evalf(subs={t: t_value, d: d_value})
+        Label(mul_root, text="X(" + str(basis_vector[k1]) + ") ").grid(row=k1_value + k1 + 5, column=0)
         Label(mul_root, text=str(x_probability[k1])).grid(row=k1_value + k1 + 5, column=1)
         # Label(mul_root, text=str(y_probability[k1])).grid(row=k1_value + k1 + 5, column=2)
     print("sum = ", sum)

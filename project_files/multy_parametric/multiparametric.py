@@ -123,6 +123,10 @@ R_matrix = [[(0.4 * ((7/d) ** 2) + 0.4 * ((0.7/t) ** 2) + 0.4 * ((7.1/d) ** 2)) 
              (0.4 * ((5/d) ** 2) + 0.4 * ((0.6/t) ** 2) + 0.4 * ((5.3/d) ** 2)) ** -0.5 ,
              (0.4 * ((6/d) ** 2) + 0.4 * ((0.6/t) ** 2) + 0.4 * ((7.3/d) ** 2)) ** -0.5 ]]
 
+s_matrix = [[1 + t, 2*d, 1],
+       [3 - 2*t, d, 2],
+       [1 + 3*t, 4, d]]
+
 
 def matrix_multi_differential(matrix, t_level, d_level, t_value, d_value):
     "returns a differential of given matrix"
@@ -171,7 +175,7 @@ def get_image_matrixes(s_matrix, k1_value, k2_value, d_value, t_value):
 
     simplex_matrix = prepare_matrix_for_simplex(s_matrix, 0, 0, t_value, d_value)
 
-    image_matrixes = [simplex_matrix * (k1_value + 1) for x in range(k2_value + 1)]
+    image_matrixes = [simplex_matrix * (k2_value + 1) for x in range(k1_value + 1)]
     for i in range(0, k1_value + 1):
         for j in range(0, k2_value + 1):
             image_matrixes[i][j] = prepare_matrix_for_simplex(s_matrix, i, j, t_value, d_value)
@@ -336,95 +340,10 @@ def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, paramet
     with open("Output.txt", "w") as text_file:
         print('--------- Multiparametric GAME MODEL SOLUTION -------------', file=text_file)
   
-    image_matrixes = get_image_matrixes(s_matrix, k1_value, k2_value, t_value, d_value)
+    image_matrixes = get_image_matrixes(s_matrix, k1_value, k2_value, d_value, t_value)
     simplex_matrix = prepare_matrix_for_simplex(s_matrix, 0, 0, t_value, d_value)
     printTableu(simplex_matrix)
     image_matrixes = simplex_multi(simplex_matrix, image_matrixes, k1_value, k2_value, basis_vector)
 
     return image_matrixes
 
-
-#print(R_matrix)
-# print('---------------------------------------------------------------------------------')
-# print(item_multi_transform((0.4 * (6/d ** 2) + 0.4 * (0.6/t ** 2) + 0.4 * (7.3/d ** 2)) ** -1/2, 0, 1, 0.5, 0.03))
-# print('---------------------------------------------------------------------------------')
-# differentiated = matrix_multi_differential(R_matrix, 0, 0, t_value, d_value)
-#print(differentiated)
-# print(matrix_multi_differential(R_matrix, 1, 2, 0.5, 0.03))
-
-# initiate_simplex_matrix(R_matrix)
-
-z = [0.0, -1.0, -1.0, -1.0, -1.0, -1.0, 0.0,  0.0,  0.0,  0.0,  0.0]
-x1 = [1.0,  (0.4 * (1.2 ** 2) + 0.4 * (0.3 ** 2) + 0.4 * (1.1 ** 2)) ** -1/2,  (0.4 * (1.2 ** 2) + 0.4 *(0.11 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.1 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2,  (0.4 * (1.2 ** 2) + 0.4 *(0.12 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.31 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2,  1.0,  0.0,  0.0,  0.0,  0.0]
-x2 = [1.0, (0.4 * (1.4 ** 2) + 0.4 * (0.2 ** 2) + 0.4 * (1.0 ** 2)) ** -1/2, (0.4 * (0.7 ** 2) + 0.4 *(0.2 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.31 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.17 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.12 ** 2) + 0.4 *(0.1 ** 2)) ** -1/2,   0.0,  1.0,  0.0,  0.0,  0.0]
-x3 = [1.0,  (0.4 * (1.2 ** 2) + 0.4 * (0.11 ** 2) + 0.4 * (1.15 ** 2)) ** -1/2,  (0.4 * (0.9 ** 2) + 0.4 *(0.17 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.14 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2, (0.4 * (0.9 ** 2) + 0.4 *(0.24 ** 2) + 0.4 *(1.2 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.18 ** 2) + 0.4 *(1.3 ** 2)) ** -1/2,  0.0,  0.0,  1.0,  0.0,  0.0]
-x4 = [1.0,  (0.4 * (1.1 ** 2) + 0.4 * (0.16 ** 2) + 0.4 * (1.14 ** 2)) ** -1/2,  (0.4 * (1.2 ** 2) + 0.4 *(0.25 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.2 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2,  (0.4 * (1.2 ** 2) + 0.4 *(0.23 ** 2) + 0.4 *(1.4 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.26 ** 2) + 0.4 *(1.0 ** 2)) ** -1/2,  0.0,  0.0,  0.0,  1.0,  0.0]
-x5 = [1.0,  (0.4 * (1.6 ** 2) + 0.4 * (0.21 ** 2) + 0.4 * (1.2 ** 2)) ** -1/2,  (0.4 * (1.2 ** 2) + 0.4 *(0.3 ** 2) + 0.4 * (1.1 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.21 ** 2) + 0.4 *(1.1 ** 2)) ** -1/2,  (0.4 * (0.7 ** 2) + 0.4 *(0.12 ** 2) + 0.4 *(0.3 ** 2)) ** -1/2, (0.4 * (1.2 ** 2) + 0.4 *(0.2 ** 2) + 0.4 *(0.9 ** 2)) ** -1/2,  0.0,  0.0,  0.0,  0.0,  1.0]
-
-
-print('---------------------------------------------------------------------')
-# print((0.4 * (9.2 ** 2) + 0.4 * (9.1 ** 2) + 0.4 * (28 ** 2)) ** -1/2)
-# print((0.4 * (1.2 ** 2) + 0.4 * (0.7 ** 2) + 0.4 * (1.1 ** 2)) ** -1/2)
-
-# 0.00399470416362308, 0.00825736557008852, 0.00450694068866054, 0.00356068293898770,
-# 0.00619834710743802, 0.000923361034164358, 0.00226421929718633, 0.00631259994949920, 0.00131300222335043, 0.00388178665700533
-
-
-p_item = 0.0003*((t-0.2)**0)*((d-0.5)**0) + 0.0011*((t-0.2)**1)*((d-0.5)**1) + 0.0002*((t-0.2)**2)*((d-0.5)**2) + 0.00016*((t-0.2)**0)*((d-0.5)**1)
-p_item1 = 0.0001*((t-0.2)**0)*((d-0.5)**2) + 0.00024*((t-0.2)**1)*((d-0.5)**0) + 0.0038*((t-0.2)**2)*((d-0.5)**0)
-p_item2 = 0.0034*((t-0.2)**1)*((d-0.5)**2) + 0.0085*((t-0.2)**2)*((d-0.5)**1)
-result = p_item + p_item1 + p_item2
-#print(result)
-#print(result.evalf(subs={t: 0.5, d: 0.2}))
-
-rows = len(R_matrix)
-parametric_array = [0 for x in range(rows)]
-v_recovered = 0
-strategies_recovered = [0 for x in range(rows)]
-
-k1_value = 2
-k2_value = 2
-d_value = 0.5
-t_value = 106
-
-# solution_matrix = initiate_simplex_matrix(R_matrix, [], [], [], k1_value, k2_value, d_value, t_value)
-#
-# rows = len(R_matrix)
-#
-# x_parametric_array = [0 for x in range(rows)]
-# y_parametric_array = [0 for x in range(rows)]
-#
-# z_parametric_array = [0 for x in range(rows*2)]
-#
-# function_max_parametric = 0
-# for k1 in range(0, k1_value + 1):
-#     for k2 in range(0, k2_value + 1):
-#         current_image_table = solution_matrix[k1][k2]
-#         table_len = len(current_image_table[0])
-#         for i in range(rows):
-#             indice = int((table_len - 1) / 2) + 1
-#             y_parametric_array[i] += current_image_table[0][indice + i]*((t-t_value)**k1)*((d-d_value)**k2)
-#             item = current_image_table[i][0]
-#             if item > 0 and i > 0:
-#                 x_parametric_array[i - 1] += item*((t-t_value)**k1)*((d-d_value)**k2)
-#
-#         for j in range(1, table_len):
-#             z_parametric_array[j - 1] += current_image_table[0][j]*((t-t_value)**k1)*((d-d_value)**k2)
-#
-#         f_image = current_image_table[0][0]
-#         function_max_parametric += f_image*((t-t_value)**k1)*((d-d_value)**k2)
-#
-# print(' parametric F max = ', function_max_parametric)
-# game_value = 1/function_max_parametric
-# print(' parametric Game value = ', game_value)
-#
-# print(' y_parametric array = ', y_parametric_array)
-# print(' x_parametric array = ', x_parametric_array)
-# print(' z_parametric_array array = ', z_parametric_array)
-#
-# x_probability = [x * game_value for x in x_parametric_array]
-# y_probability = [x * game_value for x in y_parametric_array]
-# print('x_probability array = ', x_probability)
-# print('sum x_probability array = ', sum(x_probability))
-# print('y_probability array = ', y_probability)
-# print('sum y_probability array = ', sum(y_probability))
