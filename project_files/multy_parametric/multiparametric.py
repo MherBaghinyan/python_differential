@@ -178,7 +178,7 @@ def get_image_matrixes(s_matrix, k1_value, k2_value, d_value, t_value):
     return image_matrixes
 
 
-def simplex_multi(table, image_matrixes, k1_value, k2_value):
+def simplex_multi(table, image_matrixes, k1_value, k2_value, basis_vector):
 
     array = table[0]
     pivot_column = find_entering_column(array)
@@ -194,6 +194,8 @@ def simplex_multi(table, image_matrixes, k1_value, k2_value):
 
         table = image_matrixes[0][0]
         array = table[0]
+
+        basis_vector[pivot_row - 1] = pivot_column
 
         if not any([n for n in array if n < 0]):
             break
@@ -329,7 +331,7 @@ def next_image_table(image_matrixes, pivot_row, pivot_column, k1_value, k2_value
     return new_image_matrix
 
 
-def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, parametric_array, k1_value, k2_value, d_value, t_value):
+def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, parametric_array, k1_value, k2_value, d_value, t_value, basis_vector):
 
     with open("Output.txt", "w") as text_file:
         print('--------- Multiparametric GAME MODEL SOLUTION -------------', file=text_file)
@@ -337,7 +339,7 @@ def initiate_simplex_matrix(s_matrix, v_recovered, strategies_recovered, paramet
     image_matrixes = get_image_matrixes(s_matrix, k1_value, k2_value, t_value, d_value)
     simplex_matrix = prepare_matrix_for_simplex(s_matrix, 0, 0, t_value, d_value)
     printTableu(simplex_matrix)
-    image_matrixes = simplex_multi(simplex_matrix, image_matrixes, k1_value, k2_value)
+    image_matrixes = simplex_multi(simplex_matrix, image_matrixes, k1_value, k2_value, basis_vector)
 
     return image_matrixes
 

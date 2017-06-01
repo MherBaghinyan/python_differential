@@ -137,32 +137,28 @@ def simplex_main(table):
 
 tableu = []
 z = [0.0, -1.0, -1.0, -1.0, 0.0, 0.0, 0.0]
-x1 = [1, 1 + 16, 2 * 16, 1, 1.0, 0.0, 0.0]
-x2 = [1, 3 - 2 * 16, 16, 2, 0.0,  1.0, 0.0]
-x3 = [1, 1 + 3 * 16, 4, 16, 0.0, 0.0,  1.0]
-
+x1 = [1, 1 + 8, 2 * 8, 1, 1.0, 0.0, 0.0]
+x2 = [1, 3 - 2 * 8, 8, 2, 0.0,  1.0, 0.0]
+x3 = [1, 1 + 3 * 8, 4, 8, 0.0, 0.0,  1.0]
 
 
 tableu.append(z)
 tableu.append(x1)
 tableu.append(x2)
 tableu.append(x3)
-tableu.append(x4)
 
 # tableu = simplex_main(tableu)
-#
+# #
 # print("Fmax = ", tableu[0][0])
 # V = 1/tableu[0][0]
 # print("V = ", V)
-#
-# print("X1 = ", V * tableu[0][5])
-# print("X2= ", V * tableu[0][6])
-# print("X3= ", V * tableu[0][7])
-# print("X4= ", V * tableu[0][8])
+# #
+# print("X1 = ", V * tableu[0][4])
+# print("X2= ", V * tableu[0][5])
+# print("X3= ", V * tableu[0][6])
 # print("Y1= ", V * tableu[1][0])
 # print("Y2= ", V * tableu[2][0])
 # print("Y3= ", V * tableu[3][0])
-# print("Y4= ", V * tableu[4][0])
 
 
 print("=-------------")
