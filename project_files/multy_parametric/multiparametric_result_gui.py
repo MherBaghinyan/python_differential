@@ -65,21 +65,16 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
 
     print("basis vector after 0s", basis_vector)
     print(' parametric F max = ', function_max_parametric)
-    game_value = 1/function_max_parametric
+    game_value = 1/sum(x_parametric_array)
     print(' parametric Game value = ', game_value)
     print(' parametric Game value = ', game_value.evalf(subs={t: t_value, d: d_value}))
-    # print(' parametric Game value = good 0.5', game_value.evalf(subs={t: t_value, d: 0.5}))
+    print(' parametric Game value = good 0.5', game_value.evalf(subs={t: t_value, d: 1}))
+    # print(' parametric Game value = good 1', game_value.evalf(subs={t: t_value, d: 1.5}))
+    # print(' parametric Game value = good 1.5', game_value.evalf(subs={t: t_value, d: 2}))
+    # print(' parametric Game value = good 2', game_value.evalf(subs={t: t_value, d: 2.5}))
 
     x_probability = [x * game_value for x in x_parametric_array]
     y_probability = [x * game_value for x in y_parametric_array]
-
-    # for j in range(0, len(x_probability)):
-    #     if x_probability[j] > 1:
-    #         x_probability[j] = 0
-    #         x_parametric_array[j] = 0
-    #     if y_probability[j] > 1:
-    #         y_probability[j] = 0
-    #         y_parametric_array[j] = 0
 
     print(' x_parametric array = ', x_parametric_array)
     # print(' y_parametric array = ', y_parametric_array)
@@ -95,18 +90,25 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     Label(mul_root, text=" - ").grid(row=k1_value + 3, column=1)
     Label(mul_root, text=" X probabilities  ").grid(row=k1_value + 4, column=0)
     # Label(mul_root, text=" Y probabilities ").grid(row=k1_value + 4, column=2)
-    sum = 0
     for k1 in range(0, len(x_probability)):
         # print('y_probability values ', y_probability[k1].evalf(subs={t: t_value, d: d_value}))
         print('x_probability values = ', x_probability[k1].evalf(subs={t: t_value, d: d_value}))
-        sum += x_probability[k1].evalf(subs={t: t_value, d: d_value})
         Label(mul_root, text="X(" + str(basis_vector[k1]) + ") ").grid(row=k1_value + k1 + 5, column=0)
         Label(mul_root, text=str(x_probability[k1])).grid(row=k1_value + k1 + 5, column=1)
         # Label(mul_root, text=str(y_probability[k1])).grid(row=k1_value + k1 + 5, column=2)
-    print("sum = ", sum)
 
+    #
     # for k1 in range(0, len(x_probability)):
-    #     print('x_probability 0.5 = ', x_probability[k1].evalf(subs={t: t_value, d: 0.5}))
+    #     print('x_probability 1 = ', x_probability[k1].evalf(subs={t: t_value, d: 1}))
+    #
+    # for k1 in range(0, len(x_probability)):
+    #     print('x_probability 1.5 = ', x_probability[k1].evalf(subs={t: t_value, d: 1.5}))
+    #
+    # for k1 in range(0, len(x_probability)):
+    #     print('x_probability 2 = ', x_probability[k1].evalf(subs={t: t_value, d: 2}))
+    #
+    # for k1 in range(0, len(x_probability)):
+    #     print('x_probability 2.5 = ', x_probability[k1].evalf(subs={t: t_value, d: 2.5}))
 
     with open("Output.txt", "a") as text_file:
         print(' ----------------------------------', file=text_file)
