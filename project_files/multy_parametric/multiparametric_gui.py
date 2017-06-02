@@ -29,12 +29,12 @@ def multi_window(root, n_value, m_value):
     Label(multi_root, text='approximation center d=').grid(row=2, column=2)
     d = Entry(multi_root, relief=RIDGE)
     d.grid(row=2, column=3, sticky=NSEW, padx=5, pady=5)
-    d.insert(END, 0.5)
+    d.insert(END, 10)
 
     Label(multi_root, text='approximation center t=').grid(row=3, column=2)
     t = Entry(multi_root, relief=RIDGE)
     t.grid(row=3, column=3, sticky=NSEW, padx=5, pady=5)
-    t.insert(END, 25)
+    t.insert(END, 10)
 
     Label(multi_root, text='Enter parametric ').grid(row=4, column=0)
     Label(multi_root, text='game model below').grid(row=4, column=1)
@@ -45,7 +45,7 @@ def multi_window(root, n_value, m_value):
         for j in range(m_value):
             e = Entry(multi_root, relief=RIDGE)
             e.grid(row=i + 5, column=j, sticky=NSEW, padx=5, pady=5)
-            e.insert(END, R_matrix[i][j])
+            e.insert(END, s_matrix[i][j])
             cols.append(e)
         rows.append(cols)
 
