@@ -31,9 +31,8 @@ def parametric_window(root, n_value, m_value):
     t1.grid(row=3, column=3, sticky=NSEW, padx=5, pady=5)
     t1.insert(END, t_value)
 
-    # x_1 = [[1 + t, 2, 1],
-    #        [3 - 2*t, 0, 2],
-    #        [1 + 3*t, 4, 0]]
+    # x_1 = [[365-5*t, 180],
+    #        [308+4*t, 365-5*t]]
 
     # x_1 = [[0, -1 + 0.1 * cos(1.154 * t), 1 + 0.1 * cos(1.154 * t)],
     #        [1 + 0.1 * cos(1.154 * t), 0, -1 + 0.1 * cos(1.154 * t)],
@@ -64,6 +63,7 @@ def parametric_window(root, n_value, m_value):
     # right_vector = [40, 60, 30]
     # right_vector = [1, 1, 1]
     right_vector = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
+    # right_vector = [1 + 0.1*(1 - t), 1 + 0.1*(1 - t)]
 
     if n_value > 3:
         right_vector = [0 for x in range(n_value)]

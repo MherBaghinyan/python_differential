@@ -279,6 +279,7 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
                 step_array.append(compare_value)
                 step_array.append(image_matrixes)
                 step_array.append(basis_vector)
+                step_array.append(t_value)
                 solution.append(step_array)
                 step_array = []
                 t_value = compare_value
