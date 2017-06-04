@@ -60,7 +60,6 @@ def parametric_window(root, n_value, m_value):
     for i in range(n_value):
         Label(parametric_root, text='< =').grid(row=i + 4, column=8)
 
-    # right_vector = [40, 60, 30]
     # right_vector = [1, 1, 1]
     right_vector = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
     # right_vector = [1 + 0.1*(1 - t), 1 + 0.1*(1 - t)]
