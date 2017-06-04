@@ -57,7 +57,7 @@ def one_window(root, matrix, vector, z_array, k_value, t_value):
             print("----------------------", file=text_file)
             print("V max = {}".format(str(v)), file=text_file)
             for i in range(len(parametric_array)):
-                print("X1 = {}".format(str(parametric_array[i] * v)), file=text_file)
+                print("X" + str(basis_vector[i]) + " ( t ) = {}".format(str(parametric_array[i] * v)), file=text_file)
 
         parametric_array = [0 for x in range(len(vector))]
 

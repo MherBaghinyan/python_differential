@@ -90,11 +90,20 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     Label(mul_root, text=" - ").grid(row=k1_value + 3, column=1)
     Label(mul_root, text=" X probabilities  ").grid(row=k1_value + 4, column=0)
     # Label(mul_root, text=" Y probabilities ").grid(row=k1_value + 4, column=2)
+
+    probability_values = [0 for x in range(len(basis_vector))]
+    for i in range(0, len(basis_vector)):
+        if basis_vector[i] != 0:
+            probability_values[basis_vector[i] - 1] = x_probability[i]
+
     for k1 in range(0, len(x_probability)):
         # print('y_probability values ', y_probability[k1].evalf(subs={t: t_value, d: d_value}))
-        print('x_probability values = ', x_probability[k1].evalf(subs={t: t_value, d: d_value}))
-        Label(mul_root, text="X(" + str(basis_vector[k1]) + ") ").grid(row=k1_value + k1 + 5, column=0)
-        Label(mul_root, text=str(x_probability[k1])).grid(row=k1_value + k1 + 5, column=1)
+        if is_number(probability_values[k1]):
+            print('x_probability values = ', probability_values[k1])
+        else:
+            print('x_probability values = ', probability_values[k1].evalf(subs={t: t_value, d: d_value}))
+        Label(mul_root, text="X(" + str(k1+1) + ") ").grid(row=k1_value + k1 + 5, column=0)
+        Label(mul_root, text=str(probability_values[k1])).grid(row=k1_value + k1 + 5, column=1)
         # Label(mul_root, text=str(y_probability[k1])).grid(row=k1_value + k1 + 5, column=2)
 
     #
@@ -117,7 +126,9 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
         # print(' z_parametric_array array = ', z_parametric_array, file=text_file)
         print(' ----------------------------------', file=text_file)
         print(' parametric Game value = ' + str(game_value), file=text_file)
-        print(' X probabilities = ' + str(x_probability), file=text_file)
+        # print(' X probabilities = ' + str(x_probability), file=text_file)
+        for i in range(len(probability_values)):
+            print("X" + str(i+1) + " ( d,t ) = {}".format(str(probability_values[i])), file=text_file)
         # print(' Y probabilities = ' + str(y_probability), file=text_file)
 
     mul_root.mainloop()
