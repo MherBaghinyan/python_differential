@@ -14,23 +14,25 @@ def mul_func(x, sign=1.0):
     return sign * (x[0] + x[1])
 
 
-def multy_nonlinear_optimality(z_parametric_array, d_value, t_value):
+def multy_nonlinear_optimality(x_parametric_array, d_value, t_value):
 
-    f_array = z_parametric_array
+    x_array = x_parametric_array
 
-    f_cons = []
+    x_cons = []
     solo_item = 0
-    for i in range(len(f_array)):
-        if not is_number(f_array[i]):
-            solo_item = f_array[i]
-            f_cons.append({'type': 'ineq', 'fun': lambda x: np.array([f_array[i].evalf(subs={t: x[0], d: x[1]})])})
+    for i in range(len(x_array)):
+        if not is_number(x_array[i]):
+            solo_item = x_array[i]
+            x_cons.append({'type': 'ineq', 'fun': lambda x: np.array([x_array[i].evalf(subs={t: x[0], d: x[1]})])})
 
-    if len(f_cons) == 1:
-        f_cons = [{'type': 'ineq', 'fun': lambda x: np.array([solo_item.evalf(subs={t: x[0]})])}]
+    if len(x_cons) == 1:
+        x_cons = [{'type': 'ineq', 'fun': lambda x: np.array([solo_item.evalf(subs={t: x[0], d: x[1]})])}]
 
-    if len(f_cons) > 0:
-        f_res = minimize(mul_func, [0.0, 0.0], args=(-1.0,), constraints=f_cons, method='SLSQP')
+    if len(x_cons) > 0:
+        f_res = minimize(mul_func, [0.0, 0.0], args=(-1.0,), constraints=x_cons, method='SLSQP')
         print(f_res.x)
+        print("t = ", f_res.x[0])
+        print("d = ", f_res.x[1])
         return f_res.x[0]
 
     return math.nan

@@ -64,14 +64,21 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
             basis_vector[b] = 0
 
     print("basis vector after 0s", basis_vector)
-    print(' parametric F max = ', function_max_parametric)
+    print(' parametric F max = ', sum(x_parametric_array))
     game_value = 1/sum(x_parametric_array)
     print(' parametric Game value = ', game_value)
     print(' parametric Game value = ', game_value.evalf(subs={t: t_value, d: d_value}))
-    print(' parametric Game value = good 0.5', game_value.evalf(subs={t: t_value, d: 1}))
-    # print(' parametric Game value = good 1', game_value.evalf(subs={t: t_value, d: 1.5}))
-    # print(' parametric Game value = good 1.5', game_value.evalf(subs={t: t_value, d: 2}))
-    # print(' parametric Game value = good 2', game_value.evalf(subs={t: t_value, d: 2.5}))
+    # print(' parametric Game value = t, d +0.1', game_value.evalf(subs={t: t_value, d: d_value + 0.1}))
+    # print(' parametric Game value = t, d +0.2', game_value.evalf(subs={t: t_value, d: d_value + 0.2}))
+    # print(' parametric Game value = t, d +0.3', game_value.evalf(subs={t: t_value, d: d_value + 0.3}))
+    # print(' parametric Game value = t, d +0.4', game_value.evalf(subs={t: t_value, d: d_value + 0.4}))
+    # print(' parametric Game value = t, d +0.5', game_value.evalf(subs={t: t_value, d: d_value + 0.5}))
+    # print(' parametric Game value = t +0.1, d', game_value.evalf(subs={t: t_value + 0.1, d: d_value}))
+    # print(' parametric Game value = t +0.2, d', game_value.evalf(subs={t: t_value + 0.2, d: d_value}))
+    # print(' parametric Game value = t +0.3, d', game_value.evalf(subs={t: t_value + 0.3, d: d_value}))
+    # print(' parametric Game value = t +0.4, d', game_value.evalf(subs={t: t_value + 0.4, d: d_value}))
+    # print(' parametric Game value = t +0.5, d', game_value.evalf(subs={t: t_value + 0.5, d: d_value}))
+    # print(' parametric Game value = t +1, d +1', game_value.evalf(subs={t: t_value + 1, d: d_value + 1}))
 
     x_probability = [x * game_value for x in x_parametric_array]
     y_probability = [x * game_value for x in y_parametric_array]
@@ -82,8 +89,7 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     # print(' y_probability array = ', y_probability)
     print(' x_probability array = ', x_probability)
 
-    # res = multy_nonlinear_optimality(z_parametric_array, d_value, t_value)
-    # print("optimality = ", res)
+    res = multy_nonlinear_optimality(x_parametric_array, d_value, t_value)
 
     # Label(mul_root, text=" - ").grid(row=k1_value + 1, column=1)
     Label(mul_root, text=" Game Value = " + str(game_value)).grid(row=k1_value + 2, column=1)
@@ -102,22 +108,25 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
             print('x_probability values = ', probability_values[k1])
         else:
             print('x_probability values = ', probability_values[k1].evalf(subs={t: t_value, d: d_value}))
+            # print('x_probability t, d +0.1 ', probability_values[k1].evalf(subs={t: t_value, d: d_value + 0.1}))
+            # print('x_probability t, d +0.2 ', probability_values[k1].evalf(subs={t: t_value, d: d_value + 0.2}))
+            # print('x_probability t, d +0.3 ', probability_values[k1].evalf(subs={t: t_value, d: d_value + 0.3}))
+            # print('x_probability t, d +0.4 ', probability_values[k1].evalf(subs={t: t_value, d: d_value + 0.4}))
+            # print('x_probability t, d +0.5 ', probability_values[k1].evalf(subs={t: t_value, d: d_value + 0.5}))
+            # print('x_probability t + 0.1, d ', probability_values[k1].evalf(subs={t: t_value + 0.1, d: d_value}))
+            # print('x_probability t + 0.2, d ', probability_values[k1].evalf(subs={t: t_value + 0.2, d: d_value}))
+            # print('x_probability t + 0.3, d ', probability_values[k1].evalf(subs={t: t_value + 0.3, d: d_value}))
+            # print('x_probability t + 0.4, d ', probability_values[k1].evalf(subs={t: t_value + 0.4, d: d_value}))
+            # print('x_probability t + 0.5, d ', probability_values[k1].evalf(subs={t: t_value + 0.5, d: d_value}))
+            # print('x_probability t + 1, d + 1', probability_values[k1].evalf(subs={t: t_value + 1, d: d_value + 1}))
         Label(mul_root, text="X(" + str(k1+1) + ") ").grid(row=k1_value + k1 + 5, column=0)
         Label(mul_root, text=str(probability_values[k1])).grid(row=k1_value + k1 + 5, column=1)
         # Label(mul_root, text=str(y_probability[k1])).grid(row=k1_value + k1 + 5, column=2)
 
-    #
-    # for k1 in range(0, len(x_probability)):
-    #     print('x_probability 1 = ', x_probability[k1].evalf(subs={t: t_value, d: 1}))
-    #
-    # for k1 in range(0, len(x_probability)):
-    #     print('x_probability 1.5 = ', x_probability[k1].evalf(subs={t: t_value, d: 1.5}))
-    #
-    # for k1 in range(0, len(x_probability)):
-    #     print('x_probability 2 = ', x_probability[k1].evalf(subs={t: t_value, d: 2}))
-    #
-    # for k1 in range(0, len(x_probability)):
-    #     print('x_probability 2.5 = ', x_probability[k1].evalf(subs={t: t_value, d: 2.5}))
+
+    # for k1 in range(0, len(probability_values)):
+    #     print('x_probability t, d +0.1 ', probability_values[k1].evalf(subs={t: t_value, d: d_value + 0.1}))
+
 
     with open("Output.txt", "a") as text_file:
         print(' ----------------------------------', file=text_file)
