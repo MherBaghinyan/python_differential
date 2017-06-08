@@ -1,6 +1,8 @@
 from project_files.services.simplex_basic import *
 from project_files.services.transformation_util import *
 from copy import copy, deepcopy
+import math
+import pprint
 
 d = Symbol('d')
 t = Symbol('t')
@@ -215,7 +217,7 @@ def simplex_multi(table, image_matrixes, k1_value, k2_value, basis_vector):
 
 
 # get division image value
-def get_div_image(k1_value, k2_value, j, pivot_row, pivot_column, image_matrixes):
+def get_div_image(k1_value, k2_value, j, pivot_row, pivot_column, image_matrixes, div_image_matrix):
     item = 0
 
     a_i_0_j_0 = image_matrixes[0][0][pivot_row][pivot_column]
@@ -226,8 +228,13 @@ def get_div_image(k1_value, k2_value, j, pivot_row, pivot_column, image_matrixes
     for p1 in range(0, k1_value + 1):
         for p2 in range(0, k2_value + 1):
             if not (p1 == p2 == 0):
-                pivot_value = image_matrixes[p1][p2][pivot_row][pivot_column]
-                item += get_div_image(k1_value - p1, k2_value - p2, j, pivot_row, pivot_column, image_matrixes) * pivot_value
+                image = div_image_matrix[k1_value - p1][k2_value - p2][j]
+                if not math.isnan(float(image)):
+                    pivot_value = image_matrixes[p1][p2][pivot_row][pivot_column]
+                    item += image * pivot_value
+                else:
+                    pivot_value = image_matrixes[p1][p2][pivot_row][pivot_column]
+                    item += get_div_image(k1_value - p1, k2_value - p2, j, pivot_row, pivot_column, image_matrixes, div_image_matrix) * pivot_value
 
     return (image_matrixes[k1_value][k2_value][pivot_row][j] - item) / a_i_0_j_0
 
@@ -244,7 +251,7 @@ def d_item_image(k1_value, k2_value, column, row, pivot_row, pivot_column, image
     return d_item
 
 
-def b_item_image(k1_value, k2_value, column, row, pivot_row, pivot_column, image_matrixes):
+def b_item_image(k1_value, k2_value, column, row, pivot_row, pivot_column, image_matrixes, b_image_matrix):
     item = 0
 
     a_i_0_j_0 = image_matrixes[0][0][pivot_row][pivot_column]
@@ -255,8 +262,13 @@ def b_item_image(k1_value, k2_value, column, row, pivot_row, pivot_column, image
     for p1 in range(0, k1_value + 1):
         for p2 in range(0, k2_value + 1):
             if not (p1 == p2 == 0):
-                pivot_value = image_matrixes[p1][p2][pivot_row][pivot_column]
-                item += b_item_image(k1_value - p1, k2_value - p2, column, row, pivot_row, pivot_column, image_matrixes) * pivot_value
+                image = b_image_matrix[k1_value - p1][k2_value - p2][row][column]
+                if not math.isnan(float(image)):
+                    pivot_value = image_matrixes[p1][p2][pivot_row][pivot_column]
+                    item += image * pivot_value
+                else:
+                    pivot_value = image_matrixes[p1][p2][pivot_row][pivot_column]
+                    item += b_item_image(k1_value - p1, k2_value - p2, column, row, pivot_row, pivot_column, image_matrixes, b_image_matrix) * pivot_value
 
     return (d_item_image(k1_value, k2_value, column, row, pivot_row, pivot_column, image_matrixes) - item) / a_i_0_j_0
 
@@ -289,6 +301,8 @@ def next_image_table(image_matrixes, pivot_row, pivot_column, k1_value, k2_value
     new_image_matrix = deepcopy(image_matrixes)
     # [[0][0] * (k1_value + 1) for x in range(k2_value + 1)]
 
+    div_image_matrix = [[[nan for k in range(columns)] for j in range(k1_value + 1)] for i in range(k2_value + 1)]
+    b_image_matrix = [[[[nan for z in range(columns)] for k in range(rows)] for j in range(k1_value + 1)] for i in range(k2_value + 1)]
     # images pivot row values
     for k1 in range(0, k1_value + 1):
         for k2 in range(0, k2_value + 1):
@@ -296,7 +310,8 @@ def next_image_table(image_matrixes, pivot_row, pivot_column, k1_value, k2_value
 
             pivot_image = [0 for x in range(columns)]
             for j in range(0, columns):
-                s_image[pivot_row][j] = get_div_image(k1, k2, j, pivot_row, pivot_column, image_matrixes)
+                div_image_matrix[k1][k2][j] = get_div_image(k1, k2, j, pivot_row, pivot_column, image_matrixes, div_image_matrix)
+                s_image[pivot_row][j] = div_image_matrix[k1][k2][j]
                 # s_image[pivot_row][j] / pivot_value
             # image_matrixes[k] = s_image
 
@@ -304,7 +319,8 @@ def next_image_table(image_matrixes, pivot_row, pivot_column, k1_value, k2_value
                 if i == pivot_row:
                     continue
                 for j in range(0, columns):
-                    item = (image_matrixes[k1][k2][i][j] - b_item_image(k1, k2, j, i, pivot_row, pivot_column, image_matrixes))
+                    b_image_matrix[k1][k2][i][j] = b_item_image(k1, k2, j, i, pivot_row, pivot_column, image_matrixes, b_image_matrix)
+                    item = (image_matrixes[k1][k2][i][j] - b_image_matrix[k1][k2][i][j])
                     s_image[i][j] = item
                     # pivot_image[j] * ratios[i]
             new_image_matrix[k1][k2] = s_image

@@ -1,6 +1,7 @@
 from project_files.multy_parametric.multiparametric import *
 import math
 
+
 def _multi_differential(item, t_level, d_level, t_value, d_value):
     "returns a differential of given matrix"
 
@@ -66,6 +67,6 @@ for k1 in range(0, k1_value + 1):
         z_image += z_images_matrix[k1][k2] * ((t-t_value)**k1)*((d-d_value)**k2)
 
 print("----------------")
-print(z_images_matrix)
+printTableu(z_images_matrix)
 print("----------------")
 print("z_image = ", z_image)

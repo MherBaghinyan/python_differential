@@ -74,11 +74,12 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     y_probability = [x * game_value for x in y_parametric_array]
 
     print(' x_parametric array = ', x_parametric_array)
+    print(' ====================== ')
     # print(' y_parametric array = ', y_parametric_array)
-    print(' z_parametric_array array = ', z_parametric_array)
+    # print(' z_parametric_array array = ', z_parametric_array)
     # print(' y_probability array = ', y_probability)
     print(' x_probability array = ', x_probability)
-
+    print(' ====================== ')
     res = multy_nonlinear_optimality(x_parametric_array, d_value, t_value)
 
     # Label(mul_root, text=" - ").grid(row=k1_value + 1, column=1)
