@@ -80,7 +80,8 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     # print(' y_probability array = ', y_probability)
     print(' x_probability array = ', x_probability)
     print(' ====================== ')
-    res = multy_nonlinear_optimality(x_parametric_array, d_value, t_value)
+    max_res = multy_nonlinear_max(x_parametric_array, d_value, t_value)
+    min_res = multy_nonlinear_min(x_parametric_array, d_value, t_value)
 
     # Label(mul_root, text=" - ").grid(row=k1_value + 1, column=1)
     Label(mul_root, text=" Game Value = " + str(game_value)).grid(row=k1_value + 2, column=1)

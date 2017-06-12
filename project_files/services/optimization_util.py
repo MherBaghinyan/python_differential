@@ -14,7 +14,31 @@ def mul_func(x, sign=1.0):
     return sign * (x[0] + x[1])
 
 
-def multy_nonlinear_optimality(x_parametric_array, d_value, t_value):
+def multy_nonlinear_max(x_parametric_array, d_value, t_value):
+
+    x_array = x_parametric_array
+
+    x_cons = []
+    solo_item = 0
+    for i in range(len(x_array)):
+        if not is_number(x_array[i]):
+            solo_item = x_array[i]
+            x_cons.append({'type': 'ineq', 'fun': lambda x: np.array([ - x_array[i].evalf(subs={t: x[0], d: x[1]})])})
+
+    if len(x_cons) == 1:
+        x_cons = [{'type': 'ineq', 'fun': lambda x: np.array([ - solo_item.evalf(subs={t: x[0], d: x[1]})])}]
+
+    if len(x_cons) > 0:
+        f_res = minimize(mul_func, [0.0, 0.0], args=(-1.0,), constraints=x_cons, method='SLSQP')
+        print(f_res.x)
+        print("t = ", f_res.x[0])
+        print("d = ", f_res.x[1])
+        return f_res.x[0]
+
+    return math.nan
+
+
+def multy_nonlinear_min(x_parametric_array, d_value, t_value):
 
     x_array = x_parametric_array
 
@@ -29,7 +53,7 @@ def multy_nonlinear_optimality(x_parametric_array, d_value, t_value):
         x_cons = [{'type': 'ineq', 'fun': lambda x: np.array([solo_item.evalf(subs={t: x[0], d: x[1]})])}]
 
     if len(x_cons) > 0:
-        f_res = minimize(mul_func, [0.0, 0.0], args=(-1.0,), constraints=x_cons, method='SLSQP')
+        f_res = minimize(mul_func, [0.0, 0.0], args=(1.0,), constraints=x_cons, method='SLSQP')
         print(f_res.x)
         print("t = ", f_res.x[0])
         print("d = ", f_res.x[1])
@@ -68,7 +92,7 @@ def z_nonlinear_optimality(image_matrixes, x_b_image_matrix, k_value, vector_len
     return math.nan
 
 
-def x_b_nonlinear_optimality(image_matrixes, k_value, vector_len, t_value):
+def x_b_nonlinear_optimality(image_matrixes, k_value, vector_len, t_value, basis_vector):
 
     x_b_array = [0 for x in range(vector_len)]
 
@@ -76,6 +100,11 @@ def x_b_nonlinear_optimality(image_matrixes, k_value, vector_len, t_value):
         image_matrix = image_matrixes[i]
         for j in range(0, vector_len):
             x_b_array[j] += image_matrix[j + 1][0] * ((t-t_value)**i)
+
+    for b in range(len(basis_vector)):
+        if basis_vector[b] > len(basis_vector):
+            x_b_array[b] = 0
+            basis_vector[b] = 1
 
     print("x_b = ", x_b_array)
     x_b_cons = []

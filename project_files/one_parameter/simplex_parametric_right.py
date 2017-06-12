@@ -193,11 +193,6 @@ def get_parametric_array(image_matrixes, vec_len, k_value, t_value, basis_vector
             s_item = image_matrix[j][0] * ((t-t_value)**k)
             parametric_array[j - 1] += s_item
 
-    game_value = 1/sum(parametric_array)
-
-    print(parametric_array)
-    print(game_value)
-
     return parametric_array
 
 
@@ -256,14 +251,23 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
             simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, z_array, 0, t_value)
             image_matrixes = parametric_simplex(simplex_matrix, image_matrixes, x_b_image_matrix, basis_vector)
             # image_matrixes[0] = tableu
-            new_max = x_b_nonlinear_optimality(image_matrixes, k, len(right_vector), t_value)
+            new_max = x_b_nonlinear_optimality(image_matrixes, k, len(right_vector), t_value, basis_vector)
 
             z_max = z_nonlinear_optimality(image_matrixes, x_b_image_matrix, k, len(right_vector), t_value)
 
-            if math.isnan(float(new_max)) and math.isnan(float(z_max)):
-                break
-
             compare_value = t_value
+
+            if math.isnan(float(new_max)) and math.isnan(float(z_max)):
+                if k_ == 0:
+                    step_array.append(t_value)
+                    step_array.append(compare_value)
+                    step_array.append(image_matrixes)
+                    step_array.append(basis_vector)
+                    step_array.append(t_value)
+                    solution.append(step_array)
+                    return solution
+                else:
+                    break
 
             if not math.isnan(float(new_max)):
                 compare_value = new_max

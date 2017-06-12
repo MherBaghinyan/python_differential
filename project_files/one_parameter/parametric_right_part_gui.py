@@ -1,9 +1,8 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
 # http://docs.sympy.org/dev/modules/parsing.html
 from sympy.parsing.sympy_parser import parse_expr
-
-# from extended_report_gui import *
 from project_files.one_parameter.one_solution_gui import *
+import math
 
 
 def parametric_window(root, n_value, m_value):
@@ -34,13 +33,13 @@ def parametric_window(root, n_value, m_value):
     # x_1 = [[365-5*t, 180],
     #        [308+4*t, 365-5*t]]
 
-    # x_1 = [[0, -1 + 0.1 * cos(1.154 * t), 1 + 0.1 * cos(1.154 * t)],
-    #        [1 + 0.1 * cos(1.154 * t), 0, -1 + 0.1 * cos(1.154 * t)],
-    #        [-1 + 0.1 * cos(1.154 * t), 1 + 0.1 * cos(1.154 * t), 0]]
+    x_1 = [[0, -1 + 0.1 * cos(1.154 * t), 1 + 0.1 * cos(1.154 * t)],
+           [1 + 0.1 * cos(1.154 * t), 0, -1 + 0.1 * cos(1.154 * t)],
+           [-1 + 0.1 * cos(1.154 * t), 1 + 0.1 * cos(1.154 * t), 0]]
 
-    x_1 = [[179.95, 156.12, 90],
-           [89.95, 179.87, 155],
-           [180, 156, 177]]
+    # x_1 = [[179.95, 156.12, 90],
+    #        [89.95, 179.87, 155],
+    #        [180, 156, 177]]
 
     if n_value > 3:
         x_1 = [[0] * n_value for x in range(m_value)]
@@ -60,8 +59,8 @@ def parametric_window(root, n_value, m_value):
     for i in range(n_value):
         Label(parametric_root, text='< =').grid(row=i + 4, column=8)
 
-    # right_vector = [1, 1, 1]
-    right_vector = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
+    right_vector = [1, 1, 1]
+    # right_vector = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
     # right_vector = [1 + 0.1*(1 - t), 1 + 0.1*(1 - t)]
 
     if n_value > 3:
@@ -97,12 +96,6 @@ def parametric_window(root, n_value, m_value):
     strategies_recovered = [0 for x in range(len(x1))]
 
     v_recovered = StringVar()
-    # v_label_msg = Label(parametric_root, text='Game value = ').grid(row=11, column=0)
-    # v_label = Label(parametric_root, textvariable=v_recovered).grid(row=11, column=1)
-    #
-    # s_label = Label(parametric_root, textvariable=strategies_recovered).grid(row=12, column=0)
-    #
-    # p_label_msg = Label(parametric_root, text='game strategy values = ').grid(row=14, column=0)
 
     p_recovered = [StringVar() for x in range(m_value)]
     for i in range(m_value):
@@ -137,20 +130,14 @@ def parametric_window(root, n_value, m_value):
     def on_press():
         k = parse_expr(k1.get())
         t_value = parse_expr(t1.get())
-        parametric_array = [0 for x in range(len(x1))]
-        #parametric_simplex_solution(get_x_1(), get_x_b(), k, t_value, parametric_array)
-        #v_recovered.set(str(1/sum(parametric_array)))
-        # for p in range(m_value):
-        #     p_recovered[p].set(parametric_array[p])
-        one_window(parametric_root, get_x_1(), get_x_b(), get_z_init(), k, t_value)
 
-    # def on_extended_press():
-    #     k = parse_expr(k1.get())
-    #     t_value = parse_expr(t1.get())
-    #     report_window(parametric_root, get_x_1(), get_x_b(), k, t_value)
+        one_window(parametric_root, get_x_1(), get_x_b(), get_z_init(), k, t_value)
 
     Button(parametric_root, text='Solve', command=on_press).grid(row=30, column=9, padx=10, pady=10)
 
-    # Button(parametric_root, text='Get extended report', command=on_extended_press).grid(row=33, column=9, padx=10, pady=10)
-
+    # print("pow(3, 1/2)*pi = ", 3**(1/2) * math.pi)
+    # print("1 / pi = ", 1/math.pi)
+    # print("1 / 3 = ", 1 /3**(1/2))
+    # print("3 = ", 3**(1/2))
+    # print("pow(3, 1/2)*2*pi = ", 3**(1/2) * 2 * math.pi)
     parametric_root.mainloop()
