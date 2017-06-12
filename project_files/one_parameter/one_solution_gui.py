@@ -3,7 +3,7 @@ from project_files.one_parameter.simplex_parametric_right import *
 from project_files.services.graph_gui import *
 
 
-def one_window(root, matrix, vector, z_array, k_value, t_value):
+def one_window(root, matrix, vector, z_array, k_value, t_value, bound_):
     one_root = Toplevel(root)
     one_root.title("game model solution")
     one_root.geometry("1200x700")
@@ -12,7 +12,7 @@ def one_window(root, matrix, vector, z_array, k_value, t_value):
 
     # top level bar
     #Label(one_root, text=' K ').grid(row=0, column=0)
-    solution_matrix = parametric_simplex_solution(matrix, vector, z_array, k_value, t_value)
+    solution_matrix = parametric_simplex_solution(matrix, vector, z_array, k_value, t_value, bound_)
 
     parameter_start = parametric_array = [0 for x in range(len(solution_matrix))]
     parameter_end = parametric_array = [0 for x in range(len(solution_matrix))]
@@ -73,7 +73,8 @@ def one_window(root, matrix, vector, z_array, k_value, t_value):
         def create_graph_window(s):
             graph_window(one_root, v, parameter_start[s], parameter_end[s])
 
-        Button(one_root, text='draw V(t) graph', command=lambda s=s: create_graph_window(s)).grid(row=step + k + 6, column=0 + 1, padx=10, pady=10)
+        Label(one_root, text= str(parameter_start[s]) + " <= t < = " + str(parameter_end[s])).grid(row=step + k + 6, column=0 + 1)
+        Button(one_root, text='draw V(t) graph', command=lambda s=s: create_graph_window(s)).grid(row=step + k + 7, column=0 + 1, padx=10, pady=10)
         step += k + 7
 
     one_root.mainloop()

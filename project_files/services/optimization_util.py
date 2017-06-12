@@ -92,7 +92,7 @@ def z_nonlinear_optimality(image_matrixes, x_b_image_matrix, k_value, vector_len
     return math.nan
 
 
-def x_b_max_optimality(image_matrixes, k_value, vector_len, t_value, basis_vector):
+def x_b_max_optimality(image_matrixes, k_value, vector_len, t_value, basis_vector, bound_):
 
     x_b_array = [0 for x in range(vector_len)]
 
@@ -115,6 +115,9 @@ def x_b_max_optimality(image_matrixes, k_value, vector_len, t_value, basis_vecto
 
     if len(x_b_cons) > 0:
         res = minimize(func, 0.0, args=(-1.0,), constraints=x_b_cons, method='SLSQP')
+        if 0 < bound_ < res.x[0]:
+            print(bound_)
+            return bound_
         print(res.x)
         return res.x[0]
 

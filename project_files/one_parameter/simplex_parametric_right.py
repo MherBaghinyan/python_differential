@@ -222,7 +222,7 @@ def get_image_matrixes(s_matrix, right_vector, z_array, k_value, t_value):
     return image_matrixes
 
 
-def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
+def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_, bound_):
     k = k_
     t_value = t_value_
 
@@ -251,7 +251,7 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
             simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, z_array, 0, t_value)
             image_matrixes = parametric_simplex(simplex_matrix, image_matrixes, x_b_image_matrix, basis_vector)
             # image_matrixes[0] = tableu
-            new_max = x_b_max_optimality(image_matrixes, k, len(right_vector), t_value, basis_vector)
+            new_max = x_b_max_optimality(image_matrixes, k, len(right_vector), t_value, basis_vector, bound_)
 
             # z_max = z_nonlinear_optimality(image_matrixes, x_b_image_matrix, k, len(right_vector), t_value)
 
