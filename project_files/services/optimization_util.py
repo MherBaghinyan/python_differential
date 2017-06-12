@@ -23,16 +23,16 @@ def multy_nonlinear_max(x_parametric_array, d_value, t_value):
     for i in range(len(x_array)):
         if not is_number(x_array[i]):
             solo_item = x_array[i]
-            x_cons.append({'type': 'ineq', 'fun': lambda x: np.array([ - x_array[i].evalf(subs={t: x[0], d: x[1]})])})
+            x_cons.append({'type': 'ineq', 'fun': lambda x: np.array([x_array[i].evalf(subs={t: x[0], d: x[1]})])})
 
     if len(x_cons) == 1:
-        x_cons = [{'type': 'ineq', 'fun': lambda x: np.array([ - solo_item.evalf(subs={t: x[0], d: x[1]})])}]
+        x_cons = [{'type': 'ineq', 'fun': lambda x: np.array([solo_item.evalf(subs={t: x[0], d: x[1]})])}]
 
     if len(x_cons) > 0:
         f_res = minimize(mul_func, [0.0, 0.0], args=(-1.0,), constraints=x_cons, method='SLSQP')
         print(f_res.x)
-        print("t = ", f_res.x[0])
-        print("d = ", f_res.x[1])
+        print("t = ", f_res.x[0] if f_res.x[0] > 0 else math.nan)
+        print("d = ", f_res.x[1] if f_res.x[1] > 0 else math.nan)
         return f_res.x[0]
 
     return math.nan
@@ -55,8 +55,8 @@ def multy_nonlinear_min(x_parametric_array, d_value, t_value):
     if len(x_cons) > 0:
         f_res = minimize(mul_func, [0.0, 0.0], args=(1.0,), constraints=x_cons, method='SLSQP')
         print(f_res.x)
-        print("t = ", f_res.x[0])
-        print("d = ", f_res.x[1])
+        print("t = ", f_res.x[0] if f_res.x[0] > 0 else math.nan)
+        print("d = ", f_res.x[1] if f_res.x[1] > 0 else math.nan)
         return f_res.x[0]
 
     return math.nan
@@ -92,7 +92,36 @@ def z_nonlinear_optimality(image_matrixes, x_b_image_matrix, k_value, vector_len
     return math.nan
 
 
-def x_b_nonlinear_optimality(image_matrixes, k_value, vector_len, t_value, basis_vector):
+def x_b_max_optimality(image_matrixes, k_value, vector_len, t_value, basis_vector):
+
+    x_b_array = [0 for x in range(vector_len)]
+
+    for i in range(0, k_value + 1):
+        image_matrix = image_matrixes[i]
+        for j in range(0, vector_len):
+            x_b_array[j] += image_matrix[j + 1][0] * ((t-t_value)**i)
+
+    for b in range(len(basis_vector)):
+        if basis_vector[b] > len(basis_vector):
+            x_b_array[b] = 0
+            basis_vector[b] = 1
+
+    print("x_b = ", x_b_array)
+    x_b_cons = []
+    # x_b_array = list(set(x_b_array))
+    for i in range(len(x_b_array)):
+        if not is_number(x_b_array[i]):
+            x_b_cons.append({'type': 'ineq', 'fun': lambda x: np.array([x_b_array[i].evalf(subs={t: x[0]})])})
+
+    if len(x_b_cons) > 0:
+        res = minimize(func, 0.0, args=(-1.0,), constraints=x_b_cons, method='SLSQP')
+        print(res.x)
+        return res.x[0]
+
+    return math.nan
+
+
+def x_b_min_optimality(image_matrixes, k_value, vector_len, t_value, basis_vector):
 
     x_b_array = [0 for x in range(vector_len)]
 
@@ -113,27 +142,9 @@ def x_b_nonlinear_optimality(image_matrixes, k_value, vector_len, t_value, basis
             x_b_cons.append({'type': 'ineq', 'fun': lambda x: np.array([x_b_array[i].evalf(subs={t: x[0]})])})
 
     if len(x_b_cons) > 0:
-        res = minimize(func, 0.0, args=(-1.0,), constraints=x_b_cons, method='SLSQP')
-        print(res.x)
-        return res.x[0]
+        res = minimize(func, 0.0, args=(1.0,), constraints=x_b_cons, method='SLSQP')
+        print(res.x if res.x[0] > 0 else math.nan)
+        return res.x[0] if res.x[0] > 0 else math.nan
 
     return math.nan
 
-def lamb(x):
-    return np.array([-(2*x - 10)])
-
-
-def func_test(x, sign=1.0):
-        """ Objective function """
-        return sign * x[0]
-
-
-def test_optimize():
-
-    #0.0738944793606666*t**4 - 0.665858*t**2
-    cons = [{'type': 'ineq', 'fun': lambda x: np.array([(3.32929*x[0]**2 + 5)])}]
-
-    res = minimize(func_test, 0.0, args=(-1.0,), constraints=cons, method='SLSQP', options={'disp': True})
-    print(res.x)
-
-# test_optimize()

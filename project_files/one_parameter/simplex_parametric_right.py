@@ -251,13 +251,15 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
             simplex_matrix = prepare_matrix_for_simplex(s_matrix, right_vector, z_array, 0, t_value)
             image_matrixes = parametric_simplex(simplex_matrix, image_matrixes, x_b_image_matrix, basis_vector)
             # image_matrixes[0] = tableu
-            new_max = x_b_nonlinear_optimality(image_matrixes, k, len(right_vector), t_value, basis_vector)
+            new_max = x_b_max_optimality(image_matrixes, k, len(right_vector), t_value, basis_vector)
 
-            z_max = z_nonlinear_optimality(image_matrixes, x_b_image_matrix, k, len(right_vector), t_value)
+            # z_max = z_nonlinear_optimality(image_matrixes, x_b_image_matrix, k, len(right_vector), t_value)
+
+            new_min = x_b_min_optimality(image_matrixes, k, len(right_vector), t_value, basis_vector)
 
             compare_value = t_value
 
-            if math.isnan(float(new_max)) and math.isnan(float(z_max)):
+            if math.isnan(float(new_max)) and math.isnan(float(new_min)):
                 if k_ == 0:
                     step_array.append(t_value)
                     step_array.append(compare_value)
@@ -272,10 +274,10 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_):
             if not math.isnan(float(new_max)):
                 compare_value = new_max
 
-            if not math.isnan(float(z_max)):
-                compare_value = z_max
+            if not math.isnan(float(new_min)):
+                compare_value = new_min
 
-            if (not math.isnan(float(z_max))) and (not math.isnan(float(new_max))) and z_max > new_max > t_value:
+            if (not math.isnan(float(new_min))) and (not math.isnan(float(new_max))) and new_min > new_max > t_value:
                 compare_value = new_max
 
             if compare_value > t_value:
