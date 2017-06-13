@@ -1,4 +1,4 @@
-from project_files.services.transformation_util import *
+from project_files.services.d_transforms import *
 
 t = Symbol('t')
 # t_value = 1.55
@@ -7,30 +7,48 @@ t = Symbol('t')
 
 
 def e_image_2(item, level, t_value):
+    if level == 0:
+        item.evalf(subs={t: t_value})
     derivative = diff(item, t, level)
     expr_with_value = derivative.evalf(subs={t: t_value})
     return expr_with_value / factorial(level)
 
 
-def exponential_c_2(mul1, image, k_value, t_value):
-    item = 0
-    for k in range(0, k_value + 1):
-        item += (1/factorial(k_value - k)) * mul1 * e_image_2(image, k, t_value)
-    return item
+def return_vander_array(k_value):
+    x_vec = [0 for x in range(k_value)]
+    for k in range(0, k_value):
+        x_vec[k] = k + 1
+    return np.vander(x_vec, k_value, increasing=True)
 
 
-def recover_e_image_values(mul1, image, k_value, t_value):
+def e_image_vec(item, k_value, t_value):
+    x_item = [0 for x in range(k_value)]
+    for k in range(0, k_value):
+        x_item[k] = factorial(k) * e_image_2(item, k, t_value)
+    return x_item
+
+
+def exponential_c_dirichlea(image, k_value, t_value):
+    c_vec = inverse_matrix(return_vander_array(k_value)).dot(e_image_vec(image, k_value, t_value))
+    return c_vec
+
+
+def recover_e_image_values(image, k_value, t_value):
     item = 0
-    for k in range(0, k_value + 1):
-        exp_value = exponential_c_2(mul1, image, k, t_value)
-        item += ((t-t_value) ** k) * exp_value
+
+    c_vec = exponential_c_dirichlea(image, k_value, t_value)
+
+    for k in range(1, k_value + 1):
+        c_value = c_vec[k - 1]
+        item += exp(k * (t-t_value)) * c_value
         print("K = " + str(k))
-        print("C_ (" + str(k) + ") = " + str(exp_value))
-        print("X (" + str(k) + ") = " + str(e_image_2(mul1, k, t_value)))
+        print("C_ (" + str(k) + ") = " + str(c_value))
+        print("X (" + str(k) + ") = " + str(e_image_2(image, k, t_value)))
         with open("Output.txt", "a") as text_file:
-            print("K = " + str(k) + " C_ (" + str(k) + ") = " + str(exp_value) + " X (" + str(k) + ") = " + str(e_image_2(mul1, k, t_value)), file=text_file)
+            print("K = " + str(k) + " C_ (" + str(k) + ") = " + str(c_value) + " X (" + str(k) + ") = " + str(e_image_2(image, k, t_value)), file=text_file)
 
-    return exp(-(t-t_value)) * item
+
+    return item
 
 
 def exponential_matrix(matrix_a, matrix_b, k, t_value):
@@ -44,7 +62,7 @@ def exponential_matrix(matrix_a, matrix_b, k, t_value):
             if is_number(item1):
                 print("i = " + str(i) + "j = " + str(j))
                 derive = item1 * exp(-(item1 - item2) * t)
-                multiplied = recover_e_image_values(item1, derive, k, t_value)
+                multiplied = recover_e_image_values(derive, k, t_value)
 
                 e_matrix[i][j] = multiplied
 
@@ -80,7 +98,7 @@ def get_matrix_b(matrix_a):
     return b_matrix
 
 
-def cooperative_matrix(matrix_a, matrix_b, k, t_value_):
+def cooperative_matrix_dirichle(matrix_a, matrix_b, k, t_value_):
 
     with open("Output.txt", "w") as text_file:
         print('--------- COOPERATIVE GAME MODEL SOLUTION -------------', file=text_file)
@@ -91,12 +109,11 @@ def cooperative_matrix(matrix_a, matrix_b, k, t_value_):
     matrix = exponential_matrix(matrix_a, matrix_b, k, t_value)
     print(matrix)
 
-    with open("Output.txt", "a") as text_file:
-        print(" ----------------------", file=text_file)
-        for i in range(len(matrix)):
-            for j in range(len(matrix)):
-                print(str(matrix[i][j]), file=text_file)
-
+    # with open("Output.txt", "a") as text_file:
+    #     print(" ----------------------", file=text_file)
+    #     for i in range(len(matrix)):
+    #         for j in range(len(matrix)):
+    #             print(str(matrix[i][j]), file=text_file)
 
     return matrix
 
@@ -109,4 +126,5 @@ k = 3
 
 t_value_ = 0.8
 
-# cooperative_matrix(matrix_a, matrix_b, k, t_value_)
+# cooperative_matrix_dirichle(matrix_a, matrix_b, k, t_value_)
+

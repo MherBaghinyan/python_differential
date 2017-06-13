@@ -43,13 +43,13 @@ def parametric_window(root, n_value, m_value):
     # x_1 = [[365-5*t, 180],
     #        [308+4*t, 365-5*t]]
 
-    x_1 = [[0, -1 + 0.1 * cos(1.154 * t), 1 + 0.1 * cos(1.154 * t)],
-           [1 + 0.1 * cos(1.154 * t), 0, -1 + 0.1 * cos(1.154 * t)],
-           [-1 + 0.1 * cos(1.154 * t), 1 + 0.1 * cos(1.154 * t), 0]]
+    # x_1 = [[0, -1 + 0.1 * cos(1.154 * t), 1 + 0.1 * cos(1.154 * t)],
+    #        [1 + 0.1 * cos(1.154 * t), 0, -1 + 0.1 * cos(1.154 * t)],
+    #        [-1 + 0.1 * cos(1.154 * t), 1 + 0.1 * cos(1.154 * t), 0]]
 
-    # x_1 = [[179.95, 156.12, 90],
-    #        [89.95, 179.87, 155],
-    #        [180, 156, 177]]
+    x_1 = [[179.95, 156.12, 90],
+           [89.95, 179.87, 155],
+           [180, 156, 177]]
 
     if n_value > 3:
         x_1 = [[0] * n_value for x in range(m_value)]
@@ -69,8 +69,8 @@ def parametric_window(root, n_value, m_value):
     for i in range(n_value):
         Label(parametric_root, text='< =').grid(row=i + 5, column=8)
 
-    right_vector = [1, 1, 1]
-    # right_vector = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
+    # right_vector = [1, 1, 1]
+    right_vector = [1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t), 1 + 0.1504*(1 - t)]
     # right_vector = [1 + 0.1*(1 - t), 1 + 0.1*(1 - t)]
 
     if n_value > 3:

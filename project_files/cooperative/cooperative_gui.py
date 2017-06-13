@@ -1,13 +1,16 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
 from sympy.parsing.sympy_parser import parse_expr
 
-from project_files.cooperative_report_gui import *
+from project_files.cooperative.cooperative_report_gui import *
+from project_files.cooperative.cooperative_dirichle_gui import *
+from project_files.cooperative.cooperative_first_gui import *
+from project_files.cooperative.cooperative import *
 
 
 def cooperative_window(root, n_value, m_value):
     cooperative_root = Toplevel(root)
     cooperative_root.title("Cooperative game model solver")
-    cooperative_root.geometry("700x400")
+    cooperative_root.geometry("800x400")
 
     Label(cooperative_root, text='N = ').grid(row=0, column=0)
     Label(cooperative_root, text=n_value).grid(row=0, column=1)
@@ -71,7 +74,7 @@ def cooperative_window(root, n_value, m_value):
     for j in range(m_value):
         Label(cooperative_root, textvariable=p_values[j]).grid(row=10 + i + j, column=1)
 
-    def on_press():
+    def on_press_2():
         i = 0
         for row in rows_a:
             j = 0
@@ -99,5 +102,63 @@ def cooperative_window(root, n_value, m_value):
 
         graph_c_window(cooperative_root, result, sympathy)
 
-    Button(cooperative_root, text='Solve', command=on_press).grid(row=20, column=6)
+    def on_press_1():
+        i = 0
+        for row in rows_a:
+            j = 0
+            for col in row:
+                a_matrix[i][j] = parse_expr(col.get())
+                j += 1
+            i += 1
+            print()
+
+        i = 0
+        for row in rows_b:
+            j = 0
+            for col in row:
+                b_matrix[i][j] = parse_expr(col.get())
+                j += 1
+            i += 1
+            print()
+
+            # iterations = parse_expr(i_entry.get())
+            k = parse_expr(k1.get())
+            # t_value = parse_expr(t1.get())
+            sympathy = parse_expr(s1.get())
+
+        result = cooperative_matrix_1(a_matrix, b_matrix, k, sympathy)
+
+        graph_c1_window(cooperative_root, result, sympathy)
+
+    def on_press_dir():
+        i = 0
+        for row in rows_a:
+            j = 0
+            for col in row:
+                a_matrix[i][j] = parse_expr(col.get())
+                j += 1
+            i += 1
+            print()
+
+        i = 0
+        for row in rows_b:
+            j = 0
+            for col in row:
+                b_matrix[i][j] = parse_expr(col.get())
+                j += 1
+            i += 1
+            print()
+
+            # iterations = parse_expr(i_entry.get())
+            k = parse_expr(k1.get())
+            # t_value = parse_expr(t1.get())
+            sympathy = parse_expr(s1.get())
+
+        result = cooperative_matrix_dirichle(a_matrix, b_matrix, k, sympathy)
+
+        graph_cd_window(cooperative_root, result, sympathy)
+
+    Button(cooperative_root, text='Solve Exponential-Dirichlet', command=on_press_dir).grid(row=20, column=4, padx=5, pady=5)
+    Button(cooperative_root, text='Solve Exponential 1', command=on_press_1).grid(row=21, column=4, padx=5, pady=5)
+    Button(cooperative_root, text='Solve Exponential 2', command=on_press_2).grid(row=22, column=4, padx=5, pady=5)
     cooperative_root.mainloop()

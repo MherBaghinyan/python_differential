@@ -1,5 +1,5 @@
 #http://www.python-course.eu/tkinter_entry_widgets.php
-from project_files.cooperative_gui import *
+from project_files.cooperative.cooperative_gui import *
 from project_files.help_gui import *
 from project_files.multy_parametric.multiparametric_gui import *
 from project_files.one_parameter.parametric_right_part_gui import *

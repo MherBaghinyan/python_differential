@@ -56,3 +56,37 @@ def test_min_optimize():
 # test_max_optimize()
 # print("============ min ================")
 # test_min_optimize()
+
+
+# ================= mul ======================
+
+def mul_func(x, sign=1.0):
+    """ Objective function """
+    return sign * (x[0] + x[1])
+
+
+def multy_nonlinear_max():
+
+    x_array = [2*d + t + 5, d + 1]
+
+    x_cons = []
+    solo_item = 0
+    for i in range(len(x_array)):
+        if not is_number(x_array[i]):
+            solo_item = x_array[i]
+            x_cons.append({'type': 'ineq', 'fun': lambda x: np.array([x_array[i].evalf(subs={t: x[0], d: x[1]})])})
+
+    if len(x_cons) == 1:
+        x_cons = [{'type': 'ineq', 'fun': lambda x: np.array([solo_item.evalf(subs={t: x[0], d: x[1]})])}]
+
+    if len(x_cons) > 0:
+        f_res = minimize(mul_func, [0, 0], args=(-1.0,), constraints=x_cons, method='SLSQP')
+        print(f_res.x)
+        print("t = ", f_res.x[0] if f_res.x[0] > 0 else math.nan)
+        print("d = ", f_res.x[1] if f_res.x[1] > 0 else math.nan)
+        return f_res.x[0]
+
+    return math.nan
+
+
+# print(multy_nonlinear_max())
