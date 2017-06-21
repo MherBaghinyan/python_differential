@@ -1,7 +1,7 @@
 # http://www.java2s.com/Code/Python/GUI-Tk/2dtableofinputfields.htm
 from project_files.multy_parametric.multiparametric import *
 from project_files.services.graph_gui import *
-from project_files.services.combinatorics_optimization import *
+from project_files.services.combinatorics_optimization_new import *
 import logging
 
 
@@ -78,7 +78,7 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     try:
         # max_res = multy_nonlinear_max(x_parametric_array, d_value, t_value)
         optimal = multy_nonlinear_max(x_parametric_array, d_value, t_value)
-        solo_nonlinear_max(x_parametric_array, t_value, optimal[0] - 1)
+        # solo_nonlinear_max(x_parametric_array, t_value, optimal[0] - 1)
     except TypeError:
         print("d_optimal = ", 50)
         print("t_optimal = ", 50)

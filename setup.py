@@ -19,3 +19,6 @@ cx_Freeze.setup(
     description = "Sea of BTC trading application",
     executables = executables
     )
+
+
+options = {"build_exe": {"packages":["cython", "pyscipopt", "tkinter","matplotlib"], "include_files":["clienticon.ico"]}},
