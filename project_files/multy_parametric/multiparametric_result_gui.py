@@ -76,6 +76,7 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
 
 
     try:
+        print(' PLEASE WAIT.... CALCULATING OPTIMALITY VALUES... ')
         # max_res = multy_nonlinear_max(x_parametric_array, d_value, t_value)
         optimal = multy_nonlinear_max(x_parametric_array, d_value, t_value)
         # solo_nonlinear_max(x_parametric_array, t_value, optimal[0] - 1)
