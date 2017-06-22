@@ -53,7 +53,7 @@ def multy_nonlinear_max(x_parametric_array, d_value, t_value):
     print("t_optimal = %f" % t_end)
     print("d_optimal = %f" % d_end)
     
-    return [d_end, t_end]
+    return [t_end, d_end]
 
 
 def multy_reverse_nonlinear_max(x_parametric_array, d_value, t_value):

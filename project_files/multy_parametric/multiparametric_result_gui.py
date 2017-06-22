@@ -74,7 +74,7 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
     print(' x_probability array = ', x_probability)
     print(' ====================== ')
 
-
+    optimal = [50, 50]
     try:
         print(' PLEASE WAIT.... CALCULATING OPTIMALITY VALUES... ')
         # max_res = multy_nonlinear_max(x_parametric_array, d_value, t_value)
@@ -109,7 +109,8 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
             print('x_probability t, d + 2 ', probability_values[k1].evalf(subs={t: t_value, d: d_value + 2}))
         Label(mul_root, text="X(" + str(k1+1) + ") ").grid(row=k1_value + k1 + 5, column=0)
         Label(mul_root, text=str(probability_values[k1])).grid(row=k1_value + k1 + 5, column=1)
-        # Label(mul_root, text=str(y_probability[k1])).grid(row=k1_value + k1 + 5, column=2)
+    Label(mul_root, text=str(d_value) + " <= d <=" + str(optimal[1]) + "").grid(row=k1_value + len(x_probability) + 6, column=1)
+    Label(mul_root, text=str(t_value) + " <= t <=" + str(optimal[0]) + "").grid(row=k1_value + len(x_probability) + 7, column=1)
 
 
     # for k1 in range(0, len(probability_values)):
@@ -127,5 +128,7 @@ def multy_window(root, s_matrix, k1_value, k2_value, d_value, t_value):
         for i in range(len(probability_values)):
             print("X" + str(i+1) + " ( d,t ) = {}".format(str(probability_values[i])), file=text_file)
         # print(' Y probabilities = ' + str(y_probability), file=text_file)
+        print("d_optimal = " + str(optimal[1]), file=text_file)
+        print("t_optimal = " + str(optimal[0]), file=text_file)
 
     mul_root.mainloop()
