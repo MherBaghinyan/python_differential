@@ -280,7 +280,8 @@ def parametric_simplex_solution(s_matrix, right_vector, z_array, k_, t_value_, b
             if (not math.isnan(float(new_min))) and (not math.isnan(float(new_max))) and new_min > new_max > t_value:
                 compare_value = new_max
 
-            if compare_value > t_value:
+            if compare_value - t_value > 1.2172489379e-10:
+                print(" compare_value - t_value = " + str(compare_value - t_value))
                 step_array.append(t_value)
                 step_array.append(compare_value)
                 step_array.append(image_matrixes)
