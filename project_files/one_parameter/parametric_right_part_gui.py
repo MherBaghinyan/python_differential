@@ -30,10 +30,10 @@ def parametric_window(root, n_value, m_value):
     bound.grid(row=3, column=9, sticky=NSEW, padx=5, pady=5)
     bound.insert(END, 0)
 
-    should_auto = BooleanVar()
-    autodetect = Checkbutton(parametric_root, text="add bound", var=should_auto, onvalue = True, offvalue = False)
-    autodetect.grid(row=3, column=10, padx=7, pady=5, sticky=W)
-    should_auto.set(True)
+    # should_auto = BooleanVar()
+    # autodetect = Checkbutton(parametric_root, text="add bound", var=should_auto, onvalue = True, offvalue = False)
+    # autodetect.grid(row=3, column=10, padx=7, pady=5, sticky=W)
+    # should_auto.set(True)
 
     Label(parametric_root, text='approximation center t =').grid(row=3, column=2)
     t1 = Entry(parametric_root, relief=RIDGE)
